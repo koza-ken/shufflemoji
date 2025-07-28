@@ -1,0 +1,108 @@
+{
+  "name": "tetete",
+  // "image": "mcr.microsoft.com/devcontainers/typescript-node:1-18-bullseye",
+  "dockerComposeFile": ["../compose.yml"],
+  "service": "web",
+  "workspaceFolder": "/workspace",
+
+  "features": {
+    "ghcr.io/devcontainers/features/git:1": {
+      "ppa": true,
+      "version": "latest"
+    },
+    "ghcr.io/devcontainers/features/node:1": {
+      "nodeGitHubRepo": "nodejs/node",
+      "version": "18"
+    },
+    "ghcr.io/anthropics/devcontainer-features/claude-code:1.0": {}
+  },
+
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "bradlc.vscode-tailwindcss",
+        "esbenp.prettier-vscode",
+        "ms-vscode.vscode-typescript-next",
+        "formulahendry.auto-rename-tag",
+        "ms-vscode.vscode-json",
+        "usernamehw.errorlens",
+        "ms-vscode.eslint",
+        "ms-vscode.live-server",
+        "formulahendry.auto-close-tag",
+        "ms-vscode.vim",
+        "ms-vscode.vscode-react-native",
+        "GitHub.vscode-pull-request-github",
+        "mhutchie.git-graph",
+        "eamodio.gitlens",
+        "streetsidesoftware.code-spell-checker",
+        "oderwat.indent-rainbow",
+        "ionutvmi.path-autocomplete",
+        "shardulm94.trailing-spaces",
+        "christian-kohler.color-highlight",
+        "vincaslt.highlight-matching-tag",
+      ],
+      "settings": {
+        "extensions.verifySignature": false,
+        "typescript.preferences.quoteStyle": "single",
+        "javascript.preferences.quoteStyle": "single",
+        "editor.formatOnSave": true,
+        "editor.defaultFormatter": "esbenp.prettier-vscode",
+        "editor.codeActionsOnSave": {
+          "source.fixAll.eslint": true,
+          "source.organizeImports": true
+        },
+        "typescript.inlayHints.parameterNames.enabled": "all",
+        "typescript.preferences.importModuleSpecifier": "relative",
+        "typescript.updateImportsOnFileMove.enabled": "always",
+        "emmet.includeLanguages": {
+          "javascript": "javascriptreact",
+          "typescript": "typescriptreact"
+        },
+        "emmet.triggerExpansionOnTab": true,
+        "css.validate": false,
+        "less.validate": false,
+        "scss.validate": false,
+        "tailwindCSS.includeLanguages": {
+          "typescript": "javascript",
+          "typescriptreact": "javascript"
+        },
+        "tailwindCSS.experimental.classRegex": [
+          "cn\\(([^)]*)\\)",
+          "cva\\(([^)]*)\\)",
+          ["clsx\\(([^)]*)\\)", "(?:'|\"|`)([^']*)(?:'|\"|`)"]
+        ],
+        "files.associations": {
+          "*.css": "tailwindcss"
+        }
+      }
+    }
+  },
+
+  "forwardPorts": [5173, 3000, 4173],
+  "portsAttributes": {
+    "5173": {
+      "label": "Vite Dev Server",
+      "onAutoForward": "notify"
+    },
+    "3000": {
+      "label": "React App (Alternative)",
+      "onAutoForward": "silent"
+    },
+    "4173": {
+      "label": "Vite Preview",
+      "onAutoForward": "silent"
+    }
+  },
+
+  "postCreateCommand": "npm install && npm install -g firebase-tools",
+  "postStartCommand": "git config --global --add safe.directory ${containerWorkspaceFolder}",
+  "postAttachCommand": "npm run dev",
+
+  "mounts": [
+    "source=${localWorkspaceFolder}/.vscode,target=/workspace/.vscode,type=bind,consistency=cached"
+  ],
+
+  "remoteUser": "node",
+  
+  "shutdownAction": "stopContainer"
+}

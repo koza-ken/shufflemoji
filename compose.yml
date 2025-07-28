@@ -1,0 +1,87 @@
+# React TodoアプリのDocker Compose設定
+services:
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: tetete_quiz_app
+    ports:
+      # Vite dev server用ポート
+      - '5173:5173'
+      # 代替ポート
+      - '3000:3000'
+      # Vite preview用
+      - '4173:4173'
+    volumes:
+      # アプリケーションコードをマウント
+      - .:/workspace
+      # node_modulesをボリュームとして分離（パフォーマンス向上）
+      - node_modules:/workspace/node_modules
+      # パッケージマネージャーのキャッシュ
+      - ~/.npm:/home/node/.npm
+    environment:
+      - NODE_ENV=development
+      # Vite用環境変数
+      - VITE_HMR_HOST=localhost
+      - VITE_HMR_PORT=5173
+      # ホットリロード設定
+      - CHOKIDAR_USEPOLLING=true
+      - WATCHPACK_POLLING=true
+
+      - FAST_REFRESH=true
+      - WDS_SOCKET_HOST=localhost
+      - WDS_SOCKET_PORT=3000
+    restart: unless-stopped
+    networks:
+      - tetete-network
+    healthcheck:
+      test: ['CMD', 'curl', '-f', 'http://localhost:5173']
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+    # stdin/tty for React development server
+    stdin_open: true
+    tty: true
+    working_dir: /workspace
+
+# Firebase Emulator（開発用）
+  firebase:
+    image: andreysenov/firebase-tools:latest
+    container_name: tetete_firebase_emulator
+    ports:
+      - "4000:4000"  # Firebase UI
+      - "8080:8080"  # Firestore Emulator
+      - "9099:9099"  # Auth Emulator
+      - "8085:8085"  # Functions Emulator
+    volumes:
+      - .:/workspace
+      - firebase_cache:/home/node/.cache
+    environment:
+      - FIREBASE_PROJECT_ID=tetete-quiz-dev
+    networks:
+      - tetete-network
+    working_dir: /workspace
+    command: >
+      sh -c "
+        firebase emulators:start --only firestore,auth,hosting --project tetete-quiz-dev || 
+        echo 'Firebase emulators will start when project is initialized'
+      "
+
+# ボリュームの定義
+volumes:
+  # Node.js依存関係用（高速アクセス）
+  node_modules:
+    driver: local
+    name: tetete_node_modules
+
+  # Firebase キャッシュ用
+  firebase_cache:
+    driver: local
+    name: tetete_firebase_cache
+
+# ネットワーク設定
+networks:
+  tetete-network:
+    driver: bridge
+    name: tetete_quiz_network
