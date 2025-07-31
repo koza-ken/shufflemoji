@@ -4,3 +4,25 @@ dist
 *.log
 *.lock
 package-lock.json
+
+# Build outputs
+build/
+coverage/
+
+# Config files that should not be formatted
+.eslintrc.cjs
+*.config.js
+*.config.ts
+
+# Docker files
+Dockerfile
+compose.yml
+
+# Documentation and project files
+CLAUDE.md
+README.md
+
+# Hidden directories
+.tmp/
+.devcontainer/
+.vscode/
