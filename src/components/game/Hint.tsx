@@ -17,12 +17,12 @@ export const Hint = ({ word }: HintProps) => {
     return null;
   }
   return (
-    <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-4 mb-6">
+    <div className="bg-white rounded-lg shadow-lg p-4 mb-6">
       <div className="flex items-start gap-3">
         {/* ヒントアイコン */}
-        <div className="flex-shrink-0 w-5 h-5 bg-yellow-500 rounded-full flex items-center justify-center">
+        {/* <div className="flex-shrink-0 w-5 h-5 bg-yellow-500 rounded-full flex items-center justify-center">
           <span className="text-white text-xs font-bold">💡</span>
-        </div>
+        </div> */}
 
         {/* ヒント内容 */}
         <div className="flex-1">
@@ -34,7 +34,7 @@ export const Hint = ({ word }: HintProps) => {
           </p>
           
           {/* カテゴリ表示 */}
-          {word.category && (
+          {/* {word.category && (
             <div className="mt-3">
               <span className="inline-block bg-yellow-100 text-yellow-700 text-xs px-2 py-1 rounded-full">
                 {word.category === 'html-elements' ? 'HTML要素' :
@@ -42,7 +42,7 @@ export const Hint = ({ word }: HintProps) => {
                  word.category}
               </span>
             </div>
-          )}
+          )} */}
         </div>
       </div>
     </div>

@@ -132,14 +132,15 @@ export const GamePage = () => {
       <Header count={questionCount} />
 
       {/* メインゲーム画面 */}
-      <div className="max-w-2xl mx-auto px-4 py-8">
+      <div className="max-w-2xl mx-auto px-4 py-4">
         {/* ヒント表示 */}
         <Hint word={currentWord} />
 
         {/* バラバラの文字表示エリア */}
         <div className="bg-white rounded-lg shadow-lg p-6 mb-6">
           <h2 className="text-xl font-semibold text-gray-800 mb-4 text-center">
-            文字を並び替えて正しい単語を作ってください
+            <p>文字を並び替えて</p>
+            <p>正しい単語を作ってください</p>
           </h2>
 
           {/* 利用可能な文字を表示（固定位置） */}
