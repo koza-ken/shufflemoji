@@ -14,6 +14,11 @@ export const GamePage = () => {
   const [allChars, setAllChars] = useState<{ char: string; id: string; isSelected: boolean }[]>([]);
   const [selectedChars, setSelectedChars] = useState<{ char: string; id: string }[]>([]);
   const [currentAnswer, setCurrentAnswer] = useState('');
+  
+  // ゲーム進行のstate
+  const [isAnswered, setIsAnswered] = useState(false);  // 回答済みかどうか
+  const [isCorrect, setIsCorrect] = useState<boolean | null>(null);  // 正解・不正解・未判定
+  const [showIncompleteWarning, setShowIncompleteWarning] = useState(false);  // 未選択警告表示
 
   // ゲーム開始時に最初の問題を生成
   useEffect(() => {
@@ -29,12 +34,58 @@ export const GamePage = () => {
     setAllChars(chars);
     setSelectedChars([]);
     setCurrentAnswer('');
+    setIsAnswered(false);
+    setIsCorrect(null);
+    setShowIncompleteWarning(false);
   }, []);  //第2引数が空配列＝初回ゲーム開始時にセット
+
+  // 正誤判定処理
+  const handleCheckAnswer = () => {
+    if (!currentWord || currentAnswer === '') return;
+    
+    // 全ての文字が選択されているかチェック
+    const allSelected = allChars.every(char => char.isSelected);
+    if (!allSelected) {
+      setShowIncompleteWarning(true);
+      return;
+    }
+    
+    // 警告を非表示にして判定実行
+    setShowIncompleteWarning(false);
+    const correct = currentAnswer === currentWord.original;
+    setIsCorrect(correct);
+    setIsAnswered(true);
+  };
+  
+  // 次の問題への遷移
+  const handleNextQuestion = () => {
+    const word = getRandomHtmlCssTerm();
+    setCurrentWord(word);
+    
+    // 新しい問題の文字を初期化
+    const chars = word.scrambled.split('').map((char, index) => ({
+      char,
+      id: `${word.id}-${index}`,
+      isSelected: false
+    }));
+    setAllChars(chars);
+    setSelectedChars([]);
+    setCurrentAnswer('');
+    setIsAnswered(false);
+    setIsCorrect(null);
+    setShowIncompleteWarning(false);
+    setQuestionCount(prev => prev + 1);
+  };
 
   // 文字カードクリック処理
   const handleCharClick = (clickedChar: { char: string; id: string; isSelected: boolean }) => {
-    // 既に選択済みの文字はクリックできない
-    if (clickedChar.isSelected) return;
+    // 既に選択済みの文字または回答済みの場合はクリックできない
+    if (clickedChar.isSelected || isAnswered) return;
+    
+    // 文字を選択した時に警告を非表示
+    if (showIncompleteWarning) {
+      setShowIncompleteWarning(false);
+    }
 
     // 文字の選択状態を更新
     setAllChars(prev =>
@@ -61,6 +112,9 @@ export const GamePage = () => {
     );
     setSelectedChars([]);
     setCurrentAnswer('');
+    setIsAnswered(false);
+    setIsCorrect(null);
+    setShowIncompleteWarning(false);
   };
 
   // 問題が読み込まれていない場合のローディング表示
@@ -129,34 +183,70 @@ export const GamePage = () => {
                 現在の回答: <span className="font-bold text-lg">{currentAnswer || '（未入力）'}</span>
               </p>
             </div>
+            
+            
+            {/* 判定結果表示 */}
+            {isAnswered && (
+              <div className="mt-4 text-center">
+                {isCorrect ? (
+                  <div className="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded">
+                    <span className="text-2xl font-bold">🎉 正解！</span>
+                    <p className="mt-1">素晴らしいです！正解は「{currentWord.original}」でした。</p>
+                  </div>
+                ) : (
+                  <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded">
+                    <span className="text-2xl font-bold">❌ 不正解</span>
+                    <p className="mt-1">残念！正解は「{currentWord.original}」でした。</p>
+                  </div>
+                )}
+              </div>
+            )}
           </div>
 
           {/* リセットボタン */}
-          <div className="text-center mb-4">
-            <button
-              onClick={handleReset}
-              className="bg-orange-500 hover:bg-orange-600 text-white font-bold py-2 px-4 rounded-lg"
-            >
-              リセット
-            </button>
-          </div>
-
-          {/* 解答入力エリア（将来実装） */}
-          <div className="text-center">
-            <p className="text-gray-500 text-sm">
-              正解: {currentWord.original} (開発中のため表示)
-            </p>
-          </div>
+          {!isAnswered && (
+            <div className="text-center mb-4">
+              <button
+                onClick={handleReset}
+                className="bg-orange-500 hover:bg-orange-600 text-white font-bold py-2 px-4 rounded-lg"
+              >
+                リセット
+              </button>
+            </div>
+          )}
         </div>
 
-        {/* 操作ボタン（将来実装） */}
+        {/* 操作ボタン */}
         <div className="text-center">
-          <button className="bg-green-500 hover:bg-green-600 text-white font-bold py-3 px-6 rounded-lg mr-4">
-            答えを確認
-          </button>
-          <button className="bg-gray-500 hover:bg-gray-600 text-white font-bold py-3 px-6 rounded-lg">
-            次の問題
-          </button>
+          {/* 未完了警告表示（ボタンの直前） */}
+          {showIncompleteWarning && (
+            <div className="mb-3">
+              <p className="text-red-600 text-sm font-medium">文字をすべて選択してください</p>
+            </div>
+          )}
+          
+          {!isAnswered ? (
+            <button 
+              onClick={handleCheckAnswer}
+              className="bg-green-500 hover:bg-green-600 text-white font-bold py-3 px-6 rounded-lg"
+            >
+              答えを確認
+            </button>
+          ) : isCorrect ? (
+            <button 
+              onClick={handleNextQuestion}
+              className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-3 px-6 rounded-lg"
+            >
+              次の問題
+            </button>
+          ) : (
+            <button 
+              onClick={handleReset}
+              className="bg-orange-500 hover:bg-orange-600 text-white font-bold py-3 px-6 rounded-lg"
+            >
+              もう一度挑戦
+            </button>
+          )}
         </div>
       </div>
     </div>
