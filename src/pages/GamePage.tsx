@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Header } from '../components/game/Header';
 import { Hint } from '../components/game/Hint';
 import { getRandomHtmlCssTerm } from '../data/htmlCssTerms';
@@ -14,6 +14,12 @@ export const GamePage = () => {
   const [allChars, setAllChars] = useState<{ char: string; id: string; isSelected: boolean }[]>([]);
   const [selectedChars, setSelectedChars] = useState<{ char: string; id: string }[]>([]);
   const [currentAnswer, setCurrentAnswer] = useState('');
+  
+  // ドラッグ&ドロップのstate
+  // どの文字がドラッグされているか
+  const [draggedIndex, setDraggedIndex] = useState<number | null>(null);
+  // ドロップ予定の位置を視覚的に表示
+  const [dragOverIndex, setDragOverIndex] = useState<number | null>(null);
   
   // ゲーム進行のstate
   const [isAnswered, setIsAnswered] = useState(false);  // 回答済みかどうか
@@ -37,6 +43,8 @@ export const GamePage = () => {
     setIsAnswered(false);
     setIsCorrect(null);
     setShowIncompleteWarning(false);
+    setDraggedIndex(null);
+    setDragOverIndex(null);
   }, []);  //第2引数が空配列＝初回ゲーム開始時にセット
 
   // 正誤判定処理
@@ -74,6 +82,8 @@ export const GamePage = () => {
     setIsAnswered(false);
     setIsCorrect(null);
     setShowIncompleteWarning(false);
+    setDraggedIndex(null);
+    setDragOverIndex(null);
     setQuestionCount(prev => prev + 1);
   };
 
@@ -102,6 +112,84 @@ export const GamePage = () => {
     setCurrentAnswer(prev => prev + clickedChar.char);
   };
 
+  // ドラッグ開始処理
+  const handleDragStart = (e: React.DragEvent, index: number) => {
+    if (isAnswered) {
+      e.preventDefault();
+      return;
+    }
+    setDraggedIndex(index);
+    e.dataTransfer.effectAllowed = 'move';
+    e.dataTransfer.setData('text/plain', index.toString());
+  };
+
+  // ドラッグオーバー処理
+  const handleDragOver = (e: React.DragEvent, index?: number) => {
+    if (isAnswered) return;
+    e.preventDefault();
+    e.dataTransfer.dropEffect = 'move';
+    
+    if (index !== undefined && index !== draggedIndex) {
+      setDragOverIndex(index);
+    }
+  };
+
+  // ドラッグリーブ処理
+  const handleDragLeave = (e: React.DragEvent) => {
+    if (isAnswered) return;
+    // タイマーで遅延させてリセット
+    setTimeout(() => {
+      setDragOverIndex(null);
+    }, 100);
+  };
+
+  // ドロップ処理
+  const handleDrop = (e: React.DragEvent, dropIndex: number) => {
+    if (isAnswered) return;
+    e.preventDefault();
+    
+    const dragIndex = parseInt(e.dataTransfer.getData('text/plain'));
+    
+    if (isNaN(dragIndex)) {
+      setDraggedIndex(null);
+      setDragOverIndex(null);
+      return;
+    }
+
+    // 選択済み文字配列を並び替え
+    const newSelectedChars = [...selectedChars];
+    const draggedChar = newSelectedChars[dragIndex];
+    
+    // 元の位置から削除
+    newSelectedChars.splice(dragIndex, 1);
+    
+    // 新しい位置に挿入
+    let insertIndex = dropIndex;
+    if (dropIndex > dragIndex) {
+      insertIndex = dropIndex - 1;
+    }
+    if (insertIndex >= newSelectedChars.length) {
+      insertIndex = newSelectedChars.length;
+    }
+    
+    newSelectedChars.splice(insertIndex, 0, draggedChar);
+    
+    setSelectedChars(newSelectedChars);
+    
+    // 現在の回答文字列を更新
+    setCurrentAnswer(newSelectedChars.map(char => char.char).join(''));
+    
+    setDraggedIndex(null);
+    setDragOverIndex(null);
+  };
+
+
+  // ドラッグ終了処理
+  const handleDragEnd = () => {
+    setDraggedIndex(null);
+    setDragOverIndex(null);
+  };
+
   // リセット処理
   const handleReset = () => {
     if (!currentWord) return;
@@ -115,6 +203,8 @@ export const GamePage = () => {
     setIsAnswered(false);
     setIsCorrect(null);
     setShowIncompleteWarning(false);
+    setDraggedIndex(null);
+    setDragOverIndex(null);
   };
 
   // 問題が読み込まれていない場合のローディング表示
@@ -163,18 +253,77 @@ export const GamePage = () => {
           {/* 回答欄 */}
           <div className="mb-6">
             <h3 className="text-lg font-semibold text-gray-700 mb-3 text-center">回答</h3>
-            <div className="flex justify-center gap-2 min-h-[3rem] p-3 bg-gray-50 border-2 border-dashed border-gray-300 rounded-lg">
+            <div 
+              className="flex justify-center items-center gap-2 min-h-[3rem] p-3 bg-gray-50 border-2 border-dashed border-gray-300 rounded-lg"
+            >
               {selectedChars.length === 0 ? (
                 <p className="text-gray-400 self-center">文字をクリックして回答を作成してください</p>
               ) : (
-                selectedChars.map((charObj) => (
-                  <div
-                    key={charObj.id}
-                    className="w-12 h-12 bg-green-100 border-2 border-green-300 rounded-lg flex items-center justify-center text-xl font-bold text-green-800"
-                  >
-                    {charObj.char}
+                <>
+                  {selectedChars.map((charObj, index) => {
+                    const isDragging = draggedIndex === index;
+                    const isDragOver = dragOverIndex === index && !isDragging;
+                    
+                    return (
+                      <div key={`char-container-${charObj.id}`} className="flex items-center relative">
+                        {/* ドロップインジケーター */}
+                        {isDragOver && (
+                          <div className="w-1 h-12 bg-blue-400 rounded-sm mr-2 animate-pulse" />
+                        )}
+                        
+                        {/* ドロップゾーン（文字の左側） */}
+                        <div
+                          className="absolute -left-3 top-0 w-6 h-12 z-10"
+                          onDragOver={(e) => {
+                            e.stopPropagation();
+                            handleDragOver(e, index);
+                          }}
+                          onDrop={(e) => {
+                            e.stopPropagation();
+                            handleDrop(e, index);
+                          }}
+                          onDragLeave={handleDragLeave}
+                        />
+                        
+                        <div
+                          draggable={!isAnswered}
+                          onDragStart={(e) => handleDragStart(e, index)}
+                          onDragEnd={handleDragEnd}
+                          className={`w-12 h-12 bg-green-100 border-2 border-green-300 rounded-lg flex items-center justify-center text-xl font-bold text-green-800 transition-opacity duration-150 ${
+                            !isAnswered ? 'cursor-move hover:scale-105' : 'cursor-default'
+                          } ${
+                            isDragging ? 'opacity-50' : ''
+                          }`}
+                          style={{
+                            userSelect: 'none',
+                            WebkitUserSelect: 'none'
+                          }}
+                        >
+                          {charObj.char}
+                        </div>
+                      </div>
+                    );
+                  })}
+                  
+                  {/* 最後尾のドロップゾーン */}
+                  <div className="flex items-center relative ml-2">
+                    {dragOverIndex === selectedChars.length && (
+                      <div className="w-1 h-12 bg-blue-400 rounded-sm animate-pulse" />
+                    )}
+                    <div
+                      className="w-6 h-12"
+                      onDragOver={(e) => {
+                        e.stopPropagation();
+                        handleDragOver(e, selectedChars.length);
+                      }}
+                      onDrop={(e) => {
+                        e.stopPropagation();
+                        handleDrop(e, selectedChars.length);
+                      }}
+                      onDragLeave={handleDragLeave}
+                    />
                   </div>
-                ))
+                </>
               )}
             </div>
 
