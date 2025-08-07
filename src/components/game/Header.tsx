@@ -1,10 +1,10 @@
-import { useTimer } from '../hooks/use-timer';
+import { useTimer } from '../../hooks/use-timer';
 
 type HeaderProps = {
   count: number;
-}
+};
 
-export const Header = ({count}: HeaderProps) => {
+export const Header = ({ count }: HeaderProps) => {
   const { time } = useTimer();
   return (
     <div className="px-4 md:px-8 lg:px-16 my-6">
