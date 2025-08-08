@@ -2,7 +2,9 @@ import React, { useState, useEffect } from 'react';
 import { Header } from '../components/game/Header';
 import { Hint } from '../components/game/Hint';
 import { getRandomHtmlCssTerm } from '../data/htmlCssTerms';
-import { GameWord } from '../types/word';
+import { AllChars, GameWord, SelectedChars } from '../types/word';
+import { Question } from '../components/game/Question';
+import { Answer } from '../components/game/Answer';
 
 export const GamePage = () => {
   // 現在の問題の単語データ
@@ -11,16 +13,16 @@ export const GamePage = () => {
   const [questionCount, setQuestionCount] = useState(1);
 
   // 回答機能のstate
-  const [allChars, setAllChars] = useState<{ char: string; id: string; isSelected: boolean }[]>([]);
-  const [selectedChars, setSelectedChars] = useState<{ char: string; id: string }[]>([]);
+  const [allChars, setAllChars] = useState<AllChars[]>([]);
+  const [selectedChars, setSelectedChars] = useState<SelectedChars[]>([]);
   const [currentAnswer, setCurrentAnswer] = useState('');
-  
+
   // ドラッグ&ドロップのstate
   // どの文字がドラッグされているか
   const [draggedIndex, setDraggedIndex] = useState<number | null>(null);
   // ドロップ予定の位置を視覚的に表示
   const [dragOverIndex, setDragOverIndex] = useState<number | null>(null);
-  
+
   // ゲーム進行のstate
   const [isAnswered, setIsAnswered] = useState(false);  // 回答済みかどうか
   const [isCorrect, setIsCorrect] = useState<boolean | null>(null);  // 正解・不正解・未判定
@@ -50,26 +52,26 @@ export const GamePage = () => {
   // 正誤判定処理
   const handleCheckAnswer = () => {
     if (!currentWord || currentAnswer === '') return;
-    
+
     // 全ての文字が選択されているかチェック
     const allSelected = allChars.every(char => char.isSelected);
     if (!allSelected) {
       setShowIncompleteWarning(true);
       return;
     }
-    
+
     // 警告を非表示にして判定実行
     setShowIncompleteWarning(false);
     const correct = currentAnswer === currentWord.original;
     setIsCorrect(correct);
     setIsAnswered(true);
   };
-  
+
   // 次の問題への遷移
   const handleNextQuestion = () => {
     const word = getRandomHtmlCssTerm();
     setCurrentWord(word);
-    
+
     // 新しい問題の文字を初期化
     const chars = word.scrambled.split('').map((char, index) => ({
       char,
@@ -88,10 +90,10 @@ export const GamePage = () => {
   };
 
   // 文字カードクリック処理
-  const handleCharClick = (clickedChar: { char: string; id: string; isSelected: boolean }) => {
+  const handleCharClick = (clickedChar: AllChars) => {
     // 既に選択済みの文字または回答済みの場合はクリックできない
     if (clickedChar.isSelected || isAnswered) return;
-    
+
     // 文字を選択した時に警告を非表示
     if (showIncompleteWarning) {
       setShowIncompleteWarning(false);
@@ -128,7 +130,7 @@ export const GamePage = () => {
     if (isAnswered) return;
     e.preventDefault();
     e.dataTransfer.dropEffect = 'move';
-    
+
     if (index !== undefined && index !== draggedIndex) {
       setDragOverIndex(index);
     }
@@ -147,9 +149,9 @@ export const GamePage = () => {
   const handleDrop = (e: React.DragEvent, dropIndex: number) => {
     if (isAnswered) return;
     e.preventDefault();
-    
+
     const dragIndex = parseInt(e.dataTransfer.getData('text/plain'));
-    
+
     if (isNaN(dragIndex)) {
       setDraggedIndex(null);
       setDragOverIndex(null);
@@ -159,10 +161,10 @@ export const GamePage = () => {
     // 選択済み文字配列を並び替え
     const newSelectedChars = [...selectedChars];
     const draggedChar = newSelectedChars[dragIndex];
-    
+
     // 元の位置から削除
     newSelectedChars.splice(dragIndex, 1);
-    
+
     // 新しい位置に挿入
     let insertIndex = dropIndex;
     if (dropIndex > dragIndex) {
@@ -171,14 +173,14 @@ export const GamePage = () => {
     if (insertIndex >= newSelectedChars.length) {
       insertIndex = newSelectedChars.length;
     }
-    
+
     newSelectedChars.splice(insertIndex, 0, draggedChar);
-    
+
     setSelectedChars(newSelectedChars);
-    
+
     // 現在の回答文字列を更新
     setCurrentAnswer(newSelectedChars.map(char => char.char).join(''));
-    
+
     setDraggedIndex(null);
     setDragOverIndex(null);
   };
@@ -228,104 +230,19 @@ export const GamePage = () => {
 
         {/* バラバラの文字表示エリア */}
         <div className="bg-white rounded-lg shadow-lg p-6 mb-6">
-          <h2 className="text-xl font-semibold text-gray-800 mb-4 text-center">
-            <p>文字を並び替えて</p>
-            <p>正しい単語を作ってください</p>
-          </h2>
+          <Question allChars={allChars} handleCharClick={handleCharClick} />
 
-          {/* 利用可能な文字を表示（固定位置） */}
-          <div className="flex justify-center gap-2 mb-6">
-            {allChars.map((charObj) => (
-              <div
-                key={charObj.id}
-                onClick={() => handleCharClick(charObj)}
-                className={`w-12 h-12 border-2 rounded-lg flex items-center justify-center text-xl font-bold transition-colors ${
-                  charObj.isSelected
-                    ? 'bg-gray-200 border-gray-300 text-gray-400 cursor-not-allowed'
-                    : 'bg-blue-100 border-blue-300 text-blue-800 cursor-pointer hover:bg-blue-200'
-                }`}
-              >
-                {charObj.char}
-              </div>
-            ))}
-          </div>
-
-          {/* 回答欄 */}
-          <div className="mb-6">
-            <h3 className="text-lg font-semibold text-gray-700 mb-3 text-center">回答</h3>
-            <div 
-              className="flex justify-center items-center gap-2 min-h-[3rem] p-3 bg-gray-50 border-2 border-dashed border-gray-300 rounded-lg"
-            >
-              {selectedChars.length === 0 ? (
-                <p className="text-gray-400 self-center">文字をクリックして回答を作成してください</p>
-              ) : (
-                <>
-                  {selectedChars.map((charObj, index) => {
-                    const isDragging = draggedIndex === index;
-                    const isDragOver = dragOverIndex === index && !isDragging;
-                    
-                    return (
-                      <div key={`char-container-${charObj.id}`} className="flex items-center relative">
-                        {/* ドロップインジケーター */}
-                        {isDragOver && (
-                          <div className="w-1 h-12 bg-blue-400 rounded-sm mr-2 animate-pulse" />
-                        )}
-                        
-                        {/* ドロップゾーン（文字の左側） */}
-                        <div
-                          className="absolute -left-3 top-0 w-6 h-12 z-10"
-                          onDragOver={(e) => {
-                            e.stopPropagation();
-                            handleDragOver(e, index);
-                          }}
-                          onDrop={(e) => {
-                            e.stopPropagation();
-                            handleDrop(e, index);
-                          }}
-                          onDragLeave={handleDragLeave}
-                        />
-                        
-                        <div
-                          draggable={!isAnswered}
-                          onDragStart={(e) => handleDragStart(e, index)}
-                          onDragEnd={handleDragEnd}
-                          className={`w-12 h-12 bg-green-100 border-2 border-green-300 rounded-lg flex items-center justify-center text-xl font-bold text-green-800 transition-opacity duration-150 ${
-                            !isAnswered ? 'cursor-move hover:scale-105' : 'cursor-default'
-                          } ${
-                            isDragging ? 'opacity-50' : ''
-                          }`}
-                          style={{
-                            userSelect: 'none',
-                            WebkitUserSelect: 'none'
-                          }}
-                        >
-                          {charObj.char}
-                        </div>
-                      </div>
-                    );
-                  })}
-                  
-                  {/* 最後尾のドロップゾーン */}
-                  <div className="flex items-center relative ml-2">
-                    {dragOverIndex === selectedChars.length && (
-                      <div className="w-1 h-12 bg-blue-400 rounded-sm animate-pulse" />
-                    )}
-                    <div
-                      className="w-6 h-12"
-                      onDragOver={(e) => {
-                        e.stopPropagation();
-                        handleDragOver(e, selectedChars.length);
-                      }}
-                      onDrop={(e) => {
-                        e.stopPropagation();
-                        handleDrop(e, selectedChars.length);
-                      }}
-                      onDragLeave={handleDragLeave}
-                    />
-                  </div>
-                </>
-              )}
-            </div>
+          <Answer
+            selectedChars={selectedChars}
+            draggedIndex={draggedIndex}
+            dragOverIndex={dragOverIndex}
+            isAnswered={isAnswered}
+            handleDragStart={handleDragStart}
+            handleDragEnd={handleDragEnd}
+            handleDragOver={handleDragOver}
+            handleDragLeave={handleDragLeave}
+            handleDrop={handleDrop}
+          />
 
             {/* 現在の回答文字列表示 */}
             <div className="mt-3 text-center">
@@ -333,8 +250,7 @@ export const GamePage = () => {
                 現在の回答: <span className="font-bold text-lg">{currentAnswer || '（未入力）'}</span>
               </p>
             </div>
-            
-            
+
             {/* 判定結果表示 */}
             {isAnswered && (
               <div className="mt-4 text-center">
@@ -351,7 +267,6 @@ export const GamePage = () => {
                 )}
               </div>
             )}
-          </div>
 
           {/* リセットボタン */}
           {!isAnswered && (
@@ -374,16 +289,16 @@ export const GamePage = () => {
               <p className="text-red-600 text-sm font-medium">文字をすべて選択してください</p>
             </div>
           )}
-          
+
           {!isAnswered ? (
-            <button 
+            <button
               onClick={handleCheckAnswer}
               className="bg-green-500 hover:bg-green-600 text-white font-bold py-3 px-6 rounded-lg"
             >
               答えを確認
             </button>
           ) : isCorrect ? (
-            <button 
+            <button
               onClick={handleNextQuestion}
               className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-3 px-6 rounded-lg"
             >
