@@ -19,3 +19,14 @@ export type GameWord = Word & {
  * Game mode types
  */
 export type GameMode = 'html-css' | 'ruby';
+
+export type AllChars = {
+  char: string;
+  id: string;
+  isSelected: boolean;
+}
+
+export interface SelectedChars {
+  char: string;
+  id: string;
+}

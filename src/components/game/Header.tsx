@@ -7,7 +7,7 @@ type HeaderProps = {
 export const Header = ({ count }: HeaderProps) => {
   const { time } = useTimer();
   return (
-    <div className="px-4 md:px-8 lg:px-16 my-6">
+    <div className="max-w-2xl mx-auto px-4 my-6">
       <div className="bg-gray-50 flex items-center justify-between">
         <div>
           <p className="text-2xl">{count}問目</p>

@@ -206,27 +206,32 @@ src/
 
 ### Key Data Types
 ```typescript
-interface Word {
+// Current Implementation
+export type Word = {
   id: string;
-  original: string;      // Correct word/term
-  scrambled: string;     // Scrambled version
+  original: string;      // Correct word/term (e.g., "div")
   mode: 'html-css' | 'ruby';
-  difficulty: 'easy' | 'medium' | 'hard';
-  category?: string;     // e.g., 'html-elements', 'css-properties', 'ruby-enumerable'
+  category?: string;     // e.g., 'html-elements', 'css-properties'
+  hint?: string;         // Educational hint text
 }
 
-interface GameState {
-  mode: 'html-css' | 'ruby';
-  currentWord: Word | null;
-  selectedChars: string[];
-  currentStreak: number;
-  bestStreak: number;
-  timeRemaining: number;
-  isGameActive: boolean;
-  isGameOver: boolean;
-  gameStartTime: Date | null;
+export type GameWord = Word & {
+  scrambled: string;     // Dynamically generated scrambled version
 }
 
+// Game State (Current Implementation)
+interface GamePageState {
+  currentWord: GameWord | null;
+  questionCount: number;
+  selectedChars: { char: string; id: string }[];
+  currentAnswer: string;
+  draggedIndex: number | null;    // For drag & drop
+  dragOverIndex: number | null;   // For visual feedback
+  isAnswered: boolean;
+  isCorrect: boolean | null;
+}
+
+// Future Implementation
 interface GameResult {
   streak: number;
   mode: 'html-css' | 'ruby';
@@ -234,31 +239,27 @@ interface GameResult {
   completedAt: Date;
   wordsCompleted: Word[];
 }
-
-interface GameSettings {
-  timeLimit: number;      // Default: 10 seconds
-  soundEnabled: boolean;
-  animationsEnabled: boolean;
-}
 ```
 
 ## Feature Implementation Priorities
 
 ### Phase 1: Core Game (Priority: High)
 - [x] Project setup with routing
+- [x] Word data structure and sample HTML/CSS data
+- [x] Basic game interface with character display
+- [x] Word validation and answer checking
+- [x] Game progression (next question functionality)
+- [x] Timer implementation with Header component
+- [x] Hint system with educational content
+- [x] **Drag and drop character reordering** ✨
+- [x] Selection reset functionality
 - [ ] Mode selection page (HTML/CSS vs Ruby)
-- [ ] Word data structure and sample data
-- [ ] Basic game interface with character buttons
-- [ ] Click-to-select character functionality
-- [ ] Word validation and streak tracking
-- [ ] 10-second timer implementation
-- [ ] Game over screen with results
+- [ ] Streak tracking and game over logic
 - [ ] Local high score storage
 
 ### Phase 2: Enhanced UX (Priority: Medium)
-- [ ] Drag and drop character reordering
-- [ ] Selection reset functionality
-- [ ] Smooth animations and transitions
+- [x] **Advanced drag & drop with visual feedback** ✨
+- [x] Smooth animations and transitions
 - [ ] Sound effects and feedback
 - [ ] Responsive design optimization
 - [ ] Keyboard shortcuts support
@@ -316,8 +317,9 @@ export const rubyMethods: Word[] = [
 
 ### Current Development Status
 - **Timeline**: 2-week development sprint
-- **Current Phase**: Routing setup and page structure
-- **Next Milestone**: Core game mechanics implementation
+- **Current Phase**: Core game mechanics completed ✅
+- **Recent Achievement**: Advanced drag & drop functionality implemented
+- **Next Milestone**: Game modes and streak system
 - **Environment**: Windows + VS Code + dev container setup
 
 ### Code Conventions
