@@ -235,7 +235,7 @@ export const GamePage = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="h-full bg-gray-50">
       {/* ヘッダー（問題数・タイマー） */}
       <Header count={questionCount} />
 
