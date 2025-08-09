@@ -5,8 +5,12 @@ import { getRandomHtmlCssTerm } from '../data/htmlCssTerms';
 import { AllChars, GameWord, SelectedChars } from '../types/word';
 import { Question } from '../components/game/Question';
 import { Answer } from '../components/game/Answer';
+import { useTimer } from '../hooks/use-timer';
+import { Link } from 'react-router-dom';
 
 export const GamePage = () => {
+  // タイマー機能
+  const { time } = useTimer();
   // 現在の問題の単語データ
   const [currentWord, setCurrentWord] = useState<GameWord | null>(null);
   // 問題番号
@@ -28,6 +32,10 @@ export const GamePage = () => {
   const [isCorrect, setIsCorrect] = useState<boolean | null>(null);  // 正解・不正解・未判定
   const [showIncompleteWarning, setShowIncompleteWarning] = useState(false);  // 未選択警告表示
 
+  //Navigateのリンク
+  // const navigateResult = useNavigate();
+  // const handleClickResult = () => navigateResult('/result');
+
   // ゲーム開始時に最初の問題を生成
   useEffect(() => {
     const word = getRandomHtmlCssTerm();
@@ -48,6 +56,14 @@ export const GamePage = () => {
     setDraggedIndex(null);
     setDragOverIndex(null);
   }, []);  //第2引数が空配列＝初回ゲーム開始時にセット
+
+  // 時間切れによる不正解判定
+  useEffect(() => {
+    if (time <= 0 && !isAnswered) {
+      setIsCorrect(false);
+      setIsAnswered(true);
+    }
+  }, [time, isAnswered])
 
   // 正誤判定処理
   const handleCheckAnswer = () => {
@@ -219,7 +235,7 @@ export const GamePage = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="h-full bg-gray-50">
       {/* ヘッダー（問題数・タイマー） */}
       <Header count={questionCount} />
 
@@ -270,7 +286,7 @@ export const GamePage = () => {
 
           {/* リセットボタン */}
           {!isAnswered && (
-            <div className="text-center mb-4">
+            <div className="text-center mt-6">
               <button
                 onClick={handleReset}
                 className="bg-orange-500 hover:bg-orange-600 text-white font-bold py-2 px-4 rounded-lg"
@@ -305,12 +321,12 @@ export const GamePage = () => {
               次の問題
             </button>
           ) : (
-            <button 
-              onClick={handleReset}
+            <Link
+              to='/result'
               className="bg-orange-500 hover:bg-orange-600 text-white font-bold py-3 px-6 rounded-lg"
             >
-              もう一度挑戦
-            </button>
+              結果
+            </Link>
           )}
         </div>
       </div>
