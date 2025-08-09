@@ -270,7 +270,7 @@ export const GamePage = () => {
 
           {/* リセットボタン */}
           {!isAnswered && (
-            <div className="text-center mb-4">
+            <div className="text-center mt-6">
               <button
                 onClick={handleReset}
                 className="bg-orange-500 hover:bg-orange-600 text-white font-bold py-2 px-4 rounded-lg"
