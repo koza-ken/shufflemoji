@@ -5,8 +5,11 @@ import { getRandomHtmlCssTerm } from '../data/htmlCssTerms';
 import { AllChars, GameWord, SelectedChars } from '../types/word';
 import { Question } from '../components/game/Question';
 import { Answer } from '../components/game/Answer';
+import { useTimer } from '../hooks/use-timer';
 
 export const GamePage = () => {
+  // タイマー機能
+  const { time } = useTimer();
   // 現在の問題の単語データ
   const [currentWord, setCurrentWord] = useState<GameWord | null>(null);
   // 問題番号
@@ -48,6 +51,14 @@ export const GamePage = () => {
     setDraggedIndex(null);
     setDragOverIndex(null);
   }, []);  //第2引数が空配列＝初回ゲーム開始時にセット
+
+  // 時間切れによる不正解判定
+  useEffect(() => {
+    if (time <= 0 && !isAnswered) {
+      setIsCorrect(false);
+      setIsAnswered(true);
+    }
+  }, [time, isAnswered])
 
   // 正誤判定処理
   const handleCheckAnswer = () => {
