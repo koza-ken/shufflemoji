@@ -243,12 +243,12 @@ export const GamePage = () => {
   }
 
   return (
-    <div className="h-full bg-gray-50">
+    <div className="min-h-screen bg-gray-50 pt-4">
       {/* ヘッダー（問題数・タイマー） */}
       <Header count={questionCount} time={time} />
 
       {/* メインゲーム画面 */}
-      <div className="max-w-2xl mx-auto px-4 py-4">
+      <div className="w-full max-w-2xl mx-auto px-4 py-4">
         {/* ヒント表示 */}
         <Hint word={currentWord} />
 

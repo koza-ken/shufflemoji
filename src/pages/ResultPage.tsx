@@ -10,8 +10,8 @@ export const ResultPage = () => {
   const q_list = location.state?.questionList;
 
   return (
-    <div className="min-h-screen bg-gray-50 items-center">
-      <div className="min-w-lg max-w-2xl mx-auto bg-white rounded-lg shadow-lg p-8">
+    <div className="min-h-screen bg-gray-50 px-4 py-6">
+      <div className="w-full max-w-2xl mx-auto bg-white rounded-lg shadow-lg p-8">
         <div className="text-center">
           <h1 className="text-5xl font-bold text-gray-900 mb-16">
             結果
