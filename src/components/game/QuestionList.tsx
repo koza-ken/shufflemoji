@@ -13,10 +13,11 @@ export const QuestionList = ({ questions }: QuestionListProps) => {
   };
 
   return (
-    <div className="bg-white rounded-lg shadow-lg p-6 mt-4">
+    <div className="min-w-lg max-w-2xl mx-auto bg-white rounded-lg shadow-lg p-6 mt-4">
       {/* トグルボタン付きヘッダー */}
       <div className="flex items-center justify-between mb-4">
-        <h2 className="text-2xl font-bold text-gray-800">
+        <div></div> {/* 左側のスペーサー */}
+        <h2 className="text-2xl font-bold text-gray-800 text-center">
           解答した問題（全{questions.length}問）
         </h2>
         <button
