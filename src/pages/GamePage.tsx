@@ -10,7 +10,7 @@ import { Link } from 'react-router-dom';
 
 export const GamePage = () => {
   // タイマー機能
-  const { time } = useTimer();
+  const { time, resetTimer, pause, resume } = useTimer();
   // 現在の問題の単語データ
   const [currentWord, setCurrentWord] = useState<GameWord | null>(null);
   // 問題番号
@@ -81,6 +81,7 @@ export const GamePage = () => {
     const correct = currentAnswer === currentWord.original;
     setIsCorrect(correct);
     setIsAnswered(true);
+    pause();
   };
 
   // 次の問題への遷移
@@ -103,6 +104,8 @@ export const GamePage = () => {
     setDraggedIndex(null);
     setDragOverIndex(null);
     setQuestionCount(prev => prev + 1);
+    resetTimer();
+    resume();
   };
 
   // 文字カードクリック処理
@@ -153,7 +156,7 @@ export const GamePage = () => {
   };
 
   // ドラッグリーブ処理
-  const handleDragLeave = (e: React.DragEvent) => {
+  const handleDragLeave = () => {
     if (isAnswered) return;
     // タイマーで遅延させてリセット
     setTimeout(() => {
@@ -237,7 +240,7 @@ export const GamePage = () => {
   return (
     <div className="h-full bg-gray-50">
       {/* ヘッダー（問題数・タイマー） */}
-      <Header count={questionCount} />
+      <Header count={questionCount} time={time} />
 
       {/* メインゲーム画面 */}
       <div className="max-w-2xl mx-auto px-4 py-4">

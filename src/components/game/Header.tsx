@@ -1,11 +1,11 @@
-import { useTimer } from '../../hooks/use-timer';
+// import { useTimer } from '../../hooks/use-timer';
 
 type HeaderProps = {
   count: number;
+  time: number;
 };
 
-export const Header = ({ count }: HeaderProps) => {
-  const { time } = useTimer();
+export const Header = ({ count, time }: HeaderProps) => {
   return (
     <div className="max-w-2xl mx-auto px-4 my-6">
       <div className="bg-gray-50 flex items-center justify-between">
