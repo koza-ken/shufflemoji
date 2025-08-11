@@ -326,6 +326,7 @@ export const GamePage = () => {
           ) : (
             <Link
               to='/result'
+              state={{ questionCount: questionCount - 1 }}
               className="bg-orange-500 hover:bg-orange-600 text-white font-bold py-3 px-6 rounded-lg"
             >
               結果
