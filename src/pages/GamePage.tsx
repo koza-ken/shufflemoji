@@ -39,8 +39,6 @@ export const GamePage = () => {
   useEffect(() => {
     const word = getRandomHtmlCssTerm();
     setCurrentWord(word);
-    // 出題した問題リストに追加
-    setQuestionList(prev => [...prev, word]);
 
     // 全文字を初期化（各文字にユニークIDと選択状態を付与）
     const chars = word.scrambled.split('').map((char, index) => ({
@@ -82,6 +80,12 @@ export const GamePage = () => {
     const correct = currentAnswer === currentWord.original;
     setIsCorrect(correct);
     setIsAnswered(true);
+    
+    // 正解時のみquestionListに追加
+    if (correct) {
+      setQuestionList(prev => [...prev, currentWord]);
+    }
+    
     pause();
   };
 
@@ -89,9 +93,6 @@ export const GamePage = () => {
   const handleNextQuestion = () => {
     const word = getRandomHtmlCssTerm();
     setCurrentWord(word);
-
-    // 次の問題も出題リストに追加
-    setQuestionList(prev => [...prev, word]);
 
     // 新しい問題の文字を初期化
     const chars = word.scrambled.split('').map((char, index) => ({
