@@ -75,9 +75,7 @@ export const QuestionList = ({ questions }: QuestionListProps) => {
             </div>
           ) : (
             <div className="text-center py-8">
-              <div className="text-gray-400 text-6xl mb-4">📝</div>
-              <p className="text-gray-500 text-lg">まだ問題が出題されていません</p>
-              <p className="text-gray-400 text-sm mt-2">ゲームを開始して問題を解いてみましょう！</p>
+              <p className="text-gray-500 text-lg">解答した問題はありません。</p>
             </div>
           )}
         </div>
