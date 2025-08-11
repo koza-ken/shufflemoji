@@ -15,16 +15,15 @@ export const QuestionList = ({ questions }: QuestionListProps) => {
   return (
     <div className="min-w-lg max-w-2xl mx-auto bg-white rounded-lg shadow-lg p-6 mt-4">
       {/* トグルボタン付きヘッダー */}
-      <div className="flex items-center justify-between mb-4">
-        <div></div> {/* 左側のスペーサー */}
-        <h2 className="text-2xl font-bold text-gray-800 text-center">
+      <div className="flex items-center justify-center mb-4">
+        <h2 className="text-2xl font-bold text-gray-800 mr-4">
           解答した問題（全{questions.length}問）
         </h2>
         <button
           onClick={toggleVisibility}
-          className="flex items-center space-x-2 px-4 py-2 bg-blue-500 hover:bg-blue-600 text-white rounded-lg transition-colors"
+          className="flex items-center space-x-2 px-2 py-2 bg-blue-500 hover:bg-blue-600 text-white rounded-lg transition-colors"
         >
-          <span>{isVisible ? '非表示' : '表示'}</span>
+
           <svg
             className={`w-4 h-4 transform transition-transform duration-200 ${isVisible ? 'rotate-180' : ''}`}
             fill="none"
@@ -87,7 +86,7 @@ export const QuestionList = ({ questions }: QuestionListProps) => {
       {/* 閉じている時の簡易表示 */}
       {!isVisible && questions.length > 0 && (
         <div className="text-center py-4">
-          <p className="text-gray-500">「表示」ボタンを押すと解答した問題の詳細が見れます</p>
+          <p className="text-gray-500">トグルボタンを押すと解答した問題の詳細が見れます</p>
         </div>
       )}
     </div>
