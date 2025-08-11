@@ -32,14 +32,15 @@ export const GamePage = () => {
   const [isCorrect, setIsCorrect] = useState<boolean | null>(null);  // 正解・不正解・未判定
   const [showIncompleteWarning, setShowIncompleteWarning] = useState(false);  // 未選択警告表示
 
-  //Navigateのリンク
-  // const navigateResult = useNavigate();
-  // const handleClickResult = () => navigateResult('/result');
-
+  // 出題した問題のリスト
+  const [questionList, setQuestionList] = useState<GameWord[]>([]);
+  
   // ゲーム開始時に最初の問題を生成
   useEffect(() => {
     const word = getRandomHtmlCssTerm();
     setCurrentWord(word);
+    // 出題した問題リストに追加
+    setQuestionList(prev => [...prev, word]);
 
     // 全文字を初期化（各文字にユニークIDと選択状態を付与）
     const chars = word.scrambled.split('').map((char, index) => ({
@@ -88,6 +89,9 @@ export const GamePage = () => {
   const handleNextQuestion = () => {
     const word = getRandomHtmlCssTerm();
     setCurrentWord(word);
+
+    // 次の問題も出題リストに追加
+    setQuestionList(prev => [...prev, word]);
 
     // 新しい問題の文字を初期化
     const chars = word.scrambled.split('').map((char, index) => ({
@@ -326,7 +330,7 @@ export const GamePage = () => {
           ) : (
             <Link
               to='/result'
-              state={{ questionCount: questionCount - 1 }}
+              state={{ questionCount: questionCount - 1, questionList: questionList }}
               className="bg-orange-500 hover:bg-orange-600 text-white font-bold py-3 px-6 rounded-lg"
             >
               結果
