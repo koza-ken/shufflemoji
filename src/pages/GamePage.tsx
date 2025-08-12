@@ -32,10 +32,9 @@ export const GamePage = () => {
   const [isCorrect, setIsCorrect] = useState<boolean | null>(null);  // 正解・不正解・未判定
   const [showIncompleteWarning, setShowIncompleteWarning] = useState(false);  // 未選択警告表示
 
-  //Navigateのリンク
-  // const navigateResult = useNavigate();
-  // const handleClickResult = () => navigateResult('/result');
-
+  // 出題した問題のリスト
+  const [questionList, setQuestionList] = useState<GameWord[]>([]);
+  
   // ゲーム開始時に最初の問題を生成
   useEffect(() => {
     const word = getRandomHtmlCssTerm();
@@ -81,6 +80,12 @@ export const GamePage = () => {
     const correct = currentAnswer === currentWord.original;
     setIsCorrect(correct);
     setIsAnswered(true);
+    
+    // 正解時のみquestionListに追加
+    if (correct) {
+      setQuestionList(prev => [...prev, currentWord]);
+    }
+    
     pause();
   };
 
@@ -238,12 +243,12 @@ export const GamePage = () => {
   }
 
   return (
-    <div className="h-full bg-gray-50">
+    <div className="min-h-screen bg-gray-50 pt-4">
       {/* ヘッダー（問題数・タイマー） */}
       <Header count={questionCount} time={time} />
 
       {/* メインゲーム画面 */}
-      <div className="max-w-2xl mx-auto px-4 py-4">
+      <div className="w-full max-w-2xl mx-auto px-4 py-4">
         {/* ヒント表示 */}
         <Hint word={currentWord} />
 
@@ -326,6 +331,7 @@ export const GamePage = () => {
           ) : (
             <Link
               to='/result'
+              state={{ questionCount: questionCount - 1, questionList: questionList }}
               className="bg-orange-500 hover:bg-orange-600 text-white font-bold py-3 px-6 rounded-lg"
             >
               結果

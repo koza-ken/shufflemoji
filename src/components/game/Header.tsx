@@ -7,7 +7,7 @@ type HeaderProps = {
 
 export const Header = ({ count, time }: HeaderProps) => {
   return (
-    <div className="max-w-2xl mx-auto px-4 my-6">
+    <div className="max-w-2xl mx-auto px-4">
       <div className="bg-gray-50 flex items-center justify-between">
         <div>
           <p className="text-2xl">{count}問目</p>

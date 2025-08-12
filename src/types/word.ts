@@ -30,3 +30,5 @@ export interface SelectedChars {
   char: string;
   id: string;
 }
+
+export type QuestionList = GameWord[];
