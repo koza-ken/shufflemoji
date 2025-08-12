@@ -41,7 +41,7 @@ export const QuestionList = ({ questions }: QuestionListProps) => {
           {questions.length > 0 ? (
             <div className="space-y-3">
               {questions.map((question, index) => (
-                <div 
+                <div
                   key={question.id} 
                   className="flex items-center justify-between p-4 bg-gray-50 rounded-lg border border-gray-200 hover:bg-gray-100 transition-colors"
                 >
