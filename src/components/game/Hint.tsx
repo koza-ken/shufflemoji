@@ -9,7 +9,7 @@ import { GameWord } from '../../types/word';
  */
 type HintProps = {
   word: GameWord;
-}
+};
 
 export const Hint = ({ word }: HintProps) => {
   // ヒントが存在しない場合は表示しない
@@ -26,19 +26,15 @@ export const Hint = ({ word }: HintProps) => {
 
         {/* ヒント内容 */}
         <div className="flex-1">
-          <h3 className="text-yellow-800 font-semibold text-sm mb-2">
-            ヒント
-          </h3>
-          <p className="text-gray-700 text-sm leading-relaxed">
-            {word.hint}
-          </p>
-          
+          <h3 className="text-yellow-800 font-semibold text-sm mb-2">ヒント</h3>
+          <p className="text-gray-700 text-sm leading-relaxed">{word.hint}</p>
+
           {/* カテゴリ表示 */}
           {/* {word.category && (
             <div className="mt-3">
               <span className="inline-block bg-yellow-100 text-yellow-700 text-xs px-2 py-1 rounded-full">
-                {word.category === 'html-elements' ? 'HTML要素' :
-                 word.category === 'css-properties' ? 'CSSプロパティ' :
+                {word.category === 'HTML' ? 'HTML要素' :
+                 word.category === 'CSS' ? 'CSSプロパティ' :
                  word.category}
               </span>
             </div>
