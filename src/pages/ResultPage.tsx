@@ -27,12 +27,12 @@ export const ResultPage = () => {
             <span>投稿する</span>
           </button>
           <div className="flex justify-center gap-4">
-            <Link
+            {/* <Link
               to='/game'
               className="w-40 bg-blue-500 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded flex items-center justify-center gap-2"
             >
               <span>リトライ</span>
-            </Link>
+            </Link> */}
             <Link
               to='/'
               className="w-40 bg-blue-500 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded flex items-center justify-center gap-2"
