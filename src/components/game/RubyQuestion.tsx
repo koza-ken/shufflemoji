@@ -12,7 +12,7 @@ export const RubyQuestion = ({ allChars, handleCharClick }: RubyQuestionProps) =
     <>
       <h2 className="text-xl font-semibold text-gray-800 mb-4 text-center">
         <p>文字を並び替えて</p>
-        <p>正しいRubyメソッドを作ってください</p>
+        <p>正しいRubyのメソッドを作ってください</p>
       </h2>
 
       {/* 利用可能な文字を表示（固定位置） */}
