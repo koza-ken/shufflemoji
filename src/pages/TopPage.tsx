@@ -27,13 +27,13 @@ export const TopPage = () => {
               <p className="text-2xl font-bold">ゲーム開始</p>
               <div className="flex justify-center gap-4 mt-4">
                 <Link
-                  to="/game"
+                  to="/game/html-css"
                   className="w-40 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
                 >
                   HTML/CSS
                 </Link>
                 <Link
-                  to="/game"
+                  to="/game/ruby"
                   className="w-40 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
                 >
                   Ruby
