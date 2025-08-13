@@ -1,18 +1,18 @@
 // import React from 'react';
 import { AllChars } from '../../types/word';
 
-export type QuestionProps = {
+export type HTMLCSSQuestionProps = {
   allChars: AllChars[];
   handleCharClick: (charObj: AllChars) => void;
 }
 
-export const Question = ({ allChars, handleCharClick }: QuestionProps) => {
+export const HTMLCSSQuestion = ({ allChars, handleCharClick }: HTMLCSSQuestionProps) => {
 
   return (
     <>
       <h2 className="text-xl font-semibold text-gray-800 mb-4 text-center">
         <p>文字を並び替えて</p>
-        <p>正しい単語を作ってください</p>
+        <p>正しいHTML/CSS用語を作ってください</p>
       </h2>
 
       {/* 利用可能な文字を表示（固定位置） */}

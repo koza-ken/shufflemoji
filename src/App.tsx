@@ -10,7 +10,7 @@ const router = createBrowserRouter(
     <>
 			{/* <Route path="/" element={<Navigate to="/todo" replace={true} />} /> */}
 			<Route path="/" element={<TopPage />} />
-			<Route path="/game" element={<GamePage />} />
+			<Route path="/game/:mode" element={<GamePage />} />
 			<Route path="/result" element={<ResultPage />} />
 			<Route path="*" element={<NotFound />} />
 		</>,

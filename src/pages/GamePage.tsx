@@ -2,13 +2,18 @@ import React, { useState, useEffect } from 'react';
 import { Header } from '../components/game/Header';
 import { Hint } from '../components/game/Hint';
 import { getRandomHtmlCssTerm } from '../data/htmlCssTerms';
-import { AllChars, GameWord, SelectedChars } from '../types/word';
-import { Question } from '../components/game/Question';
+import { getRandomRubyMethod } from '../data/rubyMethods';
+import { AllChars, GameWord, SelectedChars, GameMode } from '../types/word';
 import { Answer } from '../components/game/Answer';
 import { useTimer } from '../hooks/use-timer';
-import { Link } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
+import { HTMLCSSQuestion } from '../components/game/HTMLCSSQuestion';
+import { RubyQuestion } from '../components/game/RubyQuestion';
+
 
 export const GamePage = () => {
+  const { mode: modeParam } = useParams<{ mode: string }>();
+  const mode = (modeParam === 'ruby' ? 'ruby' : 'html-css') as GameMode;
   // タイマー機能
   const { time, resetTimer, pause, resume } = useTimer();
   // 現在の問題の単語データ
@@ -34,10 +39,18 @@ export const GamePage = () => {
 
   // 出題した問題のリスト
   const [questionList, setQuestionList] = useState<GameWord[]>([]);
-  
+  // モードに応じて問題を取得する関数
+  const getRandomWord = ():GameWord => {
+    if (mode === 'html-css') {
+      return getRandomHtmlCssTerm();
+    } else {
+      return getRandomRubyMethod();
+    }
+  };
+
   // ゲーム開始時に最初の問題を生成
   useEffect(() => {
-    const word = getRandomHtmlCssTerm();
+    const word = getRandomWord();
     setCurrentWord(word);
 
     // 全文字を初期化（各文字にユニークIDと選択状態を付与）
@@ -54,7 +67,7 @@ export const GamePage = () => {
     setShowIncompleteWarning(false);
     setDraggedIndex(null);
     setDragOverIndex(null);
-  }, []);  //第2引数が空配列＝初回ゲーム開始時にセット
+  }, [mode]);  // modeが変わった時も再実行
 
   // 時間切れによる不正解判定
   useEffect(() => {
@@ -91,7 +104,7 @@ export const GamePage = () => {
 
   // 次の問題への遷移
   const handleNextQuestion = () => {
-    const word = getRandomHtmlCssTerm();
+    const word = getRandomWord();
     setCurrentWord(word);
 
     // 新しい問題の文字を初期化
@@ -249,12 +262,16 @@ export const GamePage = () => {
 
       {/* メインゲーム画面 */}
       <div className="w-full max-w-2xl mx-auto px-4 py-4">
-        {/* ヒント表示 */}
-        <Hint word={currentWord} />
 
         {/* バラバラの文字表示エリア */}
         <div className="bg-white rounded-lg shadow-lg p-6 mb-6">
-          <Question allChars={allChars} handleCharClick={handleCharClick} />
+          {mode === 'html-css' ? (
+            <HTMLCSSQuestion allChars={allChars} handleCharClick={handleCharClick} />
+          ) : (
+            <RubyQuestion allChars={allChars} handleCharClick={handleCharClick} />
+          )}
+          {/* ヒント表示 */}
+          <Hint word={currentWord} />
 
           <Answer
             selectedChars={selectedChars}
@@ -319,7 +336,7 @@ export const GamePage = () => {
               onClick={handleCheckAnswer}
               className="bg-green-500 hover:bg-green-600 text-white font-bold py-3 px-6 rounded-lg"
             >
-              答えを確認
+              答えあわせ
             </button>
           ) : isCorrect ? (
             <button

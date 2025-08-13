@@ -17,7 +17,7 @@ export const Hint = ({ word }: HintProps) => {
     return null;
   }
   return (
-    <div className="bg-white rounded-lg shadow-lg p-4 mb-6">
+    <div className="bg-white rounded-lg border border-gray-300 p-4 mb-6">
       <div className="flex items-start gap-3">
         {/* ヒントアイコン */}
         {/* <div className="flex-shrink-0 w-5 h-5 bg-yellow-500 rounded-full flex items-center justify-center">
