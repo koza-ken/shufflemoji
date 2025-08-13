@@ -34,7 +34,7 @@ export const TopPage = () => {
                 </Link>
                 <Link
                   to="/game/ruby"
-                  className="w-40 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+                  className="w-40 bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"
                 >
                   Ruby
                 </Link>
