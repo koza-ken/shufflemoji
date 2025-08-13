@@ -262,8 +262,6 @@ export const GamePage = () => {
 
       {/* メインゲーム画面 */}
       <div className="w-full max-w-2xl mx-auto px-4 py-4">
-        {/* ヒント表示 */}
-        <Hint word={currentWord} />
 
         {/* バラバラの文字表示エリア */}
         <div className="bg-white rounded-lg shadow-lg p-6 mb-6">
@@ -272,6 +270,8 @@ export const GamePage = () => {
           ) : (
             <RubyQuestion allChars={allChars} handleCharClick={handleCharClick} />
           )}
+          {/* ヒント表示 */}
+          <Hint word={currentWord} />
 
           <Answer
             selectedChars={selectedChars}
@@ -336,7 +336,7 @@ export const GamePage = () => {
               onClick={handleCheckAnswer}
               className="bg-green-500 hover:bg-green-600 text-white font-bold py-3 px-6 rounded-lg"
             >
-              答えを確認
+              答えあわせ
             </button>
           ) : isCorrect ? (
             <button
