@@ -27,7 +27,8 @@ export const Answer = ({
 
   return (
     <div className="mb-6">
-      <h3 className="text-lg font-semibold text-gray-700 mb-3 text-center">回答</h3>
+      <h3 className="text-lg font-semibold text-gray-700 text-center">回答</h3>
+      <p className="text-sm mb-3 text-center text-gray-700">文字をすべて選択すると、ドラッグ＆ドロップで並び替えが可能</p>
       <div
         className="flex justify-center items-center gap-2 min-h-[3rem] p-3 bg-gray-50 border-2 border-dashed border-gray-300 rounded-lg"
       >

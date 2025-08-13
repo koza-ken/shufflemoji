@@ -22,7 +22,7 @@ export const ResultPage = () => {
           <p className="text-3xl font-bold text-gray-800 mb-8">
             {q_count}問正解
           </p>
-          <button className="w-40 bg-black hover:bg-black/70 text-white font-bold py-3 px-6 rounded flex items-center justify-center gap-2 mx-auto mb-16">
+          <button className="w-40 bg-black hover:bg-black/70 text-white font-bold py-3 px-6 rounded flex items-center justify-center gap-2 mx-auto mb-8">
             <img src={xicon} className="w-5 h-5 bg-white rounded" alt="xアイコン" />
             <span>投稿する</span>
           </button>
