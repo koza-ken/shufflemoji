@@ -163,30 +163,29 @@ npm run test:coverage
 src/
 ├── pages/                  # Page-level components
 │   ├── TopPage.tsx         # Landing page with mode selection
-│   ├── GamePage.tsx        # Main game interface
+│   ├── GamePage.tsx        # Main game interface (mode-aware)
 │   ├── ResultPage.tsx      # Game over screen with stats
 │   └── NotFoundPage.tsx    # 404 error page
 ├── components/
 │   ├── game/               # Game-specific components
-│   │   ├── ScrambledWord.tsx    # Character display and interaction
-│   │   ├── CharacterButton.tsx  # Individual character buttons
-│   │   ├── Timer.tsx            # Countdown timer (10s)
-│   │   ├── ScoreDisplay.tsx     # Current streak/score
-│   │   ├── GameModeSelector.tsx # HTML/CSS vs Ruby mode selection
-│   │   └── GameOverModal.tsx    # Game end confirmation
-│   ├── ui/                 # Reusable UI components
+│   │   ├── HTMLCSSQuestion.tsx  # HTML/CSS mode question display
+│   │   ├── RubyQuestion.tsx     # Ruby mode question display
+│   │   ├── Answer.tsx           # Answer input with drag & drop
+│   │   ├── Header.tsx           # Game header (timer, count)
+│   │   ├── Hint.tsx             # Educational hint display
+│   │   └── GuideModal.tsx       # Game instructions modal
+│   ├── ui/                 # Reusable UI components (Future)
 │   │   ├── Button.tsx
 │   │   ├── Card.tsx
 │   │   ├── Modal.tsx
 │   │   └── LoadingSpinner.tsx
-│   └── layout/             # Layout components
+│   └── layout/             # Layout components (Future)
 │       ├── Header.tsx
 │       └── Footer.tsx
 ├── hooks/                  # Custom React hooks
-│   ├── useGameState.ts     # Main game state management
-│   ├── useTimer.ts         # Timer functionality
-│   ├── useScramble.ts      # Word scrambling logic
-│   └── useDragDrop.ts      # Drag and drop interactions
+│   ├── useModal.ts         # Modal state management
+│   ├── use-timer.ts        # Timer functionality
+│   └── useDragDrop.ts      # Drag and drop interactions (Future)
 ├── types/                  # TypeScript type definitions
 │   ├── game.ts             # Game-related types
 │   ├── word.ts             # Word/term data types
@@ -207,16 +206,29 @@ src/
 ### Key Data Types
 ```typescript
 // Current Implementation
+export type GameMode = 'html-css' | 'ruby';
+
 export type Word = {
   id: string;
   original: string;      // Correct word/term (e.g., "div")
-  mode: 'html-css' | 'ruby';
-  category?: string;     // e.g., 'html-elements', 'css-properties'
-  hint?: string;         // Educational hint text
+  mode: GameMode;
+  category: string;      // 'HTML', 'CSS', or 'ruby'
+  hint: string;          // Educational hint text (60+ characters)
 }
 
 export type GameWord = Word & {
   scrambled: string;     // Dynamically generated scrambled version
+}
+
+export type AllChars = {
+  char: string;
+  id: string;
+  isSelected: boolean;
+}
+
+export type SelectedChars = {
+  char: string;
+  id: string;
 }
 
 // Game State (Current Implementation)
@@ -253,12 +265,17 @@ interface GameResult {
 - [x] Hint system with educational content
 - [x] **Drag and drop character reordering** ✨
 - [x] Selection reset functionality
-- [ ] Mode selection page (HTML/CSS vs Ruby)
+- [x] **Mode selection with URL parameters** (/game/html-css, /game/ruby)
+- [x] **Ruby methods database** (100 methods with hints)
+- [x] **HTML/CSS terms database** (100 terms with hints)
+- [x] **Mode-specific question components**
 - [ ] Streak tracking and game over logic
 - [ ] Local high score storage
 
 ### Phase 2: Enhanced UX (Priority: Medium)
 - [x] **Advanced drag & drop with visual feedback** ✨
+- [x] **Game instructions modal** (遊び方)
+- [x] **Mode-specific UI styling** (blue for HTML/CSS, red for Ruby)
 - [x] Smooth animations and transitions
 - [ ] Sound effects and feedback
 - [ ] Responsive design optimization
@@ -276,36 +293,82 @@ interface GameResult {
 
 ## Game Data Structure
 
-### HTML/CSS Terms Database
+### HTML/CSS Terms Database (100 terms)
 ```typescript
 // htmlCssTerms.ts
 export const htmlCssTerms: Word[] = [
-  // HTML Elements
-  { id: 'div-1', original: 'div', scrambled: 'vdi', mode: 'html-css', difficulty: 'easy', category: 'html-elements' },
-  { id: 'span-1', original: 'span', scrambled: 'pans', mode: 'html-css', difficulty: 'easy', category: 'html-elements' },
-  { id: 'header-1', original: 'header', scrambled: 'redaeh', mode: 'html-css', difficulty: 'medium', category: 'html-elements' },
+  // HTML Elements (31 terms)
+  {
+    id: 'div-1',
+    original: 'div',
+    mode: 'html-css',
+    category: 'HTML',
+    hint: 'HTMLで最もよく使われるブロック要素。コンテンツをグループ化してレイアウトを作ったり、CSSでスタイリングするための汎用的なコンテナとして利用される。'
+  },
+  // ... 30 more HTML elements
   
-  // CSS Properties
-  { id: 'color-1', original: 'color', scrambled: 'loroc', mode: 'html-css', difficulty: 'easy', category: 'css-properties' },
-  { id: 'margin-1', original: 'margin', scrambled: 'nirgam', mode: 'html-css', difficulty: 'medium', category: 'css-properties' },
-  { id: 'flex-direction-1', original: 'flex-direction', scrambled: 'xelf-noitcerid', mode: 'html-css', difficulty: 'hard', category: 'css-properties' },
+  // CSS Properties (69 terms)
+  {
+    id: 'color-1',
+    original: 'color',
+    mode: 'html-css', 
+    category: 'CSS',
+    hint: 'テキストの文字色を指定するCSSプロパティ。16進数カラーコード、RGB値、色名などで指定でき、要素の前景色を変更する基本的なスタイル設定。'
+  },
+  // ... 68 more CSS properties
 ];
+
+export const getRandomHtmlCssTerm = (): GameWord => {
+  const randomIndex = Math.floor(Math.random() * htmlCssTerms.length);
+  const word = htmlCssTerms[randomIndex];
+  return {
+    ...word,
+    scrambled: scrambleWord(word.original)
+  };
+};
 ```
 
-### Ruby Methods Database
+### Ruby Methods Database (100 methods)
 ```typescript
 // rubyMethods.ts
 export const rubyMethods: Word[] = [
   // Array Methods
-  { id: 'map-1', original: 'map', scrambled: 'pam', mode: 'ruby', difficulty: 'easy', category: 'array-methods' },
-  { id: 'each-1', original: 'each', scrambled: 'hcae', mode: 'ruby', difficulty: 'easy', category: 'array-methods' },
-  { id: 'select-1', original: 'select', scrambled: 'tceles', mode: 'ruby', difficulty: 'medium', category: 'array-methods' },
-  
-  // String Methods
-  { id: 'gsub-1', original: 'gsub', scrambled: 'busg', mode: 'ruby', difficulty: 'medium', category: 'string-methods' },
-  { id: 'downcase-1', original: 'downcase', scrambled: 'esacnwod', mode: 'ruby', difficulty: 'medium', category: 'string-methods' },
+  {
+    id: 'map-1',
+    original: 'map',
+    mode: 'ruby',
+    category: 'ruby',
+    hint: '配列の各要素に対してブロック内の処理を実行し、その結果を新しい配列として返すイテレータメソッド'
+  },
+  // ... 99 more Ruby methods covering:
+  // - Array Methods, String Methods, Hash Methods
+  // - Basic Concepts, Object/Class Methods
+  // - Type Checking, Flow Control, Enumerable Methods
 ];
+
+export const getRandomRubyMethod = (): GameWord => {
+  const randomIndex = Math.floor(Math.random() * rubyMethods.length);
+  const word = rubyMethods[randomIndex];
+  return {
+    ...word,
+    scrambled: scrambleWord(word.original)
+  };
+};
 ```
+
+## Routing Structure
+
+### URL Pattern
+- **Top Page**: `/` - Game mode selection with instructions
+- **HTML/CSS Mode**: `/game/html-css` - HTML/CSS terms game
+- **Ruby Mode**: `/game/ruby` - Ruby methods game  
+- **Results**: `/result` - Game over screen with statistics
+- **404**: `/*` - Not found page
+
+### State Management
+- **Mode Selection**: URL parameters (`useParams`)
+- **Game State**: Local component state with hooks
+- **Result Data**: React Router state passing
 
 ## Development Context
 
@@ -316,11 +379,21 @@ export const rubyMethods: Word[] = [
 - **Repository**: Individual GitHub repository
 
 ### Current Development Status
-- **Timeline**: 2-week development sprint
-- **Current Phase**: Core game mechanics completed ✅
-- **Recent Achievement**: Advanced drag & drop functionality implemented
-- **Next Milestone**: Game modes and streak system
+- **Timeline**: 2-week development sprint  
+- **Current Phase**: Dual-mode game system completed ✅
+- **Recent Achievement**: 
+  - URL-based mode selection (/game/html-css, /game/ruby)
+  - 100 HTML/CSS terms with educational hints
+  - 100 Ruby methods with educational hints
+  - Mode-specific question components
+  - Game instructions modal
+- **Next Milestone**: User registration and score history system
 - **Environment**: Windows + VS Code + dev container setup
+
+### Branch Status
+- **Current Branch**: `16_GamePage_component_arrange`  
+- **Main Branch**: `main`
+- **Recent Work**: Dual-mode implementation with URL parameters
 
 ### Code Conventions
 - **React**: Functional components with hooks
