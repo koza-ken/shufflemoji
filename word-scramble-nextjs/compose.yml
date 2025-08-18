@@ -1,0 +1,39 @@
+services:
+  shufflemoji-web:
+    build:
+      context: .
+    container_name: shufflemoji-web
+    ports:
+      - "3000:3000"
+    # 本番環境では volumes をマウントしない
+    environment:
+      - DATABASE_URL=postgresql://postgres:password@shufflemoji-postgres:5432/shufflemoji_development
+      - NEXTAUTH_URL=http://localhost:3000
+      - NEXTAUTH_SECRET=development-secret
+    depends_on:
+      - shufflemoji-postgres
+    networks:
+      - shufflemoji_network
+    restart: "no"
+
+  shufflemoji-postgres:
+    image: postgres:13-alpine
+    container_name: shufflemoji-postgres
+    environment:
+      POSTGRES_DB: shufflemoji_development
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    networks:
+      - shufflemoji_network
+
+volumes:
+  node_modules:
+  postgres_data:
+
+networks:
+  shufflemoji_network:
+    driver: bridge
