@@ -1,30 +1,22 @@
-import Link from 'next/link'
-import { GamePageContent } from '@/components/GamePageContent'
-import { GameMode } from '@/types/word'
-
 type GamePageProps = {
-  params: {
+  params: Promise<{
     mode: string
-  }
+  }>
 }
 
-export default function GamePage({ params }: GamePageProps) {
-  const { mode } = params
+export default async function GamePage({ params }: GamePageProps) {
+  const { mode } = await params
 
-  // モードの検証
-  if (mode !== 'html-css' && mode !== 'ruby') {
-    return (
-      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
-        <div className="text-center">
-          <h1 className="text-2xl font-bold text-red-600 mb-4">無効なゲームモード</h1>
-          <p className="text-gray-600 mb-4">有効なモード: html-css, ruby</p>
-          <Link href="/" className="text-blue-600 hover:text-blue-800 underline">
-            トップページに戻る
-          </Link>
-        </div>
+  return (
+    <div className="min-h-screen bg-gray-50">
+      <div className="container mx-auto py-8 px-4">
+        <h1 className="text-3xl font-bold text-center">
+          ゲームページ: {mode}
+        </h1>
+        <p className="text-center mt-4">
+          基本動作テスト
+        </p>
       </div>
-    )
-  }
-
-  return <GamePageContent mode={mode as GameMode} />
+    </div>
+  )
 }
