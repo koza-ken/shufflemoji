@@ -5,7 +5,9 @@ services:
     container_name: shufflemoji-web
     ports:
       - "3000:3000"
-    # 本番環境では volumes をマウントしない
+    volumes:
+      - .:/app
+      - node_modules:/app/node_modules
     environment:
       - DATABASE_URL=postgresql://postgres:password@shufflemoji-postgres:5432/shufflemoji_development
       - NEXTAUTH_URL=http://localhost:3000
