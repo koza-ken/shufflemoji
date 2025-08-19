@@ -4,18 +4,16 @@ import { rubyMethods } from '../data/rubyMethods'
 
 const prisma = new PrismaClient()
 
-// 既存のHTML/CSS用語データをDB用に変換
+// 既存のHTML/CSS用語データをDB用に変換（IDは自動生成）
 const htmlCssWordsForDB = htmlCssTerms.map(term => ({
-  id: term.id,
   original: term.original,
   mode: 'HTML_CSS' as const,
   category: term.category || 'HTML',
   hint: term.hint || '',
 }))
 
-// 既存のRubyメソッドデータをDB用に変換
+// 既存のRubyメソッドデータをDB用に変換（IDは自動生成）
 const rubyWordsForDB = rubyMethods.map(method => ({
-  id: method.id,
   original: method.original,
   mode: 'RUBY' as const,
   category: method.category || 'ruby',
