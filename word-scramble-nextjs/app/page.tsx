@@ -1,8 +1,18 @@
 import Link from 'next/link'
+import { UserProfile } from '@/components/auth/UserProfile'
 
 export default function TopPage() {
   return (
     <div className="min-h-screen bg-gray-50">
+      <header className="bg-white shadow-sm">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex justify-between items-center py-4">
+            <h1 className="text-xl font-bold">シャッフルもじ</h1>
+            <UserProfile />
+          </div>
+        </div>
+      </header>
+
       <div className="flex items-center justify-center min-h-[80vh]">
         <div className="w-full max-w-2xl mx-auto bg-white rounded-lg shadow-lg p-8">
           <div className="text-center">
