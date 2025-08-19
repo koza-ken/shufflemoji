@@ -17,7 +17,7 @@ export default function ProfilePage() {
   // デフォルトアバター色の選択肢
   const avatarColors = [
     'bg-blue-500',
-    'bg-green-500', 
+    'bg-green-500',
     'bg-red-500',
     'bg-purple-500',
     'bg-yellow-500',
@@ -37,7 +37,7 @@ export default function ProfilePage() {
     if (session.user.username) {
       setUsername(session.user.username)
     }
-    
+
     // 既存のアバター色を設定（なければデフォルト）
     setSelectedAvatar(session.user.avatarUrl || 'bg-blue-500')
   }, [session, router])
@@ -55,7 +55,7 @@ export default function ProfilePage() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
-    
+
     if (!username.trim()) {
       setError('ユーザー名を入力してください')
       return
@@ -89,7 +89,7 @@ export default function ProfilePage() {
 
       // セッションを更新
       await update()
-      
+
       setSuccessMessage('プロフィールを更新しました')
     } catch (error) {
       console.error('Profile update error:', error)
@@ -107,7 +107,7 @@ export default function ProfilePage() {
             <h1 className="text-lg leading-6 font-medium text-gray-900 mb-6">
               プロフィール設定
             </h1>
-            
+
             {/* 現在の情報 */}
             <div className="mb-6 p-4 bg-gray-50 rounded-md">
               <div className="flex items-center space-x-3">
@@ -157,7 +157,7 @@ export default function ProfilePage() {
                     {showAvatarOptions ? '閉じる' : '変更する'}
                   </button>
                 </div>
-                
+
                 {/* 現在のアバター表示 */}
                 <div className="mb-3">
                   <div className={`inline-flex w-12 h-12 ${selectedAvatar} rounded-full items-center justify-center text-white text-lg font-bold`}>
@@ -175,11 +175,12 @@ export default function ProfilePage() {
                           type="button"
                           onClick={() => {
                             setSelectedAvatar(color)
-                            setShowAvatarOptions(false)
+                            // 変更しても閉じないように
+                            // setShowAvatarOptions(false)
                           }}
                           className={`w-12 h-12 ${color} rounded-full flex items-center justify-center text-white font-bold border-2 transition-all ${
-                            selectedAvatar === color 
-                              ? 'border-gray-900 ring-2 ring-offset-2 ring-gray-900' 
+                            selectedAvatar === color
+                              ? 'border-gray-300 ring ring-offset-2 ring-gray-900'
                               : 'border-gray-300 hover:border-gray-400'
                           }`}
                           disabled={isSubmitting}
@@ -215,7 +216,7 @@ export default function ProfilePage() {
                 >
                   {isSubmitting ? '更新中...' : '更新'}
                 </button>
-                
+
                 <button
                   type="button"
                   onClick={() => router.push('/')}
