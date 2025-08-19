@@ -15,10 +15,10 @@ datasource db {
 
 model User {
   id            String    @id @default(cuid())
-  name          String?   // Googleから取得
-  username      String?   @unique  // オプション
-  email         String    @unique  // Googleから取得
-  image         String?   // Googleプロフィール画像
+  username      String?   @unique  // アプリ専用ユーザー名
+  email         String    @unique  // Googleから取得（認証用）
+  avatarUrl     String?   // カスタムアバター（任意）
+  isProfileCompleted Boolean @default(false) // 初期設定完了フラグ
   emailVerified DateTime?
   createdAt     DateTime  @default(now())
   updatedAt     DateTime  @updatedAt
