@@ -1,3 +1,4 @@
+// NextAuth.jsの設定ファイル
 import { NextAuthOptions } from 'next-auth'
 import { PrismaAdapter } from '@next-auth/prisma-adapter'
 import GoogleProvider from 'next-auth/providers/google'
@@ -11,22 +12,26 @@ export const authOptions: NextAuthOptions = {
       clientSecret: process.env.GOOGLE_CLIENT_SECRET!,
     })
   ],
+  debug: true,
   callbacks: {
-    session: async ({ session, token }) => {
-      if (session?.user && token?.sub) {
-        session.user.id = token.sub
+    session: async ({ session, user }) => {
+      // Database strategyではuserオブジェクトから情報を取得
+      if (session?.user && user) {
+        session.user.id = user.id
+        session.user.email = user.email!
+        session.user.username = user.username
+        session.user.avatarUrl = user.avatarUrl
+        session.user.isProfileCompleted = user.isProfileCompleted
       }
       return session
     },
-    jwt: async ({ user, token }) => {
-      if (user) {
-        token.uid = user.id
-      }
-      return token
+    signIn: async ({ user, account, profile }) => {
+      return true
     }
   },
+  // PrismaAdapterを使用する場合はdatabase strategyを使用
   session: {
-    strategy: 'jwt'
+    strategy: 'database'
   },
   pages: {
     signIn: '/auth/signin',
