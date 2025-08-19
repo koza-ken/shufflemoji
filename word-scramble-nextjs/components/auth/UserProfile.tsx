@@ -39,7 +39,7 @@ export const UserProfile = () => {
   return (
     <div className="flex items-center space-x-4">
       <div className="flex items-center space-x-2">
-        <div className="w-8 h-8 bg-blue-500 rounded-full flex items-center justify-center text-white text-sm font-bold">
+        <div className={`w-8 h-8 ${session.user.avatarUrl || 'bg-blue-500'} rounded-full flex items-center justify-center text-white text-sm font-bold`}>
           {session.user.username?.charAt(0)?.toUpperCase() || 'U'}
         </div>
         <span className="text-sm font-medium">
