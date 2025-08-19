@@ -6,6 +6,7 @@ declare module "next-auth" {
       id: string
       email: string
       username?: string
+      avatarUrl?: string
       isProfileCompleted: boolean
     }
   }
@@ -14,6 +15,7 @@ declare module "next-auth" {
     id: string
     email: string
     username?: string
+    avatarUrl?: string
     isProfileCompleted: boolean
   }
 }
