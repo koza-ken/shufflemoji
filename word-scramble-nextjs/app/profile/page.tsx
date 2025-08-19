@@ -159,11 +159,11 @@ export default function ProfilePage() {
                 </div>
 
                 {/* 現在のアバター表示 */}
-                <div className="mb-3">
+                {/* <div className="mb-3">
                   <div className={`inline-flex w-12 h-12 ${selectedAvatar} rounded-full items-center justify-center text-white text-lg font-bold`}>
                     {username?.charAt(0)?.toUpperCase() || 'U'}
                   </div>
-                </div>
+                </div> */}
 
                 {/* アバター色選択オプション */}
                 {showAvatarOptions && (
