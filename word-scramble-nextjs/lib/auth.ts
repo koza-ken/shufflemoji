@@ -13,43 +13,23 @@ export const authOptions: NextAuthOptions = {
     })
   ],
   callbacks: {
-    session: async ({ session, token }) => {
-      if (session?.user && token?.sub) {
-        session.user.id = token.sub
-
-        // データベースからユーザー情報を取得してプロフィール完了状態を確認
-        if (session.user.email) {
-          const dbUser = await prisma.user.findUnique({
-            where: { email: session.user.email },
-            select: {
-              id: true,
-              username: true,
-              isProfileCompleted: true
-            }
-          })
-
-          if (dbUser) {
-            session.user.username = dbUser.username
-            session.user.isProfileCompleted = dbUser.isProfileCompleted
-          }
-        }
+    session: async ({ session, user }) => {
+      // Database strategyではuserオブジェクトから情報を取得
+      if (session?.user && user) {
+        session.user.id = user.id
+        session.user.email = user.email!
+        session.user.username = user.username
+        session.user.isProfileCompleted = user.isProfileCompleted
       }
       return session
     },
-    jwt: async ({ user, token }) => {
-      if (user) {
-        token.uid = user.id
-      }
-      return token
-    },
     signIn: async ({ user, account, profile }) => {
-      // 初回ログイン時にプロフィール未完了チェック用の処理
-      // PrismaAdapterが自動的にユーザーを作成するため、ここでは追加処理は不要
       return true
     }
   },
+  // PrismaAdapterを使用する場合はdatabase strategyを使用
   session: {
-    strategy: 'jwt'
+    strategy: 'database'
   },
   pages: {
     signIn: '/auth/signin',
