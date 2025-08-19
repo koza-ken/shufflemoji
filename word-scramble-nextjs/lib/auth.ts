@@ -20,6 +20,7 @@ export const authOptions: NextAuthOptions = {
         session.user.id = user.id
         session.user.email = user.email!
         session.user.username = user.username
+        session.user.avatarUrl = user.avatarUrl
         session.user.isProfileCompleted = user.isProfileCompleted
       }
       return session
