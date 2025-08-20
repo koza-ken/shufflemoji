@@ -350,7 +350,7 @@ export const GamePageContent = ({ mode }: GamePageContentProps) => {
             </button>
           ) : (
             <Link
-              href={`/result?count=${questionCount - 1}&questions=${encodeURIComponent(JSON.stringify(questionList))}`}
+              href={`/result?count=${questionCount - 1}&questions=${encodeURIComponent(JSON.stringify(questionList))}&mode=${mode}`}
               className="bg-orange-500 hover:bg-orange-600 text-white font-bold py-3 px-6 rounded-lg"
             >
               結果
