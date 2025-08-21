@@ -8,7 +8,8 @@ import { getRandomRubyMethod } from '@/data/rubyMethods';
 import { AllChars, GameWord, SelectedChars, GameMode } from '@/types/word';
 import { Answer } from '@/components/game/Answer';
 import { useTimer } from '@/hooks/use-timer';
-import Link from 'next/link';
+// import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import { HTMLCSSQuestion } from '@/components/game/HTMLCSSQuestion';
 import { RubyQuestion } from '@/components/game/RubyQuestion';
 
@@ -17,6 +18,7 @@ type GamePageContentProps = {
 }
 
 export const GamePageContent = ({ mode }: GamePageContentProps) => {
+  const router = useRouter();
   // タイマー機能
   const { time, resetTimer, pause, resume } = useTimer();
   // 現在の問題の単語データ
@@ -96,12 +98,12 @@ export const GamePageContent = ({ mode }: GamePageContentProps) => {
     const correct = currentAnswer === currentWord.original;
     setIsCorrect(correct);
     setIsAnswered(true);
-    
+
     // 正解時のみquestionListに追加
     if (correct) {
       setQuestionList(prev => [...prev, currentWord]);
     }
-    
+
     pause();
   };
 
@@ -237,7 +239,7 @@ export const GamePageContent = ({ mode }: GamePageContentProps) => {
     if (!currentWord) return;
 
     // 全文字の選択状態をリセット
-    setAllChars(prev => 
+    setAllChars(prev =>
       prev.map(char => ({ ...char, isSelected: false }))
     );
     setSelectedChars([]);
@@ -247,6 +249,27 @@ export const GamePageContent = ({ mode }: GamePageContentProps) => {
     setShowIncompleteWarning(false);
     setDraggedIndex(null);
     setDragOverIndex(null);
+  };
+
+  // ゲーム終了処理
+  const handleGameEnd = () => {
+    if (!currentWord) return;
+    // 結果をセッションストレージで渡す
+    const gameResult = {
+      count: questionCount - 1,
+      questions: questionList,
+      mode,
+      incorrectWord: {
+        word: currentWord.original,
+        userAnswer: currentAnswer
+      }
+    };
+
+    // セッションストレージに保存
+    sessionStorage.setItem('gameResult', JSON.stringify(gameResult));
+
+    // 結果ページに遷移
+    router.push('/result');
   };
 
   // 問題が読み込まれていない場合のローディング表示
@@ -349,12 +372,12 @@ export const GamePageContent = ({ mode }: GamePageContentProps) => {
               次の問題
             </button>
           ) : (
-            <Link
-              href={`/result?count=${questionCount - 1}&questions=${encodeURIComponent(JSON.stringify(questionList))}`}
+            <button
+              onClick={handleGameEnd}
               className="bg-orange-500 hover:bg-orange-600 text-white font-bold py-3 px-6 rounded-lg"
             >
               結果
-            </Link>
+            </button>
           )}
         </div>
       </div>

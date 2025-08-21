@@ -35,15 +35,18 @@ model User {
 model GameRecord {
   id                String    @id @default(cuid())
   userId            String?   
-  guestName         String?
+  guestName         String?   // 未登録ユーザー用の名前
   mode              GameMode
-  score             Int
-  questionsAnswered Json      // Word[]をJSONで保存
-  totalTime         Int       // ミリ秒
-  completedAt       DateTime  @default(now())
+  score             Int       // クリアした問題数
+  correctAnswers    Json      // 正解した問題の詳細 [{ word, timeTaken, answeredAt }]
+  incorrectAnswer   Json?     // 間違えた問題の詳細 { word, userAnswer, timeTaken, answeredAt } (1問のみ)
+  gameEndReason     String    // 'timeout' | 'wrong_answer' | 'completed'
+  playedAt          DateTime  @default(now()) // ゲーム実施日時
   
   user User? @relation(fields: [userId], references: [id], onDelete: Cascade)
   
+  @@index([mode, score]) // ランキング検索用
+  @@index([userId, playedAt]) // 個人履歴検索用
   @@map("game_records")
 }
 
