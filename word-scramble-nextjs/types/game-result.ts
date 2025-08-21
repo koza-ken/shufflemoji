@@ -42,3 +42,16 @@ export interface GameStats {
   bestRubyScore: number
   averageScore: number
 }
+
+export interface RankingEntry {
+  id: string
+  userName: string  // username または guestName
+  score: number
+  playedAt: Date
+  mode: 'HTML_CSS' | 'RUBY'
+}
+
+export interface RankingResponse {
+  htmlCssRanking: RankingEntry[]
+  rubyRanking: RankingEntry[]
+}
