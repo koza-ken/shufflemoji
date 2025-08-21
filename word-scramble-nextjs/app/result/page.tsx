@@ -1,7 +1,7 @@
 'use client'
 
 import Link from 'next/link'
-import { useSearchParams, useRouter } from 'next/navigation'
+import { useRouter } from 'next/navigation'
 import { useSession } from 'next-auth/react'
 import { useState, useEffect } from 'react'
 import { QuestionList } from '@/components/game/QuestionList'
@@ -9,23 +9,35 @@ import { GameWord } from '@/types/word'
 import { GameResultData } from '@/types/game-result'
 
 export default function ResultPage() {
-  const searchParams = useSearchParams()
   const router = useRouter()
   const { data: session } = useSession()
   
-  // URLパラメータから結果データを取得
-  const questionCount = parseInt(searchParams.get('count') || '0')
-  const questionListParam = searchParams.get('questions')
-  const mode = searchParams.get('mode') || 'html-css'
-  
-  let questionList: GameWord[] = []
-  if (questionListParam) {
-    try {
-      questionList = JSON.parse(decodeURIComponent(questionListParam))
-    } catch (error) {
-      console.error('Failed to parse question list:', error)
+  // セッションストレージから結果データを取得
+  const [questionCount, setQuestionCount] = useState(0)
+  const [questionList, setQuestionList] = useState<GameWord[]>([])
+  const [mode, setMode] = useState('html-css')
+  const [incorrectWordData, setIncorrectWordData] = useState<{ word: string; userAnswer: string } | null>(null)
+
+  // セッションストレージからデータを読み込み
+  useEffect(() => {
+    const gameResultData = sessionStorage.getItem('gameResult')
+    if (gameResultData) {
+      try {
+        const result = JSON.parse(gameResultData)
+        setQuestionCount(result.count)
+        setQuestionList(result.questions || [])
+        setMode(result.mode)
+        setIncorrectWordData(result.incorrectWord)
+      } catch (error) {
+        console.error('Failed to parse game result:', error)
+        // データが不正な場合はトップページに戻る
+        router.push('/')
+      }
+    } else {
+      // データがない場合はトップページに戻る
+      router.push('/')
     }
-  }
+  }, [])
 
   // 結果保存機能のstate
   const [guestName, setGuestName] = useState('')
@@ -64,10 +76,19 @@ export default function ResultPage() {
         answeredAt: new Date().toISOString()
       }))
 
+      // 間違えた問題のデータを作成
+      const incorrectAnswer = incorrectWordData ? {
+        word: incorrectWordData.word,
+        userAnswer: incorrectWordData.userAnswer,
+        timeTaken: 8000, // 仮の値
+        answeredAt: new Date().toISOString()
+      } : undefined
+
       const gameResultData: GameResultData = {
         mode: gameMode,
         score: questionCount,
         correctAnswers,
+        incorrectAnswer,
         gameEndReason: 'wrong_answer', // 間違えてゲーム終了
         ...((!session && guestName) && { guestName: guestName.trim() })
       }
@@ -119,89 +140,71 @@ export default function ResultPage() {
             {questionCount}問正解
           </p>
 
-          {/* 結果保存機能 */}
-          {session ? (
-            // ログイン済みユーザー: 自動保存
-            saved ? (
-              <div className="mb-6 p-4 bg-green-50 rounded-lg max-w-xs mx-auto">
-                <div className="text-green-800 text-sm text-center">
-                  ✅ 記録を保存しました！
+          {/* ゲストユーザー保存機能 */}
+          {!session && !saved && (
+            <div className="mb-6">
+              {!showSaveOption ? (
+                <div className="text-center">
+                  <p className="text-gray-600 text-sm mb-4">記録をランキングに残しますか？</p>
+                  <button
+                    onClick={() => {
+                      setShowSaveOption(true)
+                      setWantsToSave(true)
+                    }}
+                    className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+                  >
+                    記録を残す
+                  </button>
                 </div>
-              </div>
-            ) : null
-          ) : (
-            // 未ログインユーザー: 保存選択
-            !saved ? (
-              <div className="mb-6">
-                {!showSaveOption ? (
+              ) : wantsToSave ? (
+                <div>
+                  <div className="mb-4">
+                    <label htmlFor="guestName" className="block text-sm font-medium text-gray-700 mb-2">
+                      ランキングに表示する名前
+                    </label>
+                    <input
+                      id="guestName"
+                      type="text"
+                      value={guestName}
+                      onChange={(e) => setGuestName(e.target.value)}
+                      className="block w-full max-w-xs mx-auto px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+                      placeholder="例: ゲスト123"
+                      maxLength={20}
+                      disabled={isSaving}
+                    />
+                  </div>
+                  
+                  {error && (
+                    <div className="text-red-600 text-sm mb-3 text-center">
+                      {error}
+                    </div>
+                  )}
+
                   <div className="text-center">
-                    <p className="text-gray-600 text-sm mb-4">記録をランキングに残しますか？</p>
+                    <button
+                      onClick={saveResult}
+                      disabled={isSaving}
+                      className="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded disabled:opacity-50 disabled:cursor-not-allowed mr-2"
+                    >
+                      {isSaving ? '保存中...' : '保存'}
+                    </button>
                     <button
                       onClick={() => {
-                        setShowSaveOption(true)
-                        setWantsToSave(true)
+                        setShowSaveOption(false)
+                        setWantsToSave(false)
                       }}
-                      className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+                      className="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded"
                     >
-                      記録を残す
+                      キャンセル
                     </button>
                   </div>
-                ) : wantsToSave ? (
-                  <div>
-                    <div className="mb-4">
-                      <label htmlFor="guestName" className="block text-sm font-medium text-gray-700 mb-2">
-                        ランキングに表示する名前
-                      </label>
-                      <input
-                        id="guestName"
-                        type="text"
-                        value={guestName}
-                        onChange={(e) => setGuestName(e.target.value)}
-                        className="block w-full max-w-xs mx-auto px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
-                        placeholder="例: ゲスト123"
-                        maxLength={20}
-                        disabled={isSaving}
-                      />
-                    </div>
-                    
-                    {error && (
-                      <div className="text-red-600 text-sm mb-3 text-center">
-                        {error}
-                      </div>
-                    )}
-
-                    <div className="text-center">
-                      <button
-                        onClick={saveResult}
-                        disabled={isSaving}
-                        className="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded disabled:opacity-50 disabled:cursor-not-allowed mr-2"
-                      >
-                        {isSaving ? '保存中...' : '保存'}
-                      </button>
-                      <button
-                        onClick={() => {
-                          setShowSaveOption(false)
-                          setWantsToSave(false)
-                        }}
-                        className="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded"
-                      >
-                        キャンセル
-                      </button>
-                    </div>
-                  </div>
-                ) : null}
-              </div>
-            ) : (
-              <div className="mb-6 p-4 bg-green-50 rounded-lg max-w-xs mx-auto">
-                <div className="text-green-800 text-sm text-center">
-                  ✅ 記録を保存しました！
                 </div>
-              </div>
-            )
+              ) : null}
+            </div>
           )}
 
           <div className="flex justify-center">
-            {session && isSaving ? (
+            {isSaving ? (
               <button
                 disabled
                 className="w-40 bg-gray-400 text-white font-bold py-3 px-6 rounded flex items-center justify-center gap-2 cursor-not-allowed"
