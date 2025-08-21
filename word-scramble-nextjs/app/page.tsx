@@ -23,7 +23,7 @@ export default function TopPage() {
               プログラミング用語の並び替えゲームです
             </p>
             
-            <div className="space-y-4">
+            <div className="space-y-8">
               <div className="mt-10">
                 <p className="text-2xl font-bold">ゲーム開始</p>
                 <div className="flex justify-center gap-4 mt-4">
@@ -38,6 +38,17 @@ export default function TopPage() {
                     className="w-40 bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"
                   >
                     Ruby
+                  </Link>
+                </div>
+              </div>
+
+              <div className="pt-6 border-t border-gray-200">
+                <div className="flex justify-center gap-4">
+                  <Link
+                    href="/ranking"
+                    className="flex items-center gap-2 bg-yellow-500 hover:bg-yellow-600 text-white font-bold py-2 px-6 rounded"
+                  >
+                    🏆 ランキング
                   </Link>
                 </div>
               </div>

@@ -123,12 +123,20 @@ export default function HistoryPage() {
             <h1 className="text-3xl font-bold text-gray-900">
               {session?.user?.username}さんの履歴
             </h1>
-            <Link
-              href="/"
-              className="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded"
-            >
-              TOPにもどる
-            </Link>
+            <div className="flex gap-3">
+              <Link
+                href="/ranking"
+                className="bg-yellow-500 hover:bg-yellow-600 text-white font-bold py-2 px-4 rounded"
+              >
+                🏆 ランキング
+              </Link>
+              <Link
+                href="/"
+                className="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded"
+              >
+                TOPにもどる
+              </Link>
+            </div>
           </div>
 
           {stats && (
