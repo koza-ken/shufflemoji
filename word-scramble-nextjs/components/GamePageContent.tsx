@@ -238,6 +238,32 @@ export const GamePageContent = ({ mode }: GamePageContentProps) => {
     setDragOverIndex(null);
   };
 
+  // 文字削除処理（一つずつ戻す機能）
+  const handleRemoveChar = (charId: string) => {
+    if (isAnswered) return;
+
+    // 警告を非表示
+    if (showIncompleteWarning) {
+      setShowIncompleteWarning(false);
+    }
+
+    // 選択済み文字から該当文字を削除
+    setSelectedChars(prev => prev.filter(char => char.id !== charId));
+
+    // allCharsの選択状態をリセット
+    setAllChars(prev =>
+      prev.map(char =>
+        char.id === charId ? { ...char, isSelected: false } : char
+      )
+    );
+
+    // 現在の回答を更新
+    setCurrentAnswer(prev => {
+      const chars = selectedChars.filter(char => char.id !== charId);
+      return chars.map(char => char.char).join('');
+    });
+  };
+
   // リセット処理
   const handleReset = () => {
     if (!currentWord) return;
@@ -315,6 +341,7 @@ export const GamePageContent = ({ mode }: GamePageContentProps) => {
             handleDragOver={handleDragOver}
             handleDragLeave={handleDragLeave}
             handleDrop={handleDrop}
+            handleRemoveChar={handleRemoveChar}
           />
 
             {/* 現在の回答文字列表示 */}

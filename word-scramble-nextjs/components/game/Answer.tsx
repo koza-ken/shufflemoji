@@ -11,6 +11,7 @@ type AnswerProps = {
   handleDragLeave: (e: React.DragEvent) => void;
   handleDragStart: (e: React.DragEvent, index: number) => void;
   handleDragEnd: () => void;
+  handleRemoveChar: (charId: string) => void;
 }
 
 export const Answer = ({
@@ -22,7 +23,8 @@ export const Answer = ({
     handleDragEnd,
     handleDragOver,
     handleDragLeave,
-    handleDrop
+    handleDrop,
+    handleRemoveChar
   }: AnswerProps) => {
 
   return (
@@ -61,21 +63,34 @@ export const Answer = ({
                     onDragLeave={handleDragLeave}
                   />
 
-                  <div
-                    draggable={!isAnswered}
-                    onDragStart={(e) => handleDragStart(e, index)}
-                    onDragEnd={handleDragEnd}
-                    className={`w-12 h-12 bg-green-100 border-2 border-green-300 rounded-lg flex items-center justify-center text-xl font-bold text-green-800 transition-opacity duration-150 ${
-                      !isAnswered ? 'cursor-move hover:scale-105' : 'cursor-default'
-                    } ${
-                      isDragging ? 'opacity-50' : ''
-                    }`}
-                    style={{
-                      userSelect: 'none',
-                      WebkitUserSelect: 'none'
-                    }}
-                  >
-                    {charObj.char}
+                  <div className="relative">
+                    <div
+                      draggable={!isAnswered}
+                      onDragStart={(e) => handleDragStart(e, index)}
+                      onDragEnd={handleDragEnd}
+                      className={`w-12 h-12 bg-green-100 border-2 border-green-300 rounded-lg flex items-center justify-center text-xl font-bold text-green-800 transition-opacity duration-150 ${
+                        !isAnswered ? 'cursor-move hover:scale-105' : 'cursor-default'
+                      } ${
+                        isDragging ? 'opacity-50' : ''
+                      }`}
+                      style={{
+                        userSelect: 'none',
+                        WebkitUserSelect: 'none'
+                      }}
+                    >
+                      {charObj.char}
+                    </div>
+
+                    {/* 削除ボタン（回答前のみ表示） */}
+                    {!isAnswered && (
+                      <button
+                        onClick={() => handleRemoveChar(charObj.id)}
+                        className="absolute -top-2 -right-2 w-6 h-6 bg-gray-300 hover:bg-gray-400 text-white rounded-full flex items-center justify-center text-sm font-bold shadow-lg transition-colors"
+                        style={{ userSelect: 'none' }}
+                      >
+                        ×
+                      </button>
+                    )}
                   </div>
                 </div>
               );
