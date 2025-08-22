@@ -15,7 +15,7 @@ export default function ResultPage() {
   // セッションストレージから結果データを取得
   const [questionCount, setQuestionCount] = useState(0)
   const [questionList, setQuestionList] = useState<GameWord[]>([])
-  const [mode, setMode] = useState('html-css')
+  const [mode, setMode] = useState<string | null>(null)
   const [incorrectWordData, setIncorrectWordData] = useState<{ word: string; userAnswer: string } | null>(null)
 
   // セッションストレージからデータを読み込み
@@ -53,13 +53,18 @@ export default function ResultPage() {
 
   // ログイン済みユーザーの場合は自動で結果を保存（1回だけ）
   useEffect(() => {
-    if (session?.user && !saved && !hasAttemptedSave) {
+    if (session?.user && !saved && !hasAttemptedSave && mode) {
       setHasAttemptedSave(true)
       saveResult()
     }
-  }, [session, saved, hasAttemptedSave])
+  }, [session, saved, hasAttemptedSave, mode])
 
   const saveResult = async () => {
+    if (!mode) {
+      setError('ゲームデータが読み込まれていません')
+      return
+    }
+    
     if (!session && (!guestName || guestName.trim().length === 0)) {
       setError('名前を入力してください')
       return
