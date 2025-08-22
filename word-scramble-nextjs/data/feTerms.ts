@@ -63,14 +63,14 @@ export const feTerms: Word[] = [
     original: 'CEO',
     mode: 'fe',
     category: 'FE',
-    hint: '企業の最高経営責任者として経営方針決定や業務執行の最終責任を負う役職。'
+    hint: '企業の最高"経営"責任者として経営方針決定や業務執行の最終責任を負う役職。'
   },
   {
     id: 'cio-1',
     original: 'CIO',
     mode: 'fe',
     category: 'FE',
-    hint: '企業の最高情報責任者としてIT戦略やシステム全体の責任を担う経営幹部。'
+    hint: '企業の最高"情報"責任者としてIT戦略やシステム全体の責任を担う経営幹部。'
   },
   {
     id: 'cli-1',
@@ -91,7 +91,7 @@ export const feTerms: Word[] = [
     original: 'CRC',
     mode: 'fe',
     category: 'FE',
-    hint: '循環冗長検査として通信やストレージにおけるデータ誤り検出方式。'
+    hint: '巡回冗長検査として通信やストレージにおけるデータ誤り検出方式。'
   },
   {
     id: 'crm-1',
@@ -120,13 +120,6 @@ export const feTerms: Word[] = [
     mode: 'fe',
     category: 'FE',
     hint: 'データをカンマで区切って表現するシンプルなファイル形式。表計算ソフトで広く使用。'
-  },
-  {
-    id: 'dao-1',
-    original: 'DAO',
-    mode: 'fe',
-    category: 'FE',
-    hint: 'データベースアクセスを抽象化するオブジェクト指向設計パターン。データアクセス層を分離。'
   },
   {
     id: 'ddl-1',
@@ -420,7 +413,7 @@ export const feTerms: Word[] = [
     original: 'SSL',
     mode: 'fe',
     category: 'FE',
-    hint: 'インターネット通信を暗号化するセキュリティプロトコル。現在はTLSが後継。'
+    hint: 'インターネット通信を暗号化するセキュリティプロトコル。現在はTLSがこれの後継。'
   },
   {
     id: 'tcp-1',
@@ -548,14 +541,14 @@ export const feTerms: Word[] = [
     original: 'CRUD',
     mode: 'fe',
     category: 'FE',
-    hint: 'データベースやWebアプリケーションにおける4つの基本操作機能。'
+    hint: 'データベースやWebアプリケーションにおける4つの基本操作機能（作成・読取・更新・削除）。'
   },
   {
     id: 'csrf-1',
     original: 'CSRF',
     mode: 'fe',
     category: 'FE',
-    hint: 'ユーザーの意図しないリクエストを送信させるクロスサイトリクエストフォージェリ攻撃。'
+    hint: '攻撃者がユーザーを騙して意図しない操作を実行させるウェブセキュリティの脆弱性。'
   },
   {
     id: 'dbms-1',
@@ -577,13 +570,6 @@ export const feTerms: Word[] = [
     mode: 'fe',
     category: 'FE',
     hint: '先入先出法として最初に入力されたデータを最初に出力するキュー構造の処理方式。'
-  },
-  {
-    id: 'gdpr-1',
-    original: 'GDPR',
-    mode: 'fe',
-    category: 'FE',
-    hint: 'EU域内の個人データ保護を強化するEU一般データ保護規則。'
   },
   {
     id: 'html-1',
@@ -653,7 +639,7 @@ export const feTerms: Word[] = [
     original: 'MITM',
     mode: 'fe',
     category: 'FE',
-    hint: '通信の中間に侵入して盗聴や改ざんを行う中間者攻撃。'
+    hint: '通信の中間に侵入してメッセージの盗聴や改ざんを行う攻撃。'
   },
   {
     id: 'paas-1',
