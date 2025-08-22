@@ -87,7 +87,7 @@ export default function RankingPage() {
         <div className="bg-white rounded-lg shadow-lg p-8">
           <div className="flex items-center justify-between mb-6">
             <h1 className="text-3xl font-bold text-gray-900">
-              🏆 ランキング TOP10
+              ランキング TOP10
             </h1>
             <Link
               href="/"
