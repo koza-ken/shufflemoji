@@ -40,14 +40,6 @@ export default function RankingPage() {
     })
   }
 
-  const getRankIcon = (rank: number) => {
-    switch (rank) {
-      case 1: return <span className="text-4xl">🥇</span>
-      case 2: return <span className="text-4xl">🥈</span>
-      case 3: return <span className="text-4xl">🥉</span>
-      default: return <span className="text-2xl font-bold text-gray-600">{rank}位</span>
-    }
-  }
 
   if (loading) {
     return (
@@ -83,10 +75,10 @@ export default function RankingPage() {
 
   if (!rankings) return null
 
-  const currentRanking = activeTab === 'HTML_CSS' 
-    ? rankings.htmlCssRanking 
-    : activeTab === 'RUBY' 
-    ? rankings.rubyRanking 
+  const currentRanking = activeTab === 'HTML_CSS'
+    ? rankings.htmlCssRanking
+    : activeTab === 'RUBY'
+    ? rankings.rubyRanking
     : rankings.feRanking
 
   return (
@@ -163,7 +155,14 @@ export default function RankingPage() {
                   >
                     <div className="flex items-center gap-4">
                       <div className="flex items-center justify-center min-w-[80px]">
-                        {getRankIcon(index + 1)}
+                        <span className={`font-bold ${
+                          index + 1 === 1 ? 'text-4xl text-yellow-500' :
+                          index + 1 === 2 ? 'text-4xl text-gray-400' :
+                          index + 1 === 3 ? 'text-4xl text-amber-700' :
+                          'text-2xl text-gray-600'
+                        }`}>
+                          {index + 1}
+                        </span>
                       </div>
                       <div>
                         <div className="font-bold text-lg">{entry.userName}</div>
