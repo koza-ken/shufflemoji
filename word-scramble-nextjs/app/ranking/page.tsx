@@ -8,7 +8,7 @@ export default function RankingPage() {
   const [rankings, setRankings] = useState<RankingResponse | null>(null)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState('')
-  const [activeTab, setActiveTab] = useState<'HTML_CSS' | 'RUBY'>('HTML_CSS')
+  const [activeTab, setActiveTab] = useState<'HTML_CSS' | 'RUBY' | 'FE'>('HTML_CSS')
 
   useEffect(() => {
     fetchRankings()
@@ -83,7 +83,11 @@ export default function RankingPage() {
 
   if (!rankings) return null
 
-  const currentRanking = activeTab === 'HTML_CSS' ? rankings.htmlCssRanking : rankings.rubyRanking
+  const currentRanking = activeTab === 'HTML_CSS' 
+    ? rankings.htmlCssRanking 
+    : activeTab === 'RUBY' 
+    ? rankings.rubyRanking 
+    : rankings.feRanking
 
   return (
     <div className="min-h-screen bg-gray-50 px-4 py-6">
@@ -122,6 +126,16 @@ export default function RankingPage() {
               }`}
             >
               Ruby
+            </button>
+            <button
+              onClick={() => setActiveTab('FE')}
+              className={`w-32 px-6 py-3 rounded-lg font-medium transition-colors ${
+                activeTab === 'FE'
+                  ? 'bg-green-500 text-white'
+                  : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+              }`}
+            >
+              基本情報
             </button>
           </div>
 

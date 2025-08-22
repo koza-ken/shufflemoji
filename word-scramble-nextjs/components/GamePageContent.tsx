@@ -5,6 +5,7 @@ import { Header } from '@/components/game/Header';
 import { Hint } from '@/components/game/Hint';
 import { getRandomHtmlCssTerm } from '@/data/htmlCssTerms';
 import { getRandomRubyMethod } from '@/data/rubyMethods';
+import { getRandomFeTerm } from '@/data/feTerms';
 import { AllChars, GameWord, SelectedChars, GameMode } from '@/types/word';
 import { Answer } from '@/components/game/Answer';
 import { useTimer } from '@/hooks/use-timer';
@@ -12,6 +13,7 @@ import { useTimer } from '@/hooks/use-timer';
 import { useRouter } from 'next/navigation';
 import { HTMLCSSQuestion } from '@/components/game/HTMLCSSQuestion';
 import { RubyQuestion } from '@/components/game/RubyQuestion';
+import { FEQuestion } from '@/components/game/FEQuestion';
 
 type GamePageContentProps = {
   mode: GameMode
@@ -48,8 +50,10 @@ export const GamePageContent = ({ mode }: GamePageContentProps) => {
   const getRandomWord = ():GameWord => {
     if (mode === 'html-css') {
       return getRandomHtmlCssTerm();
-    } else {
+    } else if (mode === 'ruby') {
       return getRandomRubyMethod();
+    } else {
+      return getRandomFeTerm();
     }
   };
 
@@ -293,8 +297,10 @@ export const GamePageContent = ({ mode }: GamePageContentProps) => {
         <div className="bg-white rounded-lg shadow-lg p-6 mb-6">
           {mode === 'html-css' ? (
             <HTMLCSSQuestion allChars={allChars} handleCharClick={handleCharClick} />
-          ) : (
+          ) : mode === 'ruby' ? (
             <RubyQuestion allChars={allChars} handleCharClick={handleCharClick} />
+          ) : (
+            <FEQuestion allChars={allChars} handleCharClick={handleCharClick} />
           )}
           {/* ヒント表示 */}
           <Hint word={currentWord} />

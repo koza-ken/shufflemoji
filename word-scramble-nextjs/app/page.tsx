@@ -39,6 +39,12 @@ export default function TopPage() {
                   >
                     Ruby
                   </Link>
+                  <Link
+                    href="/game/fe"
+                    className="w-40 bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded"
+                  >
+                    基本情報技術者
+                  </Link>
                 </div>
               </div>
 

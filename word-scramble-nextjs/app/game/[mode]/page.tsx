@@ -9,9 +9,9 @@ type GamePageProps = {
 
 export default async function GamePage({ params }: GamePageProps) {
   const { mode } = await params
-  
+
   // modeをGameModeタイプにキャスト
-  const gameMode = (mode === 'ruby' ? 'ruby' : 'html-css') as GameMode
+  const gameMode = (mode === 'ruby' ? 'ruby' : mode === 'html-css' ? 'html-css' : 'fe') as GameMode
 
   return <GamePageContent mode={gameMode} />
 }

@@ -20,7 +20,7 @@ export async function POST(request: NextRequest) {
     } = data
 
     // バリデーション
-    if (!mode || !['HTML_CSS', 'RUBY'].includes(mode)) {
+    if (!mode || !['HTML_CSS', 'RUBY', 'FE'].includes(mode)) {
       return NextResponse.json(
         { error: 'モードが無効です' },
         { status: 400 }
@@ -99,6 +99,7 @@ export async function POST(request: NextRequest) {
     })
   } catch (error) {
     console.error('Game result save error:', error)
+    console.error('Error details:', error instanceof Error ? error.message : 'Unknown error')
     return NextResponse.json(
       { error: 'ゲーム結果の保存に失敗しました' },
       { status: 500 }

@@ -48,13 +48,16 @@ export async function GET(request: NextRequest) {
 
     const htmlCssRecords = allRecords.filter(record => record.mode === 'HTML_CSS')
     const rubyRecords = allRecords.filter(record => record.mode === 'RUBY')
+    const feRecords = allRecords.filter(record => record.mode === 'FE')
 
     const stats = {
       totalGames: allRecords.length,
       htmlCssGames: htmlCssRecords.length,
       rubyGames: rubyRecords.length,
+      feGames: feRecords.length,
       bestHtmlCssScore: htmlCssRecords.length > 0 ? Math.max(...htmlCssRecords.map(r => r.score)) : 0,
       bestRubyScore: rubyRecords.length > 0 ? Math.max(...rubyRecords.map(r => r.score)) : 0,
+      bestFeScore: feRecords.length > 0 ? Math.max(...feRecords.map(r => r.score)) : 0,
       averageScore: allRecords.length > 0 
         ? Math.round(allRecords.reduce((sum, record) => sum + record.score, 0) / allRecords.length * 10) / 10
         : 0

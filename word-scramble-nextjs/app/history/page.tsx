@@ -6,6 +6,7 @@ import Link from 'next/link'
 import { GameRecord, GameStats, IncorrectAnswer } from '@/types/game-result'
 import { htmlCssTerms } from '@/data/htmlCssTerms'
 import { rubyMethods } from '@/data/rubyMethods'
+import { feTerms } from '@/data/feTerms'
 
 interface PaginationInfo {
   currentPage: number
@@ -69,17 +70,19 @@ export default function HistoryPage() {
   }
 
   const getModeLabel = (mode: string) => {
-    return mode === 'HTML_CSS' ? 'HTML/CSS' : 'Ruby'
+    return mode === 'HTML_CSS' ? 'HTML/CSS' : mode === 'RUBY' ? 'Ruby' : '基本情報'
   }
 
   const getModeColor = (mode: string) => {
-    return mode === 'HTML_CSS' ? 'bg-blue-500' : 'bg-red-500'
+    return mode === 'HTML_CSS' ? 'bg-blue-500' : mode === 'RUBY' ? 'bg-red-500' : 'bg-green-500'
   }
 
   const getWordHint = (word: string, mode: string) => {
     const wordData = mode === 'HTML_CSS'
       ? htmlCssTerms.find(term => term.original === word)
-      : rubyMethods.find(method => method.original === word)
+      : mode === 'RUBY'
+      ? rubyMethods.find(method => method.original === word)
+      : feTerms.find(term => term.original === word)
     return wordData?.hint || 'ヒントが見つかりません'
   }
 
@@ -140,7 +143,7 @@ export default function HistoryPage() {
           </div>
 
           {stats && (
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
               <div className="bg-gray-50 rounded-lg p-4 text-center">
                 <div className="text-2xl font-bold text-gray-900">
                   {stats.totalGames}
@@ -163,6 +166,14 @@ export default function HistoryPage() {
                 </div>
                 <div className="text-sm text-gray-600">Ruby最高記録</div>
                 <div className="text-xs text-gray-500 mt-1">{stats.rubyGames}回プレイ</div>
+              </div>
+              <div className="bg-green-50 rounded-lg p-4 text-center">
+                <div className="text-2xl font-bold text-green-600">
+                  {stats.bestFeScore}
+                  <span className="text-sm font-normal ml-1">問</span>
+                </div>
+                <div className="text-sm text-gray-600">基本情報最高記録</div>
+                <div className="text-xs text-gray-500 mt-1">{stats.feGames}回プレイ</div>
               </div>
             </div>
           )}

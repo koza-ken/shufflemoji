@@ -6,7 +6,7 @@
 export type Word = {
   id: string;
   original: string;      // Correct word/term (e.g., "div")
-  mode: 'html-css' | 'ruby';
+  mode: 'html-css' | 'ruby' | 'fe';
   category?: string;     // e.g., 'html-elements', 'css-properties', 'ruby-enumerable'
   hint?: string;         // Optional hint text (e.g., "HTMLで区切りを作る要素")
 }
@@ -18,7 +18,7 @@ export type GameWord = Word & {
 /**
  * Game mode types
  */
-export type GameMode = 'html-css' | 'ruby';
+export type GameMode = 'html-css' | 'ruby' | 'fe';
 
 export type AllChars = {
   char: string;
@@ -38,7 +38,7 @@ export type QuestionList = GameWord[];
  */
 export interface GameResult {
   streak: number;
-  mode: 'html-css' | 'ruby';
+  mode: 'html-css' | 'ruby' | 'fe';
   totalTime: number;
   completedAt: Date;
   wordsCompleted: Word[];

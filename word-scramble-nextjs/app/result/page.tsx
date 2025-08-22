@@ -11,11 +11,11 @@ import { GameResultData } from '@/types/game-result'
 export default function ResultPage() {
   const router = useRouter()
   const { data: session } = useSession()
-  
+
   // セッションストレージから結果データを取得
   const [questionCount, setQuestionCount] = useState(0)
   const [questionList, setQuestionList] = useState<GameWord[]>([])
-  const [mode, setMode] = useState('html-css')
+  const [mode, setMode] = useState<string | null>(null)
   const [incorrectWordData, setIncorrectWordData] = useState<{ word: string; userAnswer: string } | null>(null)
 
   // セッションストレージからデータを読み込み
@@ -48,18 +48,23 @@ export default function ResultPage() {
   const [wantsToSave, setWantsToSave] = useState(false) // 保存したいかどうか
   const [hasAttemptedSave, setHasAttemptedSave] = useState(false) // 保存を試行したかのフラグ
 
-  const gameMode = mode === 'ruby' ? 'RUBY' : 'HTML_CSS'
-  const modeLabel = gameMode === 'HTML_CSS' ? 'HTML/CSS' : 'Ruby'
+  const modeLabel =
+    mode === 'html-css' ? 'HTML/CSS' : mode === 'ruby' ? 'Ruby' : '基本情報技術者';
 
   // ログイン済みユーザーの場合は自動で結果を保存（1回だけ）
   useEffect(() => {
-    if (session?.user && !saved && !hasAttemptedSave) {
+    if (session?.user && !saved && !hasAttemptedSave && mode) {
       setHasAttemptedSave(true)
       saveResult()
     }
-  }, [session, saved, hasAttemptedSave])
+  }, [session, saved, hasAttemptedSave, mode])
 
   const saveResult = async () => {
+    if (!mode) {
+      setError('ゲームデータが読み込まれていません')
+      return
+    }
+    
     if (!session && (!guestName || guestName.trim().length === 0)) {
       setError('名前を入力してください')
       return
@@ -84,8 +89,11 @@ export default function ResultPage() {
         answeredAt: new Date().toISOString()
       } : undefined
 
+      // API用のモード形式に変換
+      const apiMode = mode === 'html-css' ? 'HTML_CSS' : mode === 'ruby' ? 'RUBY' : 'FE'
+
       const gameResultData: GameResultData = {
-        mode: gameMode,
+        mode: apiMode,
         score: questionCount,
         correctAnswers,
         incorrectAnswer,
@@ -124,14 +132,14 @@ export default function ResultPage() {
             ゲーム結果
           </h1>
           <p className="text-2xl text-gray-600 mb-4">
-            {session?.user?.username 
-              ? `${session.user.username}さんの成績` 
+            {session?.user?.username
+              ? `${session.user.username}さんの成績`
               : 'あなたの成績'
             }
           </p>
           <div className="flex items-center justify-center gap-2 mb-4">
             <div className={`px-3 py-1 rounded-full text-white text-sm font-medium ${
-              gameMode === 'HTML_CSS' ? 'bg-blue-500' : 'bg-red-500'
+              mode === 'html-css' ? 'bg-blue-500' : mode === 'ruby' ? 'bg-red-500' : 'bg-green-500'
             }`}>
               {modeLabel}
             </div>
@@ -173,7 +181,7 @@ export default function ResultPage() {
                       disabled={isSaving}
                     />
                   </div>
-                  
+
                   {error && (
                     <div className="text-red-600 text-sm mb-3 text-center">
                       {error}
@@ -221,7 +229,7 @@ export default function ResultPage() {
               </Link>
             )}
           </div>
-          
+
           {session && (
             <div className="mt-4">
               <Link

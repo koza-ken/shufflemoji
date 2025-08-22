@@ -64,6 +64,7 @@ model Word {
 enum GameMode {
   HTML_CSS
   RUBY
+  FE
 }
 
 // NextAuth必須テーブル
