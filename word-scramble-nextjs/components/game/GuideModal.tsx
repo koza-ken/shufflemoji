@@ -31,7 +31,7 @@ export const GuideModal = ({ isOpen, onClose }: GuideModalProps) => {
               <div>
                 <h3 className="text-xl font-semibold text-gray-800 mb-2">⏰ ルール</h3>
                 <ul className="text-gray-600 space-y-2 list-disc list-inside">
-                  <li>問題の制限時間は10秒です</li>
+                  <li>問題の制限時間は15秒です</li>
                   <li>正解すると次の問題に進めます</li>
                   <li>間違えるか時間切れになるとゲーム終了です</li>
                   <li>連続正解数がスコアになります</li>

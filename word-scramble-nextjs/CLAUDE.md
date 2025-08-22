@@ -7,7 +7,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 ### Core Concept
 - **Word unscrambling**: Rearrange scattered characters to form correct words
 - **Continuous challenge**: Play until one mistake (streak-based scoring)
-- **Time pressure**: 10-second limit per question with early submission
+- **Time pressure**: 15-second limit per question with early submission
 - **Interactive controls**: Click-to-select and drag-and-drop functionality
 - **Dual learning modes**: HTML/CSS and Ruby methods for programming education
 
@@ -15,8 +15,8 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 - **Basic Rules**:
   - Rearrange scrambled characters into correct words
   - Continuous challenge format (game ends on first mistake)
-  - 10-second time limit per question
-  - Early solving allowed (no need to wait full 10 seconds)
+  - 15-second time limit per question
+  - Early solving allowed (no need to wait full 15 seconds)
 
 - **Controls**:
   - Click characters in sequence to select
