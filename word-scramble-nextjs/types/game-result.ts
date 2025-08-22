@@ -15,7 +15,7 @@ export type GameEndReason = 'timeout' | 'wrong_answer' | 'completed'
 
 export interface GameResultData {
   guestName?: string // 未登録ユーザーの場合のみ
-  mode: 'HTML_CSS' | 'RUBY'
+  mode: 'HTML_CSS' | 'RUBY' | 'FE'
   score: number
   correctAnswers: CorrectAnswer[]
   incorrectAnswer?: IncorrectAnswer
@@ -26,7 +26,7 @@ export interface GameRecord {
   id: string
   userId?: string
   guestName?: string
-  mode: 'HTML_CSS' | 'RUBY'
+  mode: 'HTML_CSS' | 'RUBY' | 'FE'
   score: number
   correctAnswers: CorrectAnswer[]
   incorrectAnswer?: IncorrectAnswer
@@ -38,8 +38,10 @@ export interface GameStats {
   totalGames: number
   htmlCssGames: number
   rubyGames: number
+  feGames: number
   bestHtmlCssScore: number
   bestRubyScore: number
+  bestFeScore: number
   averageScore: number
 }
 
@@ -48,10 +50,11 @@ export interface RankingEntry {
   userName: string  // username または guestName
   score: number
   playedAt: Date
-  mode: 'HTML_CSS' | 'RUBY'
+  mode: 'HTML_CSS' | 'RUBY' | 'FE'
 }
 
 export interface RankingResponse {
   htmlCssRanking: RankingEntry[]
   rubyRanking: RankingEntry[]
+  feRanking: RankingEntry[]
 }
