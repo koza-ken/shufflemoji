@@ -20,9 +20,10 @@ const scrambleWord = (word: string): string => {
   return scrambled;
 };
 
-// 基本情報技術者試験用語データ
+// 基本情報技術者試験用語データベース（合計 105語）
+// 3文字: 69語, 4文字: 28語, 5文字: 6語, 7文字: 2語
 export const feTerms: Word[] = [
-  // 3文字略語（69個）
+  // 3文字略語（69語）
   {
     id: 'b2b-1',
     original: 'B2B',
@@ -500,7 +501,7 @@ export const feTerms: Word[] = [
     hint: '大量のテキストデータで学習された大規模言語モデル。ChatGPTなどの基盤技術。'
   },
 
-  // 4文字略語（28個）
+  // 4文字略語（28語）
   {
     id: 'acid-1',
     original: 'ACID',
@@ -691,7 +692,7 @@ export const feTerms: Word[] = [
     hint: '強み・弱み・機会・脅威から戦略を分析するフレームワーク。'
   },
 
-  // 5文字略語（6個）
+  // 5文字略語（6語）
   {
     id: 'https-1',
     original: 'HTTPS',
@@ -735,7 +736,7 @@ export const feTerms: Word[] = [
     hint: 'IEEE 802.11規格に基づく無線LAN機器の相互接続を保証する業界標準規格の商標。'
   },
 
-  // 7文字略語（2個）
+  // 7文字略語（2語）
   {
     id: 'captcha-1',
     original: 'CAPTCHA',

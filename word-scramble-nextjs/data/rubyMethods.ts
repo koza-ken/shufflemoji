@@ -25,6 +25,7 @@ const scrambleWord = (word: string): string => {
 /**
  * Ruby methods and concepts for the scramble game
  */
+// Ruby メソッドデータベース（合計 100語）
 export const rubyMethods: Word[] = [
   // Array Methods
   {
@@ -267,20 +268,6 @@ export const rubyMethods: Word[] = [
     hint: '文字列内で最初にマッチしたパターンのみを置換するメソッド（gsubの単発版）'
   },
   {
-    id: 'start_with-1',
-    original: 'start_with',
-    mode: 'ruby',
-    category: 'ruby',
-    hint: '文字列が指定した文字列で始まるかどうかを判定するメソッド'
-  },
-  {
-    id: 'end_with-1',
-    original: 'end_with',
-    mode: 'ruby',
-    category: 'ruby',
-    hint: '文字列が指定した文字列で終わるかどうかを判定するメソッド'
-  },
-  {
     id: 'slice-1',
     original: 'slice',
     mode: 'ruby',
@@ -321,13 +308,6 @@ export const rubyMethods: Word[] = [
     mode: 'ruby',
     category: 'ruby',
     hint: '文字列を行ごとに分割して各行を要素とする配列を返すメソッド'
-  },
-  {
-    id: 'tr-1',
-    original: 'tr',
-    mode: 'ruby',
-    category: 'ruby',
-    hint: '文字列内の指定した文字を別の文字に変換するメソッド（文字の対応表による変換）'
   },
   {
     id: 'squeeze-1',
@@ -497,13 +477,6 @@ export const rubyMethods: Word[] = [
     hint: '条件式がfalseの間、繰り返し処理を実行するループ制御構造のキーワード'
   },
   {
-    id: 'for-1',
-    original: 'for',
-    mode: 'ruby',
-    category: 'ruby',
-    hint: '配列や範囲オブジェクトの各要素に対して繰り返し処理を実行するループのキーワード'
-  },
-  {
     id: 'break-1',
     original: 'break',
     mode: 'ruby',
@@ -541,13 +514,6 @@ export const rubyMethods: Word[] = [
     hint: 'クラスから新しいインスタンス（オブジェクト）を生成するメソッド'
   },
   {
-    id: 'initialize-1',
-    original: 'initialize',
-    mode: 'ruby',
-    category: 'ruby',
-    hint: 'オブジェクト生成時に自動的に呼ばれるコンストラクタメソッド'
-  },
-  {
     id: 'self-1',
     original: 'self',
     mode: 'ruby',
@@ -560,13 +526,6 @@ export const rubyMethods: Word[] = [
     mode: 'ruby',
     category: 'ruby',
     hint: '親クラスの同名メソッドを呼び出すキーワード'
-  },
-  {
-    id: 'attr_accessor-1',
-    original: 'attr_accessor',
-    mode: 'ruby',
-    category: 'ruby',
-    hint: 'インスタンス変数の読み書き両方のアクセサメソッドを自動生成するメソッド'
   },
   {
     id: 'private-1',
@@ -625,13 +584,6 @@ export const rubyMethods: Word[] = [
     mode: 'ruby',
     category: 'ruby',
     hint: '真偽値の真を表すRubyの基本的なオブジェクト'
-  },
-  {
-    id: 'respond_to-1',
-    original: 'respond_to',
-    mode: 'ruby',
-    category: 'ruby',
-    hint: 'オブジェクトが指定したメソッドに応答できるかどうかを判定するメソッド'
   },
   {
     id: 'to_s-1',
