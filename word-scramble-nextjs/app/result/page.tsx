@@ -11,7 +11,7 @@ import { GameResultData } from '@/types/game-result'
 export default function ResultPage() {
   const router = useRouter()
   const { data: session } = useSession()
-  
+
   // セッションストレージから結果データを取得
   const [questionCount, setQuestionCount] = useState(0)
   const [questionList, setQuestionList] = useState<GameWord[]>([])
@@ -48,8 +48,10 @@ export default function ResultPage() {
   const [wantsToSave, setWantsToSave] = useState(false) // 保存したいかどうか
   const [hasAttemptedSave, setHasAttemptedSave] = useState(false) // 保存を試行したかのフラグ
 
-  const gameMode = mode === 'ruby' ? 'RUBY' : 'HTML_CSS'
-  const modeLabel = gameMode === 'HTML_CSS' ? 'HTML/CSS' : 'Ruby'
+  const gameMode =
+    mode === 'html-css' ? 'HTML/CSS' : mode === 'ruby' ? 'Ruby' : '基本情報技術者';
+  const modeLabel =
+    gameMode === 'html-css' ? 'HTML/CSS' : gameMode === 'ruby' ? 'Ruby' : '基本情報技術者';
 
   // ログイン済みユーザーの場合は自動で結果を保存（1回だけ）
   useEffect(() => {
@@ -124,14 +126,14 @@ export default function ResultPage() {
             ゲーム結果
           </h1>
           <p className="text-2xl text-gray-600 mb-4">
-            {session?.user?.username 
-              ? `${session.user.username}さんの成績` 
+            {session?.user?.username
+              ? `${session.user.username}さんの成績`
               : 'あなたの成績'
             }
           </p>
           <div className="flex items-center justify-center gap-2 mb-4">
             <div className={`px-3 py-1 rounded-full text-white text-sm font-medium ${
-              gameMode === 'HTML_CSS' ? 'bg-blue-500' : 'bg-red-500'
+              gameMode === 'HTML/CSS' ? 'bg-blue-500' : gameMode === 'Ruby' ? 'bg-red-500' : 'bg-green-500'
             }`}>
               {modeLabel}
             </div>
@@ -173,7 +175,7 @@ export default function ResultPage() {
                       disabled={isSaving}
                     />
                   </div>
-                  
+
                   {error && (
                     <div className="text-red-600 text-sm mb-3 text-center">
                       {error}
@@ -221,7 +223,7 @@ export default function ResultPage() {
               </Link>
             )}
           </div>
-          
+
           {session && (
             <div className="mt-4">
               <Link
