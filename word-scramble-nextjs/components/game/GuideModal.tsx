@@ -29,9 +29,10 @@ export const GuideModal = ({ isOpen, onClose }: GuideModalProps) => {
               </div>
 
               <div>
-                <h3 className="text-xl font-semibold text-gray-800 mb-2">⏰ ルール</h3>
+                <h3 className="text-xl font-semibold text-gray-800 mb-2">
+                  ⏰ ルール
+                </h3>
                 <ul className="text-gray-600 space-y-2 list-disc list-inside">
-                  <li>問題の制限時間は15秒です</li>
                   <li>正解すると次の問題に進めます</li>
                   <li>間違えるか時間切れになるとゲーム終了です</li>
                   <li>連続正解数がスコアになります</li>
@@ -39,18 +40,29 @@ export const GuideModal = ({ isOpen, onClose }: GuideModalProps) => {
               </div>
 
               <div>
-                <h3 className="text-xl font-semibold text-gray-800 mb-2">🎮 操作方法</h3>
+                <h3 className="text-xl font-semibold text-gray-800 mb-2">
+                  🎮 操作方法
+                </h3>
                 <ul className="text-gray-600 space-y-2 list-disc list-inside">
-                  <li><strong>クリック選択:</strong> 文字をクリックして順番に選択</li>
-                  <li><strong>ドラッグ&ドロップ:</strong> 選択して回答欄にある文字を並び替え</li>
-                  <li><strong>リセットボタン:</strong> 選択した文字をクリア</li>
-                  <li><strong>答えを確認ボタン:</strong> 回答を送信</li>
+                  <li>
+                    <strong>クリック選択:</strong> 文字をクリックして順番に選択
+                  </li>
+                  <li>
+                    <strong>ドラッグ&ドロップ:</strong>{' '}
+                    選択して回答欄にある文字を並び替え
+                  </li>
+                  <li>
+                    <strong>リセットボタン:</strong> 選択した文字をクリア
+                  </li>
+                  <li>
+                    <strong>答えを確認ボタン:</strong> 回答を送信
+                  </li>
                 </ul>
               </div>
 
               <div className="pt-4 border-t">
                 <p className="text-center text-gray-500 text-sm">
-                  頑張って高スコアを目指そう！
+                  ログインしなくてもスコアは登録できます
                 </p>
               </div>
             </div>
