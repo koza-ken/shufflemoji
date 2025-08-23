@@ -26,10 +26,8 @@ const nextConfig: NextConfig = {
     return config
   },
 
-  // 実験的機能（Prisma最適化）
-  experimental: {
-    serverComponentsExternalPackages: ['prisma', '@prisma/client']
-  },
+  // Prisma最適化
+  serverExternalPackages: ['prisma', '@prisma/client'],
 
   // 画像最適化（NextAuth Google OAuth用）
   images: {
