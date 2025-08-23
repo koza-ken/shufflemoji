@@ -3,9 +3,9 @@
 import React, { useState, useEffect } from 'react';
 import { Header } from '@/components/game/Header';
 import { Hint } from '@/components/game/Hint';
-import { getRandomHtmlCssTerm } from '@/data/htmlCssTerms';
-import { getRandomRubyMethod } from '@/data/rubyMethods';
-import { getRandomFeTerm } from '@/data/feTerms';
+import { htmlCssTerms } from '@/data/htmlCssTerms';
+import { rubyMethods } from '@/data/rubyMethods';
+import { feTerms } from '@/data/feTerms';
 import { AllChars, GameWord, SelectedChars, GameMode } from '@/types/word';
 import { Answer } from '@/components/game/Answer';
 import { useTimer } from '@/hooks/use-timer';
@@ -21,8 +21,15 @@ type GamePageContentProps = {
 
 export const GamePageContent = ({ mode }: GamePageContentProps) => {
   const router = useRouter();
-  // タイマー機能
-  const { time, resetTimer, pause, resume } = useTimer();
+
+  // ラウンドシステム用の状態
+  const [usedWordIds, setUsedWordIds] = useState<Set<string>>(new Set());
+  const [currentRound, setCurrentRound] = useState(1);
+  const [totalWordsCount, setTotalWordsCount] = useState(0);
+
+  // タイマー機能（ラウンドに応じて制限時間を変更）
+  const { time, resetTimer, pause, resume } = useTimer(currentRound);
+
   // 現在の問題の単語データ
   const [currentWord, setCurrentWord] = useState<GameWord | null>(null);
   // 問題番号
@@ -46,21 +53,65 @@ export const GamePageContent = ({ mode }: GamePageContentProps) => {
 
   // 出題した問題のリスト
   const [questionList, setQuestionList] = useState<GameWord[]>([]);
-  // モードに応じて問題を取得する関数
-  const getRandomWord = ():GameWord => {
+
+  // 全問題配列を取得する関数
+  const getAllWords = (mode: GameMode) => {
     if (mode === 'html-css') {
-      return getRandomHtmlCssTerm();
+      return htmlCssTerms;
     } else if (mode === 'ruby') {
-      return getRandomRubyMethod();
+      return rubyMethods;
     } else {
-      return getRandomFeTerm();
+      return feTerms;
     }
+  };
+
+  // 問題数を動的取得
+  const getTotalWordsCount = (mode: GameMode): number => {
+    return getAllWords(mode).length;
+  };
+
+  // ラウンドシステム対応の問題取得関数
+  const getRandomWord = (): GameWord => {
+    const allWords = getAllWords(mode);
+    const availableWords = allWords.filter(word => !usedWordIds.has(word.id));
+
+    // 全問題を出題済みの場合、次のラウンドを開始
+    if (availableWords.length === 0) {
+      const nextRound = currentRound + 1;
+      setCurrentRound(nextRound);
+      setUsedWordIds(new Set());
+      
+      // 全問題から再びランダム選択
+      const randomIndex = Math.floor(Math.random() * allWords.length);
+      const selectedWord = allWords[randomIndex];
+      return {
+        ...selectedWord,
+        scrambled: selectedWord.original.split('').sort(() => Math.random() - 0.5).join('')
+      };
+    }
+
+    // 未出題の問題からランダム選択
+    const randomIndex = Math.floor(Math.random() * availableWords.length);
+    const selectedWord = availableWords[randomIndex];
+    return {
+      ...selectedWord,
+      scrambled: selectedWord.original.split('').sort(() => Math.random() - 0.5).join('')
+    };
   };
 
   // ゲーム開始時に最初の問題を生成
   useEffect(() => {
+    // 問題数を設定
+    setTotalWordsCount(getTotalWordsCount(mode));
+    // ラウンド状態をリセット
+    setUsedWordIds(new Set());
+    setCurrentRound(1);
+
     const word = getRandomWord();
     setCurrentWord(word);
+
+    // 最初の問題をusedWordIdsに追加
+    setUsedWordIds(new Set([word.id]));
 
     // 全文字を初期化（各文字にユニークIDと選択状態を付与）
     const chars = word.scrambled.split('').map((char, index) => ({
@@ -115,6 +166,9 @@ export const GamePageContent = ({ mode }: GamePageContentProps) => {
   const handleNextQuestion = () => {
     const word = getRandomWord();
     setCurrentWord(word);
+
+    // 新しい問題をusedWordIdsに追加
+    setUsedWordIds(prev => new Set([...prev, word.id]));
 
     // 新しい問題の文字を初期化
     const chars = word.scrambled.split('').map((char, index) => ({
@@ -313,8 +367,13 @@ export const GamePageContent = ({ mode }: GamePageContentProps) => {
 
   return (
     <div className="min-h-screen bg-gray-50 pt-4">
-      {/* ヘッダー（問題数・タイマー） */}
-      <Header count={questionCount} time={time} />
+      {/* ヘッダー（問題数・タイマー・進捗・ラウンド） */}
+      <Header
+        count={questionCount}
+        time={time}
+        progress={`${usedWordIds.size}/${totalWordsCount}`}
+        round={currentRound}
+      />
 
       {/* メインゲーム画面 */}
       <div className="w-full max-w-2xl mx-auto px-4 py-4">

@@ -277,7 +277,7 @@ export const htmlCssTerms: Word[] = [
     hint: 'JavaScriptを使って動的にグラフィックを描画するための要素。ゲーム、チャート、イラストなどのグラフィック作成に使用される。',
   },
 
-  // 新規追加 HTML要素 (8語) 
+  // 新規追加 HTML要素 (8語)
   {
     id: 'html-1',
     original: 'html',
