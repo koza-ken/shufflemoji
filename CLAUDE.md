@@ -2,69 +2,77 @@
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
 ## Project Overview
-**Word Scramble Game** - A word unscrambling challenge game with two specialized modes for programming education. Players rearrange scrambled characters to form correct words under time pressure in a continuous challenge format.
+**Shufflemoji** - A word unscrambling challenge game with three specialized modes for programming education. Players rearrange scrambled characters to form correct words under time pressure in a continuous challenge format.
 
 ### Core Concept
 - **Word unscrambling**: Rearrange scattered characters to form correct words
 - **Continuous challenge**: Play until one mistake (streak-based scoring)
-- **Time pressure**: 10-second limit per question with early submission
+- **Time pressure**: 15-second limit per question with early submission
 - **Interactive controls**: Click-to-select and drag-and-drop functionality
-- **Dual learning modes**: HTML/CSS and Ruby methods for programming education
+- **Triple learning modes**: HTML/CSS, Ruby methods, and FE exam terms for programming education
 
 ### Game Mechanics
 - **Basic Rules**:
   - Rearrange scrambled characters into correct words
   - Continuous challenge format (game ends on first mistake)
-  - 10-second time limit per question
-  - Early solving allowed (no need to wait full 10 seconds)
+  - 15-second time limit per question
+  - Early solving allowed (no need to wait full 15 seconds)
 
 - **Controls**:
   - Click characters in sequence to select
   - Reset selection functionality
   - Drag & drop for character reordering
 
-### Two Game Modes
+### Three Game Modes
 
 #### HTML/CSS Mode
 - HTML elements and CSS properties unscrambling
 - Frontend development learning reinforcement
 - Examples: "vdi" → "div", "loroc" → "color"
-
+- 83語
 #### Ruby Methods Mode
 - Ruby method name unscrambling
 - Rails development learning support
 - Examples: "hacm_se" → "each_ms", "pma" → "map"
+- 100語
+
+#### FE Mode（基本情報技術者試験）
+- IT基礎用語のアンスクランブリング
+- 基本情報技術者試験対策
+- Examples: "pai" → "api", "qls" → "sql"
+- 105語（3文字: 69語, 4文字: 28語, 5文字: 6語, 7文字: 2語）
 
 ### Mode Design Philosophy
 - **Problem**: Single mode difficulty balancing is challenging
 - **Issue**: Important terms with fewer characters become too easy
-- **Solution**: Two specialized modes balance learning effectiveness with game difficulty
+- **Solution**: Three specialized modes balance learning effectiveness with game difficulty
 - **Benefit**: Maintains educational value while ensuring engaging gameplay
 
 ## Tech Stack
-- **Frontend**: React 19 + TypeScript + Vite
+- **Frontend**: Next.js 15 + React 19 + TypeScript
 - **Styling**: Tailwind CSS v4 + DaisyUI
-- **Routing**: React Router v6
-- **Backend**: Firebase (Future - for leaderboards/stats)
-- **Build Tool**: Vite
-- **Development**: Windows + VS Code + dev container
-- **Deployment**: Firebase Hosting (Future)
+- **Routing**: Next.js App Router
+- **Authentication**: NextAuth.js
+- **Database**: PostgreSQL + Prisma ORM
+- **Development**: Docker + WSL2 環境
+- **Deployment**: Vercel (推奨) / Firebase Hosting
 
-### Technology Choice: React
-**Reasons for React Selection**:
-- Smooth transitions from top page to mode selection
-- Shared component architecture across two modes
-- SPA benefits for statistics and modal displays
-- Complex animation and state management capabilities
-- Unified data management across modes (high scores, settings)
+### Technology Choice: Next.js
+**Reasons for Next.js Migration**:
+- **Full-stack capabilities**: API routes for user authentication and data management
+- **App Router**: Modern routing with server components and layouts
+- **Performance optimization**: Built-in image optimization, code splitting
+- **SEO benefits**: Server-side rendering for better search visibility
+- **Database integration**: Prisma ORM with PostgreSQL for user data and statistics
+- **Authentication**: NextAuth.js for user registration and session management
 
 ## Development Guidelines
 
 ### Language Rules
 - **Internal thinking must be in English** for optimal Claude Code performance
-- **All responses to user must be in Japanese** 
+- **All responses to user must be in Japanese**
 - **Documentation (JSDoc, TypeScript interfaces)**: English
-- **Inline code comments (test descriptions, zod schemas)**: English  
+- **Inline code comments (test descriptions, zod schemas)**: English
 - **Implementation reasoning comments**: Japanese
 - **No emojis in code or documentation**
 
@@ -92,7 +100,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 - **Required for ALL task completions** including minor tasks like formatting, refactoring, or documentation
 - Use osascript for macOS notifications:
   ```bash
-  osascript -e 'display notification "${TASK_DESCRIPTION} is complete" with title "Word Scramble"'
+  osascript -e 'display notification "${TASK_DESCRIPTION} is complete" with title "Shufflemoji"'
   ```
 - For Windows environment, adapt notification system as appropriate
 
@@ -102,22 +110,52 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Development Commands
 
-### Setup & Development
+### Docker Environment
 ```bash
-# Start development server
+# Start development environment
+docker compose up -d
+
+# Rebuild containers (after config changes)
+docker compose up --build --no-cache -d
+
+# View logs
+docker compose logs shufflemoji-web -f
+
+# Stop containers
+docker compose down
+```
+
+### Next.js Development
+```bash
+# Start development server (inside container)
 npm run dev
 
 # Build for production
 npm run build
 
-# Preview production build
-npm run preview
+# Start production server
+npm run start
 
 # Install dependencies
 npm install
 
 # Type checking
 npm run type-check
+```
+
+### Database Operations
+```bash
+# Generate Prisma client
+npx prisma generate
+
+# Run database migrations
+npx prisma migrate dev
+
+# Open Prisma Studio
+npx prisma studio
+
+# Reset database
+npx prisma migrate reset
 ```
 
 ### Code Quality
@@ -160,12 +198,17 @@ npm run test:coverage
 
 ### Core Components Structure
 ```
-src/
-├── pages/                  # Page-level components
-│   ├── TopPage.tsx         # Landing page with mode selection
-│   ├── GamePage.tsx        # Main game interface (mode-aware)
-│   ├── ResultPage.tsx      # Game over screen with stats
-│   └── NotFoundPage.tsx    # 404 error page
+app/
+├── page.tsx                # Root page (mode selection)
+├── game/
+│   └── [mode]/
+│       └── page.tsx        # Dynamic game page (/game/html-css, /game/ruby)
+├── api/
+│   └── auth/
+│       └── [...nextauth]/
+│           └── route.ts    # NextAuth API routes
+├── layout.tsx              # Root layout
+└── globals.css             # Global styles
 ├── components/
 │   ├── game/               # Game-specific components
 │   │   ├── HTMLCSSQuestion.tsx  # HTML/CSS mode question display
@@ -191,8 +234,9 @@ src/
 │   ├── word.ts             # Word/term data types
 │   └── index.ts            # Type exports
 ├── data/                   # Static data and constants
-│   ├── htmlCssTerms.ts     # HTML/CSS vocabulary
-│   ├── rubyMethods.ts      # Ruby method names
+│   ├── htmlCssTerms.ts     # HTML/CSS vocabulary (57 terms)
+│   ├── rubyMethods.ts      # Ruby method names (100 terms)
+│   ├── feTerms.ts          # FE exam terms (105 terms)
 │   └── constants.ts        # Game configuration constants
 ├── utils/                  # Utility functions
 │   ├── gameLogic.ts        # Core game logic
@@ -206,13 +250,13 @@ src/
 ### Key Data Types
 ```typescript
 // Current Implementation
-export type GameMode = 'html-css' | 'ruby';
+export type GameMode = 'html-css' | 'ruby' | 'fe';
 
 export type Word = {
   id: string;
   original: string;      // Correct word/term (e.g., "div")
   mode: GameMode;
-  category: string;      // 'HTML', 'CSS', or 'ruby'
+  category: string;      // 'HTML', 'CSS', 'ruby', or 'fe'
   hint: string;          // Educational hint text (60+ characters)
 }
 
@@ -246,7 +290,7 @@ interface GamePageState {
 // Future Implementation
 interface GameResult {
   streak: number;
-  mode: 'html-css' | 'ruby';
+  mode: 'html-css' | 'ruby' | 'fe';
   totalTime: number;
   completedAt: Date;
   wordsCompleted: Word[];
@@ -267,7 +311,8 @@ interface GameResult {
 - [x] Selection reset functionality
 - [x] **Mode selection with URL parameters** (/game/html-css, /game/ruby)
 - [x] **Ruby methods database** (100 methods with hints)
-- [x] **HTML/CSS terms database** (100 terms with hints)
+- [x] **HTML/CSS terms database** (57 terms with hints)
+- [x] **FE exam terms database** (105 terms with hints)
 - [x] **Mode-specific question components**
 - [ ] Streak tracking and game over logic
 - [ ] Local high score storage
@@ -293,11 +338,11 @@ interface GameResult {
 
 ## Game Data Structure
 
-### HTML/CSS Terms Database (100 terms)
+### HTML/CSS Terms Database (57 terms)
 ```typescript
 // htmlCssTerms.ts
 export const htmlCssTerms: Word[] = [
-  // HTML Elements (31 terms)
+  // HTML Elements (29 terms)
   {
     id: 'div-1',
     original: 'div',
@@ -305,22 +350,48 @@ export const htmlCssTerms: Word[] = [
     category: 'HTML',
     hint: 'HTMLで最もよく使われるブロック要素。コンテンツをグループ化してレイアウトを作ったり、CSSでスタイリングするための汎用的なコンテナとして利用される。'
   },
-  // ... 30 more HTML elements
-  
-  // CSS Properties (69 terms)
+  // ... 28 more HTML elements
+
+  // CSS Properties (28 terms)
   {
     id: 'color-1',
     original: 'color',
-    mode: 'html-css', 
+    mode: 'html-css',
     category: 'CSS',
     hint: 'テキストの文字色を指定するCSSプロパティ。16進数カラーコード、RGB値、色名などで指定でき、要素の前景色を変更する基本的なスタイル設定。'
   },
-  // ... 68 more CSS properties
+  // ... 27 more CSS properties
 ];
 
 export const getRandomHtmlCssTerm = (): GameWord => {
   const randomIndex = Math.floor(Math.random() * htmlCssTerms.length);
   const word = htmlCssTerms[randomIndex];
+  return {
+    ...word,
+    scrambled: scrambleWord(word.original)
+  };
+};
+```
+
+### FE Exam Terms Database (105 terms)
+```typescript
+// feTerms.ts
+export const feTerms: Word[] = [
+  // IT基礎用語
+  {
+    id: 'api-1',
+    original: 'api',
+    mode: 'fe',
+    category: 'fe',
+    hint: 'アプリケーション・プログラミング・インターフェイス。異なるソフトウェア同士が情報をやり取りするための仕組みや規約。'
+  },
+  // ... 104 more FE exam terms covering:
+  // - 3文字: 69語, 4文字: 28語, 5文字: 6語, 7文字: 2語
+];
+
+export const getRandomFeTerm = (): GameWord => {
+  const randomIndex = Math.floor(Math.random() * feTerms.length);
+  const word = feTerms[randomIndex];
   return {
     ...word,
     scrambled: scrambleWord(word.original)
@@ -358,17 +429,19 @@ export const getRandomRubyMethod = (): GameWord => {
 
 ## Routing Structure
 
-### URL Pattern
+### URL Pattern (Next.js App Router)
 - **Top Page**: `/` - Game mode selection with instructions
 - **HTML/CSS Mode**: `/game/html-css` - HTML/CSS terms game
-- **Ruby Mode**: `/game/ruby` - Ruby methods game  
-- **Results**: `/result` - Game over screen with statistics
-- **404**: `/*` - Not found page
+- **Ruby Mode**: `/game/ruby` - Ruby methods game
+- **FE Mode**: `/game/fe` - FE exam terms game
+- **Authentication**: `/api/auth/*` - NextAuth.js endpoints
+- **Dynamic Routes**: `/game/[mode]` - Mode-specific game pages
 
 ### State Management
-- **Mode Selection**: URL parameters (`useParams`)
-- **Game State**: Local component state with hooks
-- **Result Data**: React Router state passing
+- **Mode Selection**: Dynamic routes (`params.mode`)
+- **Game State**: React hooks + local storage
+- **User Session**: NextAuth.js session management
+- **Database State**: Prisma ORM + PostgreSQL
 
 ## Development Context
 
@@ -379,21 +452,23 @@ export const getRandomRubyMethod = (): GameWord => {
 - **Repository**: Individual GitHub repository
 
 ### Current Development Status
-- **Timeline**: 2-week development sprint  
-- **Current Phase**: Dual-mode game system completed ✅
-- **Recent Achievement**: 
-  - URL-based mode selection (/game/html-css, /game/ruby)
-  - 100 HTML/CSS terms with educational hints
-  - 100 Ruby methods with educational hints
-  - Mode-specific question components
-  - Game instructions modal
-- **Next Milestone**: User registration and score history system
-- **Environment**: Windows + VS Code + dev container setup
+- **Timeline**: Next.js移行フェーズ完了 ✅
+- **Current Phase**: Full-stack development ready
+- **Recent Achievement**:
+  - ✅ **Next.js環境移行完了**: React→Next.js移行成功
+  - ✅ **Docker環境構築**: WSL2 + Alpine Linux + Node.js 18
+  - ✅ **Bus Error解決**: プロジェクト分離とメモリ最適化により解決
+  - ✅ **認証基盤**: NextAuth.js + PostgreSQL + Prisma設定完了
+  - ✅ **既存機能移行**: ゲームロジックとコンポーネントをNext.jsに移植
+  - ✅ **3モード対応**: HTML/CSS(57語), Ruby(100語), FE(105語)の3モード実装
+  - ✅ **UX改善**: データクリーンアップ、タイマー15秒化、アプリ名統一
+- **Next Milestone**: ユーザー登録機能とスコア履歴システムの実装
+- **Environment**: Docker + WSL2 + Next.js + PostgreSQL
 
 ### Branch Status
-- **Current Branch**: `16_GamePage_component_arrange`  
+- **Current Branch**: `34_game_page_routing`
 - **Main Branch**: `main`
-- **Recent Work**: Dual-mode implementation with URL parameters
+- **Recent Work**: Next.js移行とDocker環境構築完了
 
 ### Code Conventions
 - **React**: Functional components with hooks
@@ -408,13 +483,46 @@ export const getRandomRubyMethod = (): GameWord => {
 - **Bundle optimization**: Code splitting for different game modes
 - **Local storage**: Efficient high score and settings persistence
 
-## Library Usage Guidelines
-- **Always use Context7 MCP** to retrieve the latest library information and usage patterns
-- Prefer official documentation and examples
-- Follow React 19 patterns and concurrent features when applicable
-- Use TypeScript strict mode for type safety
+## Environment Setup
 
-## Hidden Files & Debugging
-- Use **Bash tool** for finding hidden folders like `.tmp`, not List tool
-- Debug using browser dev tools and React DevTools
-- Firebase debugging through Firebase console and emulator suite (future)
+### WSL2 Configuration
+**File**: `C:\Users\<username>\.wslconfig`
+```ini
+[wsl2]
+memory=8GB
+processors=4
+swap=4GB
+localhostForwarding=true
+
+[experimental]
+autoMemoryReclaim=gradual
+```
+
+### Docker Environment
+- **Base Image**: `node:18-alpine` (軽量・安定性重視)
+- **Container Names**: `shufflemoji-web`, `shufflemoji-postgres`
+- **Network**: `shufflemoji_network`
+- **Database**: `shufflemoji_development`
+
+### Bus Error解決経緯
+**問題**: WSL2 + Docker環境でNext.jsがSIGBUS errorで起動失敗
+
+**解決策**:
+1. **プロジェクト分離**: React/Next.js混在環境の分離
+2. **メモリ最適化**: 不要ファイル除外で802MB→3MB転送量削減
+3. **WSL2設定**: memory=8GB, autoMemoryReclaim=gradual
+4. **Alpine Linux**: 軽量ベースイメージでメモリ効率化
+
+## Library Usage Guidelines
+- **Next.js 15**: App Router、Server Components活用
+- **NextAuth.js**: 認証・セッション管理
+- **Prisma**: Type-safe database access
+- **TypeScript**: Strict mode enabled
+- 公式ドキュメント優先、最新パターン採用
+
+## Debugging & Development
+- **Browser**: React DevTools, Next.js DevTools
+- **Database**: Prisma Studio (`npx prisma studio`)
+- **Container Logs**: `docker compose logs shufflemoji-web -f`
+- **Authentication**: NextAuth.js debug mode
+- **WSL2 Memory**: `free -h` でメモリ使用量確認

@@ -1,87 +1,43 @@
-# React TodoアプリのDocker Compose設定
 services:
-  web:
+  shufflemoji-web:
     build:
       context: .
-      dockerfile: Dockerfile
-    container_name: tetete_quiz_app
+    container_name: shufflemoji-web
     ports:
-      # Vite dev server用ポート
-      - '5173:5173'
-      # 代替ポート
-      - '3000:3000'
-      # Vite preview用
-      - '4173:4173'
+      - "3000:3000"
+      - "5555:5555"
     volumes:
-      # アプリケーションコードをマウント
-      - .:/workspace
-      # node_modulesをボリュームとして分離（パフォーマンス向上）
-      - node_modules:/workspace/node_modules
-      # パッケージマネージャーのキャッシュ
-      - ~/.npm:/home/node/.npm
+      - .:/app
+      - node_modules:/app/node_modules
     environment:
-      - NODE_ENV=development
-      # Vite用環境変数
-      - VITE_HMR_HOST=localhost
-      - VITE_HMR_PORT=5173
-      # ホットリロード設定
-      - CHOKIDAR_USEPOLLING=true
-      - WATCHPACK_POLLING=true
-
-      - FAST_REFRESH=true
-      - WDS_SOCKET_HOST=localhost
-      - WDS_SOCKET_PORT=3000
-    restart: unless-stopped
+      - DATABASE_URL=postgresql://postgres:password@shufflemoji-postgres:5432/shufflemoji_development
+      - NEXTAUTH_URL=http://localhost:3000
+    env_file:
+      - .env.local
+    depends_on:
+      - shufflemoji-postgres
     networks:
-      - tetete-network
-    healthcheck:
-      test: ['CMD', 'curl', '-f', 'http://localhost:5173']
-      interval: 30s
-      timeout: 10s
-      retries: 3
-      start_period: 40s
-    # stdin/tty for React development server
-    stdin_open: true
-    tty: true
-    working_dir: /workspace
+      - shufflemoji_network
+    restart: "no"
 
-# Firebase Emulator（開発用）
-  firebase:
-    image: andreysenov/firebase-tools:latest
-    container_name: tetete_firebase_emulator
+  shufflemoji-postgres:
+    image: postgres:13-alpine
+    container_name: shufflemoji-postgres
+    environment:
+      POSTGRES_DB: shufflemoji_development
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
     ports:
-      - "4000:4000"  # Firebase UI
-      - "8080:8080"  # Firestore Emulator
-      - "9099:9099"  # Auth Emulator
-      - "8085:8085"  # Functions Emulator
-    volumes:
-      - .:/workspace
-      - firebase_cache:/home/node/.cache
-    environment:
-      - FIREBASE_PROJECT_ID=tetete-quiz-dev
+      - "5432:5432"
     networks:
-      - tetete-network
-    working_dir: /workspace
-    command: >
-      sh -c "
-        firebase emulators:start --only firestore,auth,hosting --project tetete-quiz-dev || 
-        echo 'Firebase emulators will start when project is initialized'
-      "
+      - shufflemoji_network
 
-# ボリュームの定義
 volumes:
-  # Node.js依存関係用（高速アクセス）
   node_modules:
-    driver: local
-    name: tetete_node_modules
+  postgres_data:
 
-  # Firebase キャッシュ用
-  firebase_cache:
-    driver: local
-    name: tetete_firebase_cache
-
-# ネットワーク設定
 networks:
-  tetete-network:
+  shufflemoji_network:
     driver: bridge
-    name: tetete_quiz_network
