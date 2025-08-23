@@ -10,31 +10,33 @@ export const authOptions: NextAuthOptions = {
     GoogleProvider({
       clientId: process.env.GOOGLE_CLIENT_ID!,
       clientSecret: process.env.GOOGLE_CLIENT_SECRET!,
-    })
+    }),
   ],
-  debug: true,
+  debug: process.env.NODE_ENV === 'development',
   callbacks: {
     session: async ({ session, user }) => {
       // Database strategyではuserオブジェクトから情報を取得
       if (session?.user && user) {
-        session.user.id = user.id
-        session.user.email = user.email!
-        session.user.username = user.username
-        session.user.avatarUrl = user.avatarUrl
-        session.user.isProfileCompleted = user.isProfileCompleted
+        session.user.id = user.id;
+        session.user.email = user.email!;
+        session.user.username = user.username;
+        session.user.avatarUrl = user.avatarUrl;
+        session.user.isProfileCompleted = user.isProfileCompleted;
       }
-      return session
+      return session;
     },
     signIn: async ({ user, account, profile }) => {
-      return true
-    }
+      return true;
+    },
   },
   // PrismaAdapterを使用する場合はdatabase strategyを使用
   session: {
-    strategy: 'database'
+    strategy: 'database',
+    maxAge: 24 * 60 * 60, // 1日
+    updateAge: 60 * 60,
   },
   pages: {
     signIn: '/auth/signin',
-    error: '/auth/error'
-  }
-}
+    error: '/auth/error',
+  },
+};
