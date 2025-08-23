@@ -20,9 +20,10 @@ const scrambleWord = (word: string): string => {
   return scrambled;
 };
 
-// 基本情報技術者試験用語データ
+// 基本情報技術者試験用語データベース（合計 105語）
+// 3文字: 69語, 4文字: 28語, 5文字: 6語, 7文字: 2語
 export const feTerms: Word[] = [
-  // 3文字略語（69個）
+  // 3文字略語（69語）
   {
     id: 'b2b-1',
     original: 'B2B',
@@ -63,14 +64,14 @@ export const feTerms: Word[] = [
     original: 'CEO',
     mode: 'fe',
     category: 'FE',
-    hint: '企業の最高経営責任者として経営方針決定や業務執行の最終責任を負う役職。'
+    hint: '企業の最高"経営"責任者として経営方針決定や業務執行の最終責任を負う役職。'
   },
   {
     id: 'cio-1',
     original: 'CIO',
     mode: 'fe',
     category: 'FE',
-    hint: '企業の最高情報責任者としてIT戦略やシステム全体の責任を担う経営幹部。'
+    hint: '企業の最高"情報"責任者としてIT戦略やシステム全体の責任を担う経営幹部。'
   },
   {
     id: 'cli-1',
@@ -91,7 +92,7 @@ export const feTerms: Word[] = [
     original: 'CRC',
     mode: 'fe',
     category: 'FE',
-    hint: '循環冗長検査として通信やストレージにおけるデータ誤り検出方式。'
+    hint: '巡回冗長検査として通信やストレージにおけるデータ誤り検出方式。'
   },
   {
     id: 'crm-1',
@@ -120,13 +121,6 @@ export const feTerms: Word[] = [
     mode: 'fe',
     category: 'FE',
     hint: 'データをカンマで区切って表現するシンプルなファイル形式。表計算ソフトで広く使用。'
-  },
-  {
-    id: 'dao-1',
-    original: 'DAO',
-    mode: 'fe',
-    category: 'FE',
-    hint: 'データベースアクセスを抽象化するオブジェクト指向設計パターン。データアクセス層を分離。'
   },
   {
     id: 'ddl-1',
@@ -420,7 +414,7 @@ export const feTerms: Word[] = [
     original: 'SSL',
     mode: 'fe',
     category: 'FE',
-    hint: 'インターネット通信を暗号化するセキュリティプロトコル。現在はTLSが後継。'
+    hint: 'インターネット通信を暗号化するセキュリティプロトコル。現在はTLSがこれの後継。'
   },
   {
     id: 'tcp-1',
@@ -507,7 +501,7 @@ export const feTerms: Word[] = [
     hint: '大量のテキストデータで学習された大規模言語モデル。ChatGPTなどの基盤技術。'
   },
 
-  // 4文字略語（28個）
+  // 4文字略語（28語）
   {
     id: 'acid-1',
     original: 'ACID',
@@ -548,14 +542,14 @@ export const feTerms: Word[] = [
     original: 'CRUD',
     mode: 'fe',
     category: 'FE',
-    hint: 'データベースやWebアプリケーションにおける4つの基本操作機能。'
+    hint: 'データベースやWebアプリケーションにおける4つの基本操作機能（作成・読取・更新・削除）。'
   },
   {
     id: 'csrf-1',
     original: 'CSRF',
     mode: 'fe',
     category: 'FE',
-    hint: 'ユーザーの意図しないリクエストを送信させるクロスサイトリクエストフォージェリ攻撃。'
+    hint: '攻撃者がユーザーを騙して意図しない操作を実行させるウェブセキュリティの脆弱性。'
   },
   {
     id: 'dbms-1',
@@ -577,13 +571,6 @@ export const feTerms: Word[] = [
     mode: 'fe',
     category: 'FE',
     hint: '先入先出法として最初に入力されたデータを最初に出力するキュー構造の処理方式。'
-  },
-  {
-    id: 'gdpr-1',
-    original: 'GDPR',
-    mode: 'fe',
-    category: 'FE',
-    hint: 'EU域内の個人データ保護を強化するEU一般データ保護規則。'
   },
   {
     id: 'html-1',
@@ -653,7 +640,7 @@ export const feTerms: Word[] = [
     original: 'MITM',
     mode: 'fe',
     category: 'FE',
-    hint: '通信の中間に侵入して盗聴や改ざんを行う中間者攻撃。'
+    hint: '通信の中間に侵入してメッセージの盗聴や改ざんを行う攻撃。'
   },
   {
     id: 'paas-1',
@@ -705,7 +692,7 @@ export const feTerms: Word[] = [
     hint: '強み・弱み・機会・脅威から戦略を分析するフレームワーク。'
   },
 
-  // 5文字略語（6個）
+  // 5文字略語（6語）
   {
     id: 'https-1',
     original: 'HTTPS',
@@ -749,7 +736,7 @@ export const feTerms: Word[] = [
     hint: 'IEEE 802.11規格に基づく無線LAN機器の相互接続を保証する業界標準規格の商標。'
   },
 
-  // 7文字略語（2個）
+  // 7文字略語（2語）
   {
     id: 'captcha-1',
     original: 'CAPTCHA',

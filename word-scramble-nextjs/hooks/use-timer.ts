@@ -1,13 +1,13 @@
 import { useEffect, useState } from 'react';
 
 export const useTimer = () => {
-  const [time, setTime] = useState(10);
+  const [time, setTime] = useState(15);
   const [isRunning, setIsRunning] = useState(true);
 
   // タイマーリセット
   const resetTimer = () => {
     setIsRunning(false);
-    setTime(10);
+    setTime(15);
     // setTimeout(() => setIsRunning(true), 0);
   };
 

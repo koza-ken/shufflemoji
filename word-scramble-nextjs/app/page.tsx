@@ -1,7 +1,13 @@
+'use client'
+
 import Link from 'next/link'
 import { UserProfile } from '@/components/auth/UserProfile'
+import { GuideModal } from '@/components/game/GuideModal'
+import { useState } from 'react'
 
 export default function TopPage() {
+  const [isGuideModalOpen, setIsGuideModalOpen] = useState(false)
+
   return (
     <div className="min-h-screen bg-gray-50">
       <header className="bg-white shadow-sm">
@@ -22,7 +28,7 @@ export default function TopPage() {
             <p className="text-lg text-gray-600 mb-8">
               プログラミング用語の並び替えゲームです
             </p>
-            
+
             <div className="space-y-8">
               <div className="mt-10">
                 <p className="text-2xl font-bold">ゲーム開始</p>
@@ -50,11 +56,17 @@ export default function TopPage() {
 
               <div className="pt-6 border-t border-gray-200">
                 <div className="flex justify-center gap-4">
+                  <button
+                    onClick={() => setIsGuideModalOpen(true)}
+                    className="w-40 bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-6 rounded text-center"
+                  >
+                    使い方
+                  </button>
                   <Link
                     href="/ranking"
-                    className="flex items-center gap-2 bg-yellow-500 hover:bg-yellow-600 text-white font-bold py-2 px-6 rounded"
+                    className="w-40 bg-yellow-500 hover:bg-yellow-600 text-white font-bold py-2 px-6 rounded text-center"
                   >
-                    🏆 ランキング
+                  ランキング
                   </Link>
                 </div>
               </div>
@@ -62,6 +74,12 @@ export default function TopPage() {
           </div>
         </div>
       </div>
+
+      {/* ゲーム説明モーダル */}
+      <GuideModal 
+        isOpen={isGuideModalOpen}
+        onClose={() => setIsGuideModalOpen(false)}
+      />
     </div>
   )
 }

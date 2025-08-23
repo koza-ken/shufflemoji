@@ -2,43 +2,50 @@
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
 ## Project Overview
-**Word Scramble Game** - A word unscrambling challenge game with two specialized modes for programming education. Players rearrange scrambled characters to form correct words under time pressure in a continuous challenge format.
+**Shufflemoji** - A word unscrambling challenge game with three specialized modes for programming education. Players rearrange scrambled characters to form correct words under time pressure in a continuous challenge format.
 
 ### Core Concept
 - **Word unscrambling**: Rearrange scattered characters to form correct words
 - **Continuous challenge**: Play until one mistake (streak-based scoring)
-- **Time pressure**: 10-second limit per question with early submission
+- **Time pressure**: 15-second limit per question with early submission
 - **Interactive controls**: Click-to-select and drag-and-drop functionality
-- **Dual learning modes**: HTML/CSS and Ruby methods for programming education
+- **Triple learning modes**: HTML/CSS, Ruby methods, and FE exam terms for programming education
 
 ### Game Mechanics
 - **Basic Rules**:
   - Rearrange scrambled characters into correct words
   - Continuous challenge format (game ends on first mistake)
-  - 10-second time limit per question
-  - Early solving allowed (no need to wait full 10 seconds)
+  - 15-second time limit per question
+  - Early solving allowed (no need to wait full 15 seconds)
 
 - **Controls**:
   - Click characters in sequence to select
   - Reset selection functionality
   - Drag & drop for character reordering
 
-### Two Game Modes
+### Three Game Modes
 
 #### HTML/CSS Mode
 - HTML elements and CSS properties unscrambling
 - Frontend development learning reinforcement
 - Examples: "vdi" → "div", "loroc" → "color"
-
+- 83語
 #### Ruby Methods Mode
 - Ruby method name unscrambling
 - Rails development learning support
 - Examples: "hacm_se" → "each_ms", "pma" → "map"
+- 100語
+
+#### FE Mode（基本情報技術者試験）
+- IT基礎用語のアンスクランブリング
+- 基本情報技術者試験対策
+- Examples: "pai" → "api", "qls" → "sql"
+- 105語（3文字: 69語, 4文字: 28語, 5文字: 6語, 7文字: 2語）
 
 ### Mode Design Philosophy
 - **Problem**: Single mode difficulty balancing is challenging
 - **Issue**: Important terms with fewer characters become too easy
-- **Solution**: Two specialized modes balance learning effectiveness with game difficulty
+- **Solution**: Three specialized modes balance learning effectiveness with game difficulty
 - **Benefit**: Maintains educational value while ensuring engaging gameplay
 
 ## Tech Stack
@@ -63,9 +70,9 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ### Language Rules
 - **Internal thinking must be in English** for optimal Claude Code performance
-- **All responses to user must be in Japanese** 
+- **All responses to user must be in Japanese**
 - **Documentation (JSDoc, TypeScript interfaces)**: English
-- **Inline code comments (test descriptions, zod schemas)**: English  
+- **Inline code comments (test descriptions, zod schemas)**: English
 - **Implementation reasoning comments**: Japanese
 - **No emojis in code or documentation**
 
@@ -93,7 +100,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 - **Required for ALL task completions** including minor tasks like formatting, refactoring, or documentation
 - Use osascript for macOS notifications:
   ```bash
-  osascript -e 'display notification "${TASK_DESCRIPTION} is complete" with title "Word Scramble"'
+  osascript -e 'display notification "${TASK_DESCRIPTION} is complete" with title "Shufflemoji"'
   ```
 - For Windows environment, adapt notification system as appropriate
 
@@ -227,8 +234,9 @@ app/
 │   ├── word.ts             # Word/term data types
 │   └── index.ts            # Type exports
 ├── data/                   # Static data and constants
-│   ├── htmlCssTerms.ts     # HTML/CSS vocabulary
-│   ├── rubyMethods.ts      # Ruby method names
+│   ├── htmlCssTerms.ts     # HTML/CSS vocabulary (57 terms)
+│   ├── rubyMethods.ts      # Ruby method names (100 terms)
+│   ├── feTerms.ts          # FE exam terms (105 terms)
 │   └── constants.ts        # Game configuration constants
 ├── utils/                  # Utility functions
 │   ├── gameLogic.ts        # Core game logic
@@ -242,13 +250,13 @@ app/
 ### Key Data Types
 ```typescript
 // Current Implementation
-export type GameMode = 'html-css' | 'ruby';
+export type GameMode = 'html-css' | 'ruby' | 'fe';
 
 export type Word = {
   id: string;
   original: string;      // Correct word/term (e.g., "div")
   mode: GameMode;
-  category: string;      // 'HTML', 'CSS', or 'ruby'
+  category: string;      // 'HTML', 'CSS', 'ruby', or 'fe'
   hint: string;          // Educational hint text (60+ characters)
 }
 
@@ -282,7 +290,7 @@ interface GamePageState {
 // Future Implementation
 interface GameResult {
   streak: number;
-  mode: 'html-css' | 'ruby';
+  mode: 'html-css' | 'ruby' | 'fe';
   totalTime: number;
   completedAt: Date;
   wordsCompleted: Word[];
@@ -303,7 +311,8 @@ interface GameResult {
 - [x] Selection reset functionality
 - [x] **Mode selection with URL parameters** (/game/html-css, /game/ruby)
 - [x] **Ruby methods database** (100 methods with hints)
-- [x] **HTML/CSS terms database** (100 terms with hints)
+- [x] **HTML/CSS terms database** (57 terms with hints)
+- [x] **FE exam terms database** (105 terms with hints)
 - [x] **Mode-specific question components**
 - [ ] Streak tracking and game over logic
 - [ ] Local high score storage
@@ -329,11 +338,11 @@ interface GameResult {
 
 ## Game Data Structure
 
-### HTML/CSS Terms Database (100 terms)
+### HTML/CSS Terms Database (57 terms)
 ```typescript
 // htmlCssTerms.ts
 export const htmlCssTerms: Word[] = [
-  // HTML Elements (31 terms)
+  // HTML Elements (29 terms)
   {
     id: 'div-1',
     original: 'div',
@@ -341,22 +350,48 @@ export const htmlCssTerms: Word[] = [
     category: 'HTML',
     hint: 'HTMLで最もよく使われるブロック要素。コンテンツをグループ化してレイアウトを作ったり、CSSでスタイリングするための汎用的なコンテナとして利用される。'
   },
-  // ... 30 more HTML elements
-  
-  // CSS Properties (69 terms)
+  // ... 28 more HTML elements
+
+  // CSS Properties (28 terms)
   {
     id: 'color-1',
     original: 'color',
-    mode: 'html-css', 
+    mode: 'html-css',
     category: 'CSS',
     hint: 'テキストの文字色を指定するCSSプロパティ。16進数カラーコード、RGB値、色名などで指定でき、要素の前景色を変更する基本的なスタイル設定。'
   },
-  // ... 68 more CSS properties
+  // ... 27 more CSS properties
 ];
 
 export const getRandomHtmlCssTerm = (): GameWord => {
   const randomIndex = Math.floor(Math.random() * htmlCssTerms.length);
   const word = htmlCssTerms[randomIndex];
+  return {
+    ...word,
+    scrambled: scrambleWord(word.original)
+  };
+};
+```
+
+### FE Exam Terms Database (105 terms)
+```typescript
+// feTerms.ts
+export const feTerms: Word[] = [
+  // IT基礎用語
+  {
+    id: 'api-1',
+    original: 'api',
+    mode: 'fe',
+    category: 'fe',
+    hint: 'アプリケーション・プログラミング・インターフェイス。異なるソフトウェア同士が情報をやり取りするための仕組みや規約。'
+  },
+  // ... 104 more FE exam terms covering:
+  // - 3文字: 69語, 4文字: 28語, 5文字: 6語, 7文字: 2語
+];
+
+export const getRandomFeTerm = (): GameWord => {
+  const randomIndex = Math.floor(Math.random() * feTerms.length);
+  const word = feTerms[randomIndex];
   return {
     ...word,
     scrambled: scrambleWord(word.original)
@@ -397,7 +432,8 @@ export const getRandomRubyMethod = (): GameWord => {
 ### URL Pattern (Next.js App Router)
 - **Top Page**: `/` - Game mode selection with instructions
 - **HTML/CSS Mode**: `/game/html-css` - HTML/CSS terms game
-- **Ruby Mode**: `/game/ruby` - Ruby methods game  
+- **Ruby Mode**: `/game/ruby` - Ruby methods game
+- **FE Mode**: `/game/fe` - FE exam terms game
 - **Authentication**: `/api/auth/*` - NextAuth.js endpoints
 - **Dynamic Routes**: `/game/[mode]` - Mode-specific game pages
 
@@ -418,12 +454,14 @@ export const getRandomRubyMethod = (): GameWord => {
 ### Current Development Status
 - **Timeline**: Next.js移行フェーズ完了 ✅
 - **Current Phase**: Full-stack development ready
-- **Recent Achievement**: 
+- **Recent Achievement**:
   - ✅ **Next.js環境移行完了**: React→Next.js移行成功
   - ✅ **Docker環境構築**: WSL2 + Alpine Linux + Node.js 18
   - ✅ **Bus Error解決**: プロジェクト分離とメモリ最適化により解決
   - ✅ **認証基盤**: NextAuth.js + PostgreSQL + Prisma設定完了
   - ✅ **既存機能移行**: ゲームロジックとコンポーネントをNext.jsに移植
+  - ✅ **3モード対応**: HTML/CSS(57語), Ruby(100語), FE(105語)の3モード実装
+  - ✅ **UX改善**: データクリーンアップ、タイマー15秒化、アプリ名統一
 - **Next Milestone**: ユーザー登録機能とスコア履歴システムの実装
 - **Environment**: Docker + WSL2 + Next.js + PostgreSQL
 

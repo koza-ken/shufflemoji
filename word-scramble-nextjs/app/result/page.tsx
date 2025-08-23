@@ -51,6 +51,17 @@ export default function ResultPage() {
   const modeLabel =
     mode === 'html-css' ? 'HTML/CSS' : mode === 'ruby' ? 'Ruby' : '基本情報技術者';
 
+  // X投稿用のテキストを生成
+  const createTweetText = () => {
+    const baseText = `シャッフルもじ（${modeLabel}モード）で${questionCount}問正解しました！`;
+    const hashtag = '#シャッフルもじ';
+    const gameurl = 'gameurl';
+    return `${baseText}\n${gameurl}\n${hashtag}`;
+  };
+
+  // X投稿用のURL
+  const tweetUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(createTweetText())}`;
+
   // ログイン済みユーザーの場合は自動で結果を保存（1回だけ）
   useEffect(() => {
     if (session?.user && !saved && !hasAttemptedSave && mode) {
@@ -64,7 +75,7 @@ export default function ResultPage() {
       setError('ゲームデータが読み込まれていません')
       return
     }
-    
+
     if (!session && (!guestName || guestName.trim().length === 0)) {
       setError('名前を入力してください')
       return
@@ -132,10 +143,15 @@ export default function ResultPage() {
             ゲーム結果
           </h1>
           <p className="text-2xl text-gray-600 mb-4">
-            {session?.user?.username
-              ? `${session.user.username}さんの成績`
-              : 'あなたの成績'
-            }
+            {session?.user?.username ? (
+              <>
+                {session.user.username}
+                <span className="text-sm">さん</span>
+                の成績
+              </>
+            ) : (
+              'あなたの成績'
+            )}
           </p>
           <div className="flex items-center justify-center gap-2 mb-4">
             <div className={`px-3 py-1 rounded-full text-white text-sm font-medium ${
@@ -144,9 +160,24 @@ export default function ResultPage() {
               {modeLabel}
             </div>
           </div>
-          <p className="text-3xl font-bold text-gray-800 mb-8">
+          <p className="text-3xl font-bold text-gray-800 mb-6">
             {questionCount}問正解
           </p>
+
+          {/* X投稿ボタン */}
+          <div className="mb-8">
+            <a
+              href={tweetUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-2 bg-black hover:bg-gray-800 text-white font-bold py-2 px-4 rounded transition-colors"
+            >
+              <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 512 512">
+                <path d="M389.2 48h70.6L305.6 224.2 487 464H345L233.7 318.6 106.5 464H35.8L200.7 275.5 26.8 48H172.4L272.9 180.9 389.2 48zM364.4 421.8h39.1L151.1 88h-42L364.4 421.8z"/>
+              </svg>
+              結果を投稿
+            </a>
+          </div>
 
           {/* ゲストユーザー保存機能 */}
           {!session && !saved && (
