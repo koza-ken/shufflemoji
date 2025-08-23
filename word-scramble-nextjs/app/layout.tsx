@@ -15,7 +15,70 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   title: "シャッフルもじ",
-  description: "プログラミング用語の並び替えゲーム",
+  description: "プログラミング用語の並び替えゲーム。HTML/CSS、Ruby、基本情報技術者試験の用語を楽しく学習できます。",
+  keywords: ["プログラミング", "学習", "ゲーム", "HTML", "CSS", "Ruby", "基本情報技術者"],
+  authors: [{ name: "Shufflemoji" }],
+  creator: "Shufflemoji",
+  publisher: "Shufflemoji",
+  
+  // ファビコン設定
+  icons: {
+    icon: [
+      { url: "/favicon.ico", sizes: "any" },
+      { url: "/icon.svg", type: "image/svg+xml" },
+    ],
+    apple: [
+      { url: "/apple-touch-icon.png", sizes: "180x180", type: "image/png" },
+    ],
+    other: [
+      { rel: "mask-icon", url: "/safari-pinned-tab.svg", color: "#5bbad5" },
+    ],
+  },
+
+  // メタタグ
+  manifest: "/site.webmanifest",
+  themeColor: [
+    { media: "(prefers-color-scheme: light)", color: "#ffffff" },
+    { media: "(prefers-color-scheme: dark)", color: "#000000" },
+  ],
+
+  // OGP設定
+  openGraph: {
+    title: "シャッフルもじ",
+    description: "プログラミング用語の並び替えゲーム",
+    url: "https://shufflemoji.example.com", // デプロイ後に実際のURLに変更
+    siteName: "シャッフルもじ",
+    type: "website",
+    locale: "ja_JP",
+    images: [
+      {
+        url: "/og-image.png", // 仮のOGP画像パス
+        width: 1200,
+        height: 630,
+        alt: "シャッフルもじ - プログラミング用語学習ゲーム",
+      },
+    ],
+  },
+
+  // Twitter Card設定
+  twitter: {
+    card: "summary_large_image",
+    site: "@shufflemoji", // 仮のTwitterアカウント
+    creator: "@shufflemoji",
+    title: "シャッフルもじ",
+    description: "プログラミング用語の並び替えゲーム",
+    images: ["/og-image.png"], // 仮のTwitter Card画像
+  },
+
+  // その他のメタタグ
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+    },
+  },
 };
 
 export default function RootLayout({
