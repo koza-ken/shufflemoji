@@ -1,42 +1,28 @@
-# 最小動作Dockerfile
-FROM node:18
+FROM node:18-alpine
 
-WORKDIR /workspace
+WORKDIR /app
 
-# 基本的なツールをインストール
-RUN apt-get update && apt-get install -y \
-    curl \
-    git \
-    wget \
-    ca-certificates \
-    && rm -rf /var/lib/apt/lists/*
+# 必要最小限のパッケージ
+RUN apk add --no-cache openssl libc6-compat
 
-# Firebase CLI をグローバルインストール
-RUN npm install -g firebase-tools
-
-# パッケージファイルをコピーして依存関係をインストール
+# package files
 COPY package*.json ./
 
-# 依存関係をインストール（ファイルが存在する場合のみ）
-RUN if [ -f package.json ]; then \
-      if [ -f package-lock.json ]; then \
-        npm ci; \
-      else \
-        npm install; \
-      fi; \
-    fi
+# Dependencies install
+RUN npm install
 
-# ファイルをコピー
+# Copy source
 COPY . .
 
-# ポートを公開
-EXPOSE 5173 3000 4173
+# Prisma generate
+RUN npx prisma generate
 
-# ファイル権限を調整
-RUN chown -R node:node /workspace
+# Environment
+ENV NODE_ENV=development
+ENV NEXT_TELEMETRY_DISABLED=1
+ENV PORT=3000
 
-# nodeユーザーに切り替え
-USER node
+EXPOSE 3000
 
-# 永続的に起動
-CMD ["npm", "run", "dev"]
+# Start command
+CMD ["npx", "next", "dev"]
