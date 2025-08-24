@@ -53,19 +53,19 @@ export default function TopPage() {
                     mode="html-css"
                     title="HTML/CSS"
                     bgColor="bg-blue-400"
-                    hoverColor="bg-blue-500"
+                    hoverColor="hover:bg-blue-500"
                   />
                   <ModeButton
                     mode="ruby"
                     title="Ruby"
                     bgColor="bg-rose-400"
-                    hoverColor="bg-rose-500"
+                    hoverColor="hover:bg-rose-500"
                   />
                   <ModeButton
                     mode="fe"
                     title="基本情報"
                     bgColor="bg-emerald-400"
-                    hoverColor="bg-emerald-500"
+                    hoverColor="hover:bg-emerald-500"
                   />
                 </div>
               </div>
