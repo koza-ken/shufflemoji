@@ -13,8 +13,8 @@ export default function TopPage() {
     <div className="min-h-screen bg-gray-50">
       <header className="bg-white shadow-sm">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between items-center py-4">
-            <h1 className="text-xl font-bold">シャッフルもじ</h1>
+          <div className="flex justify-end py-1 sm:py-2">
+            {/* <h1 className="text-xl font-bold">シャッフルもじ</h1> */}
             <UserProfile />
           </div>
         </div>
@@ -24,7 +24,8 @@ export default function TopPage() {
         <div className="w-full max-w-2xl mx-auto bg-white rounded-lg shadow-lg p-8">
           <div className="text-center">
             <h1 className="text-4xl font-bold text-gray-900 mb-4">
-              シャッフルもじ
+              <img src="/shamoji_top_light.png" alt="シャッフルもじ" className="block dark:hidden" />
+              <img src="/shamoji_top_dark.png" alt="シャッフルもじ" className="hidden dark:block" />
             </h1>
             <p className="text-lg text-gray-600 mb-8">
               バラバラになった文字の並び替えゲーム
@@ -48,7 +49,7 @@ export default function TopPage() {
                   />
                   <ModeButton
                     mode="fe"
-                    title="基本情報技術者"
+                    title="基本情報"
                     bgColor="bg-green-500"
                     hoverColor="bg-green-700"
                   />
@@ -59,7 +60,7 @@ export default function TopPage() {
                 <div className="flex justify-center gap-4">
                   <button
                     onClick={() => setIsGuideModalOpen(true)}
-                    className="w-40 bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-6 rounded text-center"
+                    className="w-40 bg-indigo-500 hover:bg-indigo-600 text-white font-bold py-2 px-6 rounded text-center"
                   >
                     遊び方
                   </button>
@@ -67,7 +68,7 @@ export default function TopPage() {
                     href="/ranking"
                     className="w-40 bg-yellow-500 hover:bg-yellow-600 text-white font-bold py-2 px-6 rounded text-center"
                   >
-                  ランキング
+                    ランキング
                   </Link>
                 </div>
               </div>
@@ -82,5 +83,5 @@ export default function TopPage() {
         onClose={() => setIsGuideModalOpen(false)}
       />
     </div>
-  )
+  );
 }

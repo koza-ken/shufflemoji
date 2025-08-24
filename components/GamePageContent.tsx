@@ -406,7 +406,7 @@ export const GamePageContent = ({ mode }: GamePageContentProps) => {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 pt-4">
+    <div className="min-h-screen bg-gray-50 pt-2 sm:pt-4">
       {/* ヘッダー（問題数・タイマー・進捗・ラウンド） */}
       <Header
         count={questionCount}
@@ -416,10 +416,10 @@ export const GamePageContent = ({ mode }: GamePageContentProps) => {
       />
 
       {/* メインゲーム画面 */}
-      <div className="w-full max-w-2xl mx-auto px-4 py-4">
+      <div className="w-full max-w-2xl mx-auto px-2 py-2">
 
         {/* バラバラの文字表示エリア */}
-        <div className="bg-white rounded-lg shadow-lg p-6 mb-6">
+        <div className="bg-white rounded-lg shadow-lg p-2 sm:p-6 mb-6">
           {mode === 'html-css' ? (
             <HTMLCSSQuestion allChars={allChars} handleCharClick={handleCharClick} />
           ) : mode === 'ruby' ? (
@@ -444,7 +444,7 @@ export const GamePageContent = ({ mode }: GamePageContentProps) => {
           />
 
             {/* 現在の回答文字列表示 */}
-            <div className="mt-3 text-center">
+            <div className="mt-2 sm:mt-3 text-center">
               <p className="text-sm text-gray-600">
                 現在の回答: <span className="font-bold text-lg">{currentAnswer || '（未入力）'}</span>
               </p>
@@ -452,15 +452,16 @@ export const GamePageContent = ({ mode }: GamePageContentProps) => {
 
             {/* 判定結果表示 */}
             {isAnswered && (
-              <div className="mt-4 text-center">
+              <div className="mt-2 sm:mt-4 text-center">
                 {isCorrect ? (
-                  <div className="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded">
-                    <span className="text-2xl font-bold">🎉 正解！</span>
-                    <p className="mt-1">素晴らしいです！正解は「{currentWord.original}」でした。</p>
+                  <div className="border border-green-400 text-green-700 px-4 py-1 sm:py-3 rounded">
+                    <span className="text-2xl font-bold block py-3"> 正解！</span>
+                    {/* <p className="mt-1">正解は「{currentWord.original}」でした。</p> */}
                   </div>
                 ) : (
-                  <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded">
-                    <span className="text-2xl font-bold">❌ 不正解</span>
+                  // <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-1 sm:py-3 rounded">
+                  <div className=" border border-red-400 text-red-700 px-4 py-1 sm:py-3 rounded">
+                    <span className="text-2xl font-bold">不正解！</span>
                     <p className="mt-1">残念！正解は「{currentWord.original}」でした。</p>
                   </div>
                 )}
@@ -469,7 +470,7 @@ export const GamePageContent = ({ mode }: GamePageContentProps) => {
 
           {/* リセットボタン */}
           {!isAnswered && (
-            <div className="text-center mt-6">
+            <div className="text-center mt-3 sm:mt-6">
               <button
                 onClick={handleReset}
                 className="bg-orange-500 hover:bg-orange-600 text-white font-bold py-2 px-4 rounded-lg"
