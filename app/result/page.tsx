@@ -7,6 +7,7 @@ import { useState, useEffect } from 'react'
 import { QuestionList } from '@/components/game/QuestionList'
 import { GameWord } from '@/types/word'
 import { GameResultData } from '@/types/game-result'
+import LoadingScreen from '@/components/ui/LoadingScreen'
 
 export default function ResultPage() {
   const router = useRouter()
@@ -47,6 +48,7 @@ export default function ResultPage() {
   const [showSaveOption, setShowSaveOption] = useState(false) // 未ログインユーザー用の保存選択表示
   const [wantsToSave, setWantsToSave] = useState(false) // 保存したいかどうか
   const [hasAttemptedSave, setHasAttemptedSave] = useState(false) // 保存を試行したかのフラグ
+  const [historyLoading, setHistoryLoading] = useState(false) // 履歴ページ遷移ローディング
 
   const modeLabel =
     mode === 'html-css' ? 'HTML/CSS' : mode === 'ruby' ? 'Ruby' : '基本情報技術者';
@@ -134,6 +136,15 @@ export default function ResultPage() {
     }
   }
 
+  // 履歴ページへの遷移
+  const handleHistoryClick = () => {
+    setHistoryLoading(true)
+    router.push('/history')
+  }
+
+  if (historyLoading) {
+    return <LoadingScreen message="Now Loading..." />
+  }
 
   return (
     <div className="min-h-screen bg-gray-50 px-4 py-6">
@@ -263,12 +274,12 @@ export default function ResultPage() {
 
           {session && (
             <div className="mt-4">
-              <Link
-                href="/history"
+              <button
+                onClick={handleHistoryClick}
                 className="text-blue-600 hover:text-blue-800 text-sm"
               >
                 履歴を見る →
-              </Link>
+              </button>
             </div>
           )}
         </div>

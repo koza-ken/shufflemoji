@@ -15,6 +15,7 @@ import { HTMLCSSQuestion } from '@/components/game/HTMLCSSQuestion';
 import { RubyQuestion } from '@/components/game/RubyQuestion';
 import { FEQuestion } from '@/components/game/FEQuestion';
 import ConfirmModal from '@/components/ui/ConfirmModal';
+import LoadingScreen from '@/components/ui/LoadingScreen';
 
 type GamePageContentProps = {
   mode: GameMode
@@ -398,11 +399,7 @@ export const GamePageContent = ({ mode }: GamePageContentProps) => {
 
   // 問題が読み込まれていない場合のローディング表示
   if (!currentWord) {
-    return (
-      <div className="min-h-screen flex items-center justify-center">
-        <p className="text-lg text-gray-600">問題を読み込み中...</p>
-      </div>
-    );
+    return <LoadingScreen message="問題を準備中..." />;
   }
 
   return (

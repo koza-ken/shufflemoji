@@ -4,10 +4,24 @@ import Link from 'next/link'
 import { UserProfile } from '@/components/auth/UserProfile'
 import { GuideModal } from '@/components/game/GuideModal'
 import ModeButton from '@/components/ui/ModeButton'
+import ShamojiSpinner from '@/components/ui/ShamojiSpinner'
+import LoadingScreen from '@/components/ui/LoadingScreen'
 import { useState } from 'react'
+import { useRouter } from 'next/navigation'
 
 export default function TopPage() {
   const [isGuideModalOpen, setIsGuideModalOpen] = useState(false)
+  const [rankingLoading, setRankingLoading] = useState(false)
+  const router = useRouter()
+
+  const handleRankingClick = () => {
+    setRankingLoading(true)
+    router.push('/ranking')
+  }
+
+  if (rankingLoading) {
+    return <LoadingScreen message="Now Loading..." />
+  }
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -64,12 +78,17 @@ export default function TopPage() {
                   >
                     遊び方
                   </button>
-                  <Link
-                    href="/ranking"
-                    className="w-40 bg-yellow-500 hover:bg-yellow-600 text-white font-bold py-2 px-6 rounded text-center"
+                  <button
+                    onClick={handleRankingClick}
+                    disabled={rankingLoading}
+                    className={`w-40 bg-yellow-500 ${!rankingLoading && 'hover:bg-yellow-600'} text-white font-bold py-2 px-6 rounded transition-colors flex items-center justify-center ${rankingLoading ? 'cursor-not-allowed' : ''}`}
                   >
-                    ランキング
-                  </Link>
+                    {rankingLoading ? (
+                      <ShamojiSpinner size="sm" className="text-white" />
+                    ) : (
+                      'ランキング'
+                    )}
+                  </button>
                 </div>
               </div>
             </div>
