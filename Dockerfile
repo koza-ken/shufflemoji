@@ -5,17 +5,15 @@ WORKDIR /app
 # 必要最小限のパッケージ
 RUN apk add --no-cache openssl libc6-compat
 
-# package files
+# package files and prisma schema
 COPY package*.json ./
+COPY prisma ./prisma
 
-# Dependencies install
+# Dependencies install (postinstallでprisma generateが実行される)
 RUN npm install
 
 # Copy source
 COPY . .
-
-# Prisma generate
-RUN npx prisma generate
 
 # Environment
 ENV NODE_ENV=development
