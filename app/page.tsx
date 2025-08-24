@@ -3,6 +3,7 @@
 import Link from 'next/link'
 import { UserProfile } from '@/components/auth/UserProfile'
 import { GuideModal } from '@/components/game/GuideModal'
+import ModeButton from '@/components/ui/ModeButton'
 import { useState } from 'react'
 
 export default function TopPage() {
@@ -33,24 +34,24 @@ export default function TopPage() {
               <div className="mt-10">
                 <p className="text-2xl font-bold">ゲーム開始</p>
                 <div className="flex justify-center gap-4 mt-4">
-                  <Link
-                    href="/game/html-css"
-                    className="w-40 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-                  >
-                    HTML/CSS
-                  </Link>
-                  <Link
-                    href="/game/ruby"
-                    className="w-40 bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"
-                  >
-                    Ruby
-                  </Link>
-                  <Link
-                    href="/game/fe"
-                    className="w-40 bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded"
-                  >
-                    基本情報技術者
-                  </Link>
+                  <ModeButton
+                    mode="html-css"
+                    title="HTML/CSS"
+                    bgColor="bg-blue-500"
+                    hoverColor="bg-blue-700"
+                  />
+                  <ModeButton
+                    mode="ruby"
+                    title="Ruby"
+                    bgColor="bg-red-500"
+                    hoverColor="bg-red-700"
+                  />
+                  <ModeButton
+                    mode="fe"
+                    title="基本情報技術者"
+                    bgColor="bg-green-500"
+                    hoverColor="bg-green-700"
+                  />
                 </div>
               </div>
 
