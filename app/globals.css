@@ -24,3 +24,31 @@ body {
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
 }
+
+/* しゃもじローディングアニメーション */
+@keyframes slide-slow {
+  0% {
+    transform: translateX(-300px);
+  }
+  100% {
+    transform: translateX(800px);
+  }
+}
+
+.animate-slide-slow {
+  animation: slide-slow 12s linear infinite;
+}
+
+/* 継続的に流れるアニメーション */
+@keyframes slide-continuous {
+  0% {
+    transform: translateX(-200px);
+  }
+  100% {
+    transform: translateX(-1240px); /* 6個 × 200px間隔 + α */
+  }
+}
+
+.animate-slide-continuous {
+  animation: slide-continuous 12s linear infinite;
+}
