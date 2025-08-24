@@ -24,15 +24,13 @@ export const metadata: Metadata = {
   // ファビコン設定
   icons: {
     icon: [
-      { url: "/favicon.ico", sizes: "any" },
-      { url: "/icon.svg", type: "image/svg+xml" },
+      { url: "/shamoji.png", sizes: "32x32", type: "image/png" },
+      { url: "/shamoji.png", sizes: "16x16", type: "image/png" },
     ],
     apple: [
-      { url: "/apple-touch-icon.png", sizes: "180x180", type: "image/png" },
+      { url: "/shamoji.png", sizes: "180x180", type: "image/png" },
     ],
-    other: [
-      { rel: "mask-icon", url: "/safari-pinned-tab.svg", color: "#5bbad5" },
-    ],
+    shortcut: "/shamoji.png",
   },
 
   // メタタグ
