@@ -35,7 +35,7 @@ export default function TopPage() {
       </header>
 
       <div className="flex items-center justify-center min-h-[80vh]">
-        <div className="w-full max-w-2xl mx-auto bg-white rounded-lg shadow-lg p-8">
+        <div className="w-full max-w-2xl mx-auto bg-white rounded-lg shadow-lg p-8 mt-2">
           <div className="text-center">
             <h1 className="text-4xl font-bold text-gray-900 mb-4">
               <img src="/shamoji_top_light.png" alt="シャッフルもじ" className="block dark:hidden" />
@@ -47,25 +47,25 @@ export default function TopPage() {
 
             <div className="space-y-8">
               <div className="mt-10">
-                <p className="text-2xl font-bold">モード選択</p>
+                <p className="text-2xl">モード選択</p>
                 <div className="flex justify-center gap-4 mt-4">
                   <ModeButton
                     mode="html-css"
                     title="HTML/CSS"
                     bgColor="bg-blue-400"
-                    hoverColor="bg-blue-600"
+                    hoverColor="bg-blue-500"
                   />
                   <ModeButton
                     mode="ruby"
                     title="Ruby"
                     bgColor="bg-rose-400"
-                    hoverColor="bg-rose-600"
+                    hoverColor="bg-rose-500"
                   />
                   <ModeButton
                     mode="fe"
                     title="基本情報"
                     bgColor="bg-emerald-400"
-                    hoverColor="bg-emerald-600"
+                    hoverColor="bg-emerald-500"
                   />
                 </div>
               </div>
