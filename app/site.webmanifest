@@ -1,7 +1,7 @@
 {
   "name": "シャッフルもじ",
-  "short_name": "シャッフルもじ",
-  "description": "プログラミング用語の並び替えゲーム",
+  "short_name": "しゃもじ",
+  "description": "バラバラになった文字の並び替えゲーム",
   "start_url": "/",
   "display": "standalone",
   "background_color": "#ffffff",
@@ -16,24 +16,10 @@
     },
     {
       "src": "/shamoji.png",
-      "sizes": "512x512", 
+      "sizes": "512x512",
       "type": "image/png",
       "purpose": "any maskable"
     }
   ],
-  "categories": ["education", "games"],
-  "screenshots": [
-    {
-      "src": "/screenshot-wide.png",
-      "sizes": "1280x720",
-      "type": "image/png",
-      "form_factor": "wide"
-    },
-    {
-      "src": "/screenshot-narrow.png", 
-      "sizes": "750x1334",
-      "type": "image/png",
-      "form_factor": "narrow"
-    }
-  ]
+  "categories": ["education", "games"]
 }
