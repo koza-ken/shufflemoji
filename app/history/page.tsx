@@ -75,7 +75,7 @@ export default function HistoryPage() {
   }
 
   const getModeColor = (mode: string) => {
-    return mode === 'HTML_CSS' ? 'bg-blue-500' : mode === 'RUBY' ? 'bg-red-500' : 'bg-green-500'
+    return mode === 'HTML_CSS' ? 'bg-blue-400' : mode === 'RUBY' ? 'bg-rose-400' : 'bg-emerald-400'
   }
 
   const getWordHint = (word: string, mode: string) => {
@@ -122,7 +122,7 @@ export default function HistoryPage() {
             <div className="flex gap-3">
               <Link
                 href="/ranking"
-                className="bg-yellow-500 hover:bg-yellow-600 text-white font-bold py-2 px-2 rounded"
+                className="bg-amber-400 hover:bg-amber-500 text-white font-bold py-2 px-2 rounded"
               >
                 ランキング
               </Link>

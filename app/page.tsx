@@ -52,20 +52,20 @@ export default function TopPage() {
                   <ModeButton
                     mode="html-css"
                     title="HTML/CSS"
-                    bgColor="bg-blue-500"
-                    hoverColor="bg-blue-700"
+                    bgColor="bg-blue-400"
+                    hoverColor="bg-blue-600"
                   />
                   <ModeButton
                     mode="ruby"
                     title="Ruby"
-                    bgColor="bg-red-500"
-                    hoverColor="bg-red-700"
+                    bgColor="bg-rose-400"
+                    hoverColor="bg-rose-600"
                   />
                   <ModeButton
                     mode="fe"
                     title="基本情報"
-                    bgColor="bg-green-500"
-                    hoverColor="bg-green-700"
+                    bgColor="bg-emerald-400"
+                    hoverColor="bg-emerald-600"
                   />
                 </div>
               </div>
@@ -74,14 +74,14 @@ export default function TopPage() {
                 <div className="flex justify-center gap-4">
                   <button
                     onClick={() => setIsGuideModalOpen(true)}
-                    className="w-40 bg-indigo-500 hover:bg-indigo-600 text-white font-bold py-2 px-6 rounded text-center"
+                    className="w-40 bg-indigo-400 hover:bg-indigo-500 text-white font-bold py-2 px-6 rounded text-center"
                   >
                     遊び方
                   </button>
                   <button
                     onClick={handleRankingClick}
                     disabled={rankingLoading}
-                    className={`w-40 bg-yellow-500 ${!rankingLoading && 'hover:bg-yellow-600'} text-white font-bold py-2 px-6 rounded transition-colors flex items-center justify-center ${rankingLoading ? 'cursor-not-allowed' : ''}`}
+                    className={`w-40 bg-amber-400 ${!rankingLoading && 'hover:bg-amber-500'} text-white font-bold py-2 px-6 rounded transition-colors flex items-center justify-center ${rankingLoading ? 'cursor-not-allowed' : ''}`}
                   >
                     {rankingLoading ? (
                       <ShamojiSpinner size="sm" className="text-white" />

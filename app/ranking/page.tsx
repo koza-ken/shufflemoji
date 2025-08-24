@@ -95,7 +95,7 @@ export default function RankingPage() {
               onClick={() => setActiveTab('HTML_CSS')}
               className={`w-1/3 sm:w-1/3 px-2 sm:px-6 py-2 sm:py-3 rounded-lg font-medium transition-colors text-xs sm:text-base ${
                 activeTab === 'HTML_CSS'
-                  ? 'bg-blue-500 text-white'
+                  ? 'bg-blue-400 text-white'
                   : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
               }`}
             >
@@ -110,7 +110,7 @@ export default function RankingPage() {
               onClick={() => setActiveTab('RUBY')}
               className={`w-1/3 sm:w-1/3 px-2 sm:px-6 py-2 sm:py-3 rounded-lg font-medium transition-colors text-xs sm:text-base ${
                 activeTab === 'RUBY'
-                  ? 'bg-red-500 text-white'
+                  ? 'bg-rose-400 text-white'
                   : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
               }`}
             >
@@ -120,7 +120,7 @@ export default function RankingPage() {
               onClick={() => setActiveTab('FE')}
               className={`w-1/3 sm:w-1/3 px-2 sm:px-6 py-2 sm:py-3 rounded-lg font-medium transition-colors text-xs sm:text-base ${
                 activeTab === 'FE'
-                  ? 'bg-green-500 text-white'
+                  ? 'bg-emerald-400 text-white'
                   : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
               }`}
             >
