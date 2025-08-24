@@ -14,6 +14,7 @@ import { useRouter } from 'next/navigation';
 import { HTMLCSSQuestion } from '@/components/game/HTMLCSSQuestion';
 import { RubyQuestion } from '@/components/game/RubyQuestion';
 import { FEQuestion } from '@/components/game/FEQuestion';
+import ConfirmModal from '@/components/ui/ConfirmModal';
 
 type GamePageContentProps = {
   mode: GameMode
@@ -27,8 +28,47 @@ export const GamePageContent = ({ mode }: GamePageContentProps) => {
   const [currentRound, setCurrentRound] = useState(1);
   const [totalWordsCount, setTotalWordsCount] = useState(0);
 
+  // 確認モーダル用の状態
+  const [showConfirm, setShowConfirm] = useState(false);
+
+
   // タイマー機能（ラウンドに応じて制限時間を変更）
   const { time, resetTimer, pause, resume } = useTimer(currentRound);
+  // 戻るボタン制御（タイマー継続対策）
+  useEffect(() => {
+    // ブラウザ履歴にエントリを追加
+    history.pushState(null, '', location.href);
+
+    const handlePopState = () => {
+      // タイマーが0になったら強制的にトップページへ
+      if (time <= 0) {
+        router.push('/');
+        return;
+      }
+
+      // 即座に履歴エントリを再追加（アラート表示前）
+      history.pushState(null, '', location.href);
+
+      // カスタムモーダルを表示（タイマーは継続）
+      setShowConfirm(true);
+    };
+
+    window.addEventListener('popstate', handlePopState);
+
+    return () => {
+      window.removeEventListener('popstate', handlePopState);
+    };
+  }, [router, time]);
+
+  // 確認モーダルのハンドラー
+  const handleConfirm = () => {
+    setShowConfirm(false);
+    router.push('/');
+  };
+
+  const handleCancel = () => {
+    setShowConfirm(false);
+  };
 
   // 現在の問題の単語データ
   const [currentWord, setCurrentWord] = useState<GameWord | null>(null);
@@ -80,7 +120,7 @@ export const GamePageContent = ({ mode }: GamePageContentProps) => {
       const nextRound = currentRound + 1;
       setCurrentRound(nextRound);
       setUsedWordIds(new Set());
-      
+
       // 全問題から再びランダム選択
       const randomIndex = Math.floor(Math.random() * allWords.length);
       const selectedWord = allWords[randomIndex];
@@ -473,6 +513,14 @@ export const GamePageContent = ({ mode }: GamePageContentProps) => {
           )}
         </div>
       </div>
+
+      {/* 戻るボタン確認モーダル */}
+      <ConfirmModal
+        isOpen={showConfirm}
+        message="ゲームを終了してトップページに戻りますか？"
+        onConfirm={handleConfirm}
+        onCancel={handleCancel}
+      />
     </div>
   );
 };

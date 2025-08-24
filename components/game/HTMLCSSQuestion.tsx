@@ -10,13 +10,13 @@ export const HTMLCSSQuestion = ({ allChars, handleCharClick }: HTMLCSSQuestionPr
 
   return (
     <>
-      <h2 className="text-xl font-semibold text-gray-800 mb-4 text-center">
-        <p>文字を並び替えて</p>
-        <p>正しいHTML/CSS用語を作ってください</p>
+      <h2 className="text-xl font-semibold text-gray-900 mb-4 text-center">
+        <p>文字を順番に選択して</p>
+        <p>HTML/CSSの用語を作ってください</p>
       </h2>
 
       {/* 利用可能な文字を表示（固定位置） */}
-      <div className="flex justify-center gap-2 mb-6">
+      <div className="flex justify-center gap-2 mb-4">
         {allChars.map((charObj) => (
           <div
             key={charObj.id}

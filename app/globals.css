@@ -3,6 +3,14 @@
 :root {
   --background: #ffffff;
   --foreground: #171717;
+  --card-background: #ffffff;
+  --border-color: #e5e7eb;
+  --shadow: rgba(0, 0, 0, 0.1);
+  --gray-50: #f9fafb;
+  --gray-100: #f3f4f6;
+  --gray-600: #4b5563;
+  --gray-700: #374151;
+  --gray-900: #111827;
 }
 
 @theme inline {
@@ -14,8 +22,16 @@
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+    --background: #0f172a;
+    --foreground: #f1f5f9;
+    --card-background: #1e293b;
+    --border-color: #334155;
+    --shadow: rgba(0, 0, 0, 0.3);
+    --gray-50: #1e293b;
+    --gray-100: #334155;
+    --gray-600: #94a3b8;
+    --gray-700: #cbd5e1;
+    --gray-900: #f1f5f9;
   }
 }
 
@@ -23,4 +39,72 @@ body {
   background: var(--background);
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* ダークモード対応 */
+.bg-white {
+  background-color: var(--card-background) !important;
+}
+
+.bg-gray-50 {
+  background-color: var(--gray-50) !important;
+}
+
+.bg-gray-100 {
+  background-color: var(--gray-100) !important;
+}
+
+.text-gray-600 {
+  color: var(--gray-600) !important;
+}
+
+.text-gray-700 {
+  color: var(--gray-700) !important;
+}
+
+.text-gray-900 {
+  color: var(--gray-900) !important;
+}
+
+.border-gray-200 {
+  border-color: var(--border-color) !important;
+}
+
+.shadow-sm,
+.shadow,
+.shadow-lg {
+  box-shadow: 0 1px 3px 0 var(--shadow) !important;
+}
+
+.shadow-lg {
+  box-shadow: 0 10px 15px -3px var(--shadow) !important;
+}
+
+/* しゃもじローディングアニメーション */
+@keyframes slide-slow {
+  0% {
+    transform: translateX(-300px);
+  }
+  100% {
+    transform: translateX(800px);
+  }
+}
+
+.animate-slide-slow {
+  animation: slide-slow 12s linear infinite;
+}
+
+/* 継続的に流れるアニメーション */
+@keyframes slide-continuous {
+  0% {
+    transform: translateX(-200px);
+  }
+  100% {
+    transform: translateX(-1240px); /* 6個 × 200px間隔 + α */
+  }
+}
+
+.animate-slide-continuous {
+  animation: slide-continuous 12s linear infinite;
 }

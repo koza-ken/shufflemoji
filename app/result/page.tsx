@@ -160,7 +160,7 @@ export default function ResultPage() {
               {modeLabel}
             </div>
           </div>
-          <p className="text-3xl font-bold text-gray-800 mb-6">
+          <p className="text-3xl font-bold text-gray-900 mb-6">
             {questionCount}問正解
           </p>
 

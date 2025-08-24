@@ -7,6 +7,7 @@ import { GameRecord, GameStats, IncorrectAnswer } from '@/types/game-result'
 import { htmlCssTerms } from '@/data/htmlCssTerms'
 import { rubyMethods } from '@/data/rubyMethods'
 import { feTerms } from '@/data/feTerms'
+import LoadingScreen from '@/components/ui/LoadingScreen'
 
 interface PaginationInfo {
   currentPage: number
@@ -87,16 +88,7 @@ export default function HistoryPage() {
   }
 
   if (loading) {
-    return (
-      <div className="min-h-screen bg-gray-50 px-4 py-6">
-        <div className="w-full max-w-4xl mx-auto">
-          <div className="text-center py-8">
-            <div className="animate-spin rounded-full h-8 w-8 border-2 border-blue-500 border-t-transparent mx-auto mb-4"></div>
-            <p className="text-gray-600">履歴を読み込み中...</p>
-          </div>
-        </div>
-      </div>
-    )
+    return <LoadingScreen message="Now Loading..." />
   }
 
   if (error) {
@@ -131,7 +123,7 @@ export default function HistoryPage() {
                 href="/ranking"
                 className="bg-yellow-500 hover:bg-yellow-600 text-white font-bold py-2 px-4 rounded"
               >
-                🏆 ランキング
+                ランキング
               </Link>
               <Link
                 href="/"

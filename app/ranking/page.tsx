@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import { RankingResponse, RankingEntry } from '@/types/game-result'
+import LoadingScreen from '@/components/ui/LoadingScreen'
 
 export default function RankingPage() {
   const [rankings, setRankings] = useState<RankingResponse | null>(null)
@@ -42,16 +43,7 @@ export default function RankingPage() {
 
 
   if (loading) {
-    return (
-      <div className="min-h-screen bg-gray-50 px-4 py-6">
-        <div className="w-full max-w-4xl mx-auto">
-          <div className="text-center py-8">
-            <div className="animate-spin rounded-full h-8 w-8 border-2 border-blue-500 border-t-transparent mx-auto mb-4"></div>
-            <p className="text-gray-600">ランキングを読み込み中...</p>
-          </div>
-        </div>
-      </div>
-    )
+    return <LoadingScreen message="Now Loading..." />
   }
 
   if (error) {
@@ -147,11 +139,7 @@ export default function RankingPage() {
                 {currentRanking.map((entry, index) => (
                   <div
                     key={entry.id}
-                    className={`flex items-center justify-between p-4 rounded-lg ${
-                      index < 3
-                        ? 'bg-gradient-to-r from-yellow-50 to-orange-50 border-2 border-orange-200'
-                        : 'bg-white border border-gray-200'
-                    }`}
+                    className='flex items-center justify-between p-4 rounded-lg bg-white border border-gray-200'
                   >
                     <div className="flex items-center gap-4">
                       <div className="flex items-center justify-center min-w-[80px]">
@@ -165,14 +153,14 @@ export default function RankingPage() {
                         </span>
                       </div>
                       <div>
-                        <div className="font-bold text-lg">{entry.userName}</div>
+                        <div className="font-bold text-lg text-gray-900">{entry.userName}</div>
                         <div className="text-sm text-gray-600">
                           {formatDate(entry.playedAt.toString())}
                         </div>
                       </div>
                     </div>
                     <div className="text-right">
-                      <div className="text-2xl font-bold">
+                      <div className="text-2xl font-bold text-gray-900">
                         {entry.score}問正解
                       </div>
                     </div>

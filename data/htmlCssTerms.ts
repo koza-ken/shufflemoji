@@ -456,13 +456,6 @@ export const htmlCssTerms: Word[] = [
     hint: '要素の背景を指定するCSSプロパティ。色、画像、グラデーションなどを設定でき、複数の背景プロパティを一括で指定できる。',
   },
   {
-    id: 'font-1',
-    original: 'font',
-    mode: 'html-css',
-    category: 'CSS',
-    hint: 'フォント関連の複数のプロパティを一括で指定するCSSプロパティ。サイズ、ウェイト、ファミリーなどを同時に設定できる。',
-  },
-  {
     id: 'font-size-1',
     original: 'font-size',
     mode: 'html-css',
@@ -661,7 +654,48 @@ export const htmlCssTerms: Word[] = [
     category: 'CSS',
     hint: '要素を非表示にするCSS値。visibility: hiddenやoverflow: hiddenで使用され、要素を視覚的に隠すが領域は保持される。',
   },
-
+  {
+    id: 'sub-1',
+    original: 'sub',
+    mode: 'html-css',
+    category: 'HTML',
+    hint: '下付き文字を表すHTML要素。化学式や数学の添字などで使用される。',
+  },
+  {
+    id: 'doctype-1',
+    original: 'DOCTYPE',
+    mode: 'html-css',
+    category: 'HTML',
+    hint: 'HTML文書の種類を宣言するHTML宣言。文書の先頭に<!DOCTYPE html>として配置し、ブラウザに文書タイプを伝える。',
+  },
+  {
+    id: 'before-1',
+    original: 'before',
+    mode: 'html-css',
+    category: 'CSS',
+    hint: '要素の直前にコンテンツを挿入する疑似要素。',
+  },
+  {
+    id: 'after-1',
+    original: 'after',
+    mode: 'html-css',
+    category: 'CSS',
+    hint: '要素の直後にコンテンツを挿入する疑似要素。',
+  },
+  {
+    id: 'active-1',
+    original: 'active',
+    mode: 'html-css',
+    category: 'CSS',
+    hint: '要素がアクティブ状態（クリック中など）の時に適用される疑似クラス。ボタンの押下効果などに使用される。',
+  },
+  {
+    id: 'visited-1',
+    original: 'visited',
+    mode: 'html-css',
+    category: 'CSS',
+    hint: '訪問済みのリンクに適用される疑似クラス。ユーザーが既にアクセスしたリンクのスタイルを変更できる。',
+  },
 ];
 
 /**
