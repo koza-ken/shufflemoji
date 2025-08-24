@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import { RankingResponse, RankingEntry } from '@/types/game-result'
+import LoadingScreen from '@/components/ui/LoadingScreen'
 
 export default function RankingPage() {
   const [rankings, setRankings] = useState<RankingResponse | null>(null)
@@ -42,16 +43,7 @@ export default function RankingPage() {
 
 
   if (loading) {
-    return (
-      <div className="min-h-screen bg-gray-50 px-4 py-6">
-        <div className="w-full max-w-4xl mx-auto">
-          <div className="text-center py-8">
-            <div className="animate-spin rounded-full h-8 w-8 border-2 border-blue-500 border-t-transparent mx-auto mb-4"></div>
-            <p className="text-gray-600">ランキングを読み込み中...</p>
-          </div>
-        </div>
-      </div>
-    )
+    return <LoadingScreen message="Now Loading..." />
   }
 
   if (error) {
