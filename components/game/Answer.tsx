@@ -38,7 +38,7 @@ export const Answer = ({
           <p className="text-gray-400 self-center text-sm sm:text-base py-4">文字をクリックして回答を作成してください</p>
         ) : (
           <>
-            {selectedChars.map((charObj, index) => {
+            {selectedChars.map((charObj: SelectedChars, index: number) => {
               const isDragging = draggedIndex === index;
               const isDragOver = dragOverIndex === index && !isDragging;
 
@@ -52,21 +52,21 @@ export const Answer = ({
                   {/* ドロップゾーン（文字の左側） */}
                   <div
                     className="absolute -left-2 sm:-left-3 top-0 w-4 sm:w-6 h-8 sm:h-12 z-10"
-                    onDragOver={(e) => {
+                    onDragOver={(e: React.DragEvent<HTMLDivElement>) => {
                       e.stopPropagation();
                       handleDragOver(e, index);
                     }}
-                    onDrop={(e) => {
+                    onDrop={(e: React.DragEvent<HTMLDivElement>) => {
                       e.stopPropagation();
                       handleDrop(e, index);
                     }}
-                    onDragLeave={handleDragLeave}
+                    onDragLeave={(e: React.DragEvent<HTMLDivElement>) => handleDragLeave(e)}
                   />
 
                   <div className="relative">
                     <div
                       draggable={!isAnswered}
-                      onDragStart={(e) => handleDragStart(e, index)}
+                      onDragStart={(e: React.DragEvent<HTMLDivElement>) => handleDragStart(e, index)}
                       onDragEnd={handleDragEnd}
                       className={`w-12 h-12 bg-green-100 border-2 border-green-300 rounded flex items-center justify-center text-sm sm:text-xl font-bold text-green-800 transition-opacity duration-150 ${
                         !isAnswered ? 'cursor-move hover:scale-105' : 'cursor-default'
@@ -103,15 +103,15 @@ export const Answer = ({
               )}
               <div
                 className="w-4 sm:w-6 h-8 sm:h-12"
-                onDragOver={(e) => {
+                onDragOver={(e: React.DragEvent<HTMLDivElement>) => {
                   e.stopPropagation();
                   handleDragOver(e, selectedChars.length);
                 }}
-                onDrop={(e) => {
+                onDrop={(e: React.DragEvent<HTMLDivElement>) => {
                   e.stopPropagation();
                   handleDrop(e, selectedChars.length);
                 }}
-                onDragLeave={handleDragLeave}
+                onDragLeave={(e: React.DragEvent<HTMLDivElement>) => handleDragLeave(e)}
               />
             </div>
           </>

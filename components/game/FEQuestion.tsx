@@ -16,7 +16,7 @@ export const FEQuestion = ({ allChars, handleCharClick }: FEQuestionProps) => {
 
       {/* 利用可能な文字を表示（固定位置） */}
       <div className="flex justify-center gap-1 sm:gap-2 mb-4 flex-wrap px-2">
-        {allChars.map((charObj) => (
+        {allChars.map((charObj: AllChars) => (
           <div
             key={charObj.id}
             onClick={() => handleCharClick(charObj)}

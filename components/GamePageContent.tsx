@@ -240,8 +240,8 @@ export const GamePageContent = ({ mode }: GamePageContentProps) => {
     }
 
     // 文字の選択状態を更新
-    setAllChars(prev =>
-      prev.map(char =>
+    setAllChars((prev: AllChars[]) =>
+      prev.map((char: AllChars) =>
         char.id === clickedChar.id
           ? { ...char, isSelected: true }
           : char
@@ -249,9 +249,9 @@ export const GamePageContent = ({ mode }: GamePageContentProps) => {
     );
 
     // 選択済み文字に追加
-    setSelectedChars(prev => [...prev, { char: clickedChar.char, id: clickedChar.id }]);
+    setSelectedChars((prev: SelectedChars[]) => [...prev, { char: clickedChar.char, id: clickedChar.id }]);
     // 現在の回答を更新
-    setCurrentAnswer(prev => prev + clickedChar.char);
+    setCurrentAnswer((prev: string) => prev + clickedChar.char);
   };
 
   // ドラッグ開始処理
@@ -342,19 +342,19 @@ export const GamePageContent = ({ mode }: GamePageContentProps) => {
     }
 
     // 選択済み文字から該当文字を削除
-    setSelectedChars(prev => prev.filter(char => char.id !== charId));
+    setSelectedChars((prev: SelectedChars[]) => prev.filter((char: SelectedChars) => char.id !== charId));
 
     // allCharsの選択状態をリセット
-    setAllChars(prev =>
-      prev.map(char =>
+    setAllChars((prev: AllChars[]) =>
+      prev.map((char: AllChars) =>
         char.id === charId ? { ...char, isSelected: false } : char
       )
     );
 
     // 現在の回答を更新
-    setCurrentAnswer(prev => {
-      const chars = selectedChars.filter(char => char.id !== charId);
-      return chars.map(char => char.char).join('');
+    setCurrentAnswer((prev: string) => {
+      const chars = selectedChars.filter((char: SelectedChars) => char.id !== charId);
+      return chars.map((char: SelectedChars) => char.char).join('');
     });
   };
 
@@ -363,8 +363,8 @@ export const GamePageContent = ({ mode }: GamePageContentProps) => {
     if (!currentWord) return;
 
     // 全文字の選択状態をリセット
-    setAllChars(prev =>
-      prev.map(char => ({ ...char, isSelected: false }))
+    setAllChars((prev: AllChars[]) =>
+      prev.map((char: AllChars) => ({ ...char, isSelected: false }))
     );
     setSelectedChars([]);
     setCurrentAnswer('');
