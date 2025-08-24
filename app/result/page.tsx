@@ -55,7 +55,7 @@ export default function ResultPage() {
   const createTweetText = () => {
     const baseText = `シャッフルもじ（${modeLabel}モード）で${questionCount}問正解しました！`;
     const hashtag = '#シャッフルもじ';
-    const gameurl = 'gameurl';
+    const gameurl = 'https://shamoji.vercel.app/';
     return `${baseText}\n${gameurl}\n${hashtag}`;
   };
 
