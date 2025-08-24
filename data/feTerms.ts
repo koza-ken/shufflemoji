@@ -20,24 +20,10 @@ const scrambleWord = (word: string): string => {
   return scrambled;
 };
 
-// 基本情報技術者試験用語データベース（合計 105語）
-// 3文字: 69語, 4文字: 28語, 5文字: 6語, 7文字: 2語
+// 基本情報技術者試験用語データベース（合計 100語）
+// 3文字: 66語, 4文字: 27語, 5文字: 6語, 7文字: 1語
 export const feTerms: Word[] = [
-  // 3文字略語（69語）
-  {
-    id: 'b2b-1',
-    original: 'B2B',
-    mode: 'fe',
-    category: 'FE',
-    hint: '企業間取引や法人向けビジネスモデルを表す概念。電子商取引やサプライチェーン管理において重要な用語。'
-  },
-  {
-    id: 'b2c-1',
-    original: 'B2C',
-    mode: 'fe',
-    category: 'FE',
-    hint: '企業と消費者間の取引や個人向けビジネスモデル。ECサイトやオンラインサービスの基本形態。'
-  },
+  // 3文字略語（66語）
   {
     id: 'bcp-1',
     original: 'BCP',
@@ -501,7 +487,7 @@ export const feTerms: Word[] = [
     hint: '大量のテキストデータで学習された大規模言語モデル。ChatGPTなどの基盤技術。'
   },
 
-  // 4文字略語（28語）
+  // 4文字略語（27語）
   {
     id: 'acid-1',
     original: 'ACID',
@@ -736,7 +722,7 @@ export const feTerms: Word[] = [
     hint: 'IEEE 802.11規格に基づく無線LAN機器の相互接続を保証する業界標準規格の商標。'
   },
 
-  // 7文字略語（2語）
+  // 7文字略語（1語）
   {
     id: 'captcha-1',
     original: 'CAPTCHA',
@@ -744,13 +730,6 @@ export const feTerms: Word[] = [
     category: 'FE',
     hint: '人間とボットを区別する認証システム。'
   },
-  {
-    id: 'chatgpt-1',
-    original: 'ChatGPT',
-    mode: 'fe',
-    category: 'FE',
-    hint: 'OpenAI開発の対話型生成AI。自然な会話でテキスト生成を行う。'
-  }
 ]
 
 // ランダムなFE用語を取得
