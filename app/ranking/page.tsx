@@ -139,11 +139,7 @@ export default function RankingPage() {
                 {currentRanking.map((entry, index) => (
                   <div
                     key={entry.id}
-                    className={`flex items-center justify-between p-4 rounded-lg ${
-                      index < 3
-                        ? 'bg-gradient-to-r from-yellow-50 to-orange-50 border-2 border-orange-200'
-                        : 'bg-white border border-gray-200'
-                    }`}
+                    className='flex items-center justify-between p-4 rounded-lg bg-white border border-gray-200'
                   >
                     <div className="flex items-center gap-4">
                       <div className="flex items-center justify-center min-w-[80px]">
@@ -157,14 +153,14 @@ export default function RankingPage() {
                         </span>
                       </div>
                       <div>
-                        <div className="font-bold text-lg">{entry.userName}</div>
+                        <div className="font-bold text-lg text-gray-900">{entry.userName}</div>
                         <div className="text-sm text-gray-600">
                           {formatDate(entry.playedAt.toString())}
                         </div>
                       </div>
                     </div>
                     <div className="text-right">
-                      <div className="text-2xl font-bold">
+                      <div className="text-2xl font-bold text-gray-900">
                         {entry.score}問正解
                       </div>
                     </div>

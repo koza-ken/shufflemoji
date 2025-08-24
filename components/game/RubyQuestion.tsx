@@ -10,7 +10,7 @@ export const RubyQuestion = ({ allChars, handleCharClick }: RubyQuestionProps) =
 
   return (
     <>
-      <h2 className="text-xl font-semibold text-gray-800 mb-4 text-center">
+      <h2 className="text-xl font-semibold text-gray-900 mb-4 text-center">
         <p>文字を順番に選択して</p>
         <p>Rubyの用語を作ってください</p>
       </h2>

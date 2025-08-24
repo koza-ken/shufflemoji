@@ -16,7 +16,7 @@ export const QuestionList = ({ questions }: QuestionListProps) => {
     <div className="w-full max-w-2xl mx-auto bg-white rounded-lg shadow-lg p-6 mt-4">
       {/* トグルボタン付きヘッダー */}
       <div className="flex items-center justify-center mb-4">
-        <h2 className="text-2xl font-bold text-gray-800 mr-4">
+        <h2 className="text-2xl font-bold text-gray-900 mr-4">
           解答した問題（全{questions.length}問）
         </h2>
         <button
@@ -54,7 +54,7 @@ export const QuestionList = ({ questions }: QuestionListProps) => {
                     {/* 問題内容 */}
                     <div className="flex flex-col">
                       <div className="flex gap-2 items-center">
-                        <div className="text-lg font-semibold text-gray-800">
+                        <div className="text-lg font-semibold text-gray-900">
                           {question.original}
                         </div>
                         {question.category && (

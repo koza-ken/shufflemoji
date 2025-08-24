@@ -29,7 +29,7 @@ export const GuideModal = ({ isOpen, onClose }: GuideModalProps) => {
               </div>
 
               <div>
-                <h3 className="text-xl font-semibold text-gray-800 mb-2">
+                <h3 className="text-xl font-semibold text-gray-900 mb-2">
                   ⏰ ルール
                 </h3>
                 <ul className="text-gray-600 space-y-2 list-disc list-inside">
@@ -40,7 +40,7 @@ export const GuideModal = ({ isOpen, onClose }: GuideModalProps) => {
               </div>
 
               <div>
-                <h3 className="text-xl font-semibold text-gray-800 mb-2">
+                <h3 className="text-xl font-semibold text-gray-900 mb-2">
                   🎮 操作方法
                 </h3>
                 <ul className="text-gray-600 space-y-2 list-disc list-inside">

@@ -8,7 +8,7 @@ export type FEQuestionProps = {
 export const FEQuestion = ({ allChars, handleCharClick }: FEQuestionProps) => {
   return (
     <>
-      <h2 className="text-xl font-semibold text-gray-800 mb-4 text-center">
+      <h2 className="text-xl font-semibold text-gray-900 mb-4 text-center">
         <p>文字を順番に選択して</p>
         <p>基本情報技術者試験で出る略語を作ってください</p>
         <p className="text-xs text-gray-600 mt-2 text-right">※シラバス Ver.9.1準拠</p>
