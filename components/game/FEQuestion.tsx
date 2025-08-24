@@ -9,13 +9,13 @@ export const FEQuestion = ({ allChars, handleCharClick }: FEQuestionProps) => {
   return (
     <>
       <h2 className="text-xl font-semibold text-gray-800 mb-4 text-center">
-        <p>文字を並び替えて</p>
-        <p>基本情報技術者試験に出てくる略語を作ってください</p>
+        <p>文字を順番に選択して</p>
+        <p>基本情報技術者試験で出る略語を作ってください</p>
         <p className="text-xs text-gray-600 mt-2 text-right">※シラバス Ver.9.1準拠</p>
       </h2>
 
       {/* 利用可能な文字を表示（固定位置） */}
-      <div className="flex justify-center gap-2 mb-6">
+      <div className="flex justify-center gap-2 mb-4">
         {allChars.map((charObj) => (
           <div
             key={charObj.id}

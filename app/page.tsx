@@ -27,12 +27,12 @@ export default function TopPage() {
               シャッフルもじ
             </h1>
             <p className="text-lg text-gray-600 mb-8">
-              プログラミング用語の並び替えゲームです
+              バラバラになった文字の並び替えゲーム
             </p>
 
             <div className="space-y-8">
               <div className="mt-10">
-                <p className="text-2xl font-bold">ゲーム開始</p>
+                <p className="text-2xl font-bold">モード選択</p>
                 <div className="flex justify-center gap-4 mt-4">
                   <ModeButton
                     mode="html-css"
@@ -61,7 +61,7 @@ export default function TopPage() {
                     onClick={() => setIsGuideModalOpen(true)}
                     className="w-40 bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-6 rounded text-center"
                   >
-                    使い方
+                    遊び方
                   </button>
                   <Link
                     href="/ranking"
@@ -77,7 +77,7 @@ export default function TopPage() {
       </div>
 
       {/* ゲーム説明モーダル */}
-      <GuideModal 
+      <GuideModal
         isOpen={isGuideModalOpen}
         onClose={() => setIsGuideModalOpen(false)}
       />
