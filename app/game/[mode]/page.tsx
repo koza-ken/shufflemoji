@@ -1,5 +1,7 @@
 import { GamePageContent } from '@/components/GamePageContent'
 import { GameMode } from '@/types/word'
+import { Suspense } from 'react'
+import LoadingScreen from '@/components/ui/LoadingScreen'
 
 type GamePageProps = {
   params: Promise<{
@@ -13,5 +15,9 @@ export default async function GamePage({ params }: GamePageProps) {
   // modeをGameModeタイプにキャスト
   const gameMode = (mode === 'ruby' ? 'ruby' : mode === 'html-css' ? 'html-css' : 'fe') as GameMode
 
-  return <GamePageContent mode={gameMode} />
+  return (
+    <Suspense fallback={<LoadingScreen message="Now Loading..." />}>
+      <GamePageContent mode={gameMode} />
+    </Suspense>
+  )
 }

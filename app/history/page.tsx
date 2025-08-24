@@ -75,7 +75,7 @@ export default function HistoryPage() {
   }
 
   const getModeColor = (mode: string) => {
-    return mode === 'HTML_CSS' ? 'bg-blue-500' : mode === 'RUBY' ? 'bg-red-500' : 'bg-green-500'
+    return mode === 'HTML_CSS' ? 'bg-blue-400' : mode === 'RUBY' ? 'bg-rose-400' : 'bg-emerald-400'
   }
 
   const getWordHint = (word: string, mode: string) => {
@@ -113,65 +113,74 @@ export default function HistoryPage() {
   return (
     <div className="min-h-screen bg-gray-50 px-4 py-6">
       <div className="w-full max-w-4xl mx-auto">
-        <div className="bg-white rounded-lg shadow-lg p-8 mb-6">
+        <div className="bg-white rounded-lg shadow-lg p-4 mb-6">
           <div className="flex items-center justify-between mb-6">
-            <h1 className="text-3xl font-bold text-gray-900">
-              {session?.user?.username}さんの履歴
+            <h1 className="text-2xl sm:text-3xl font-bold text-gray-900">
+              {/* {session?.user?.username}さんの履歴 */}
+              ゲーム履歴
             </h1>
             <div className="flex gap-3">
               <Link
                 href="/ranking"
-                className="bg-yellow-500 hover:bg-yellow-600 text-white font-bold py-2 px-4 rounded"
+                className="bg-amber-400 hover:bg-amber-500 text-white font-bold py-2 px-2 rounded"
               >
                 ランキング
               </Link>
               <Link
                 href="/"
-                className="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded"
+                className="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-2 rounded"
               >
-                TOPにもどる
+                もどる
               </Link>
             </div>
           </div>
 
           {stats && (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
-              <div className="bg-gray-50 rounded-lg p-4 text-center">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-4 sm:mb-8">
+              <div className="bg-gray-50 rounded-lg p-3 sm:p-4 text-center">
+                <div className="text-sm text-gray-600">総ゲーム数</div>
                 <div className="text-2xl font-bold text-gray-900">
                   {stats.totalGames}
                   <span className="text-sm font-normal ml-1">回</span>
                 </div>
-                <div className="text-sm text-gray-600">総ゲーム数</div>
               </div>
-              <div className="bg-blue-50 rounded-lg p-4 text-center">
+              <div className="bg-blue-50 rounded-lg p-2 sm:p-4 text-center">
+                <div className="text-sm text-gray-600">HTML/CSS最高記録</div>
                 <div className="text-2xl font-bold text-blue-600">
                   {stats.bestHtmlCssScore}
                   <span className="text-sm font-normal ml-1">問</span>
                 </div>
-                <div className="text-sm text-gray-600">HTML/CSS最高記録</div>
-                <div className="text-xs text-gray-500 mt-1">{stats.htmlCssGames}回プレイ</div>
+                <div className="text-xs text-gray-500 mt-1">
+                  {stats.htmlCssGames}回プレイ
+                </div>
               </div>
-              <div className="bg-red-50 rounded-lg p-4 text-center">
+              <div className="bg-red-50 rounded-lg p-2 sm:p-4 text-center">
+                <div className="text-sm text-gray-600">Ruby最高記録</div>
                 <div className="text-2xl font-bold text-red-600">
                   {stats.bestRubyScore}
                   <span className="text-sm font-normal ml-1">問</span>
                 </div>
-                <div className="text-sm text-gray-600">Ruby最高記録</div>
-                <div className="text-xs text-gray-500 mt-1">{stats.rubyGames}回プレイ</div>
+                <div className="text-xs text-gray-500 mt-1">
+                  {stats.rubyGames}回プレイ
+                </div>
               </div>
-              <div className="bg-green-50 rounded-lg p-4 text-center">
+              <div className="bg-green-50 rounded-lg p-2 sm:p-4 text-center">
+                <div className="text-sm text-gray-600">基本情報最高記録</div>
                 <div className="text-2xl font-bold text-green-600">
                   {stats.bestFeScore}
                   <span className="text-sm font-normal ml-1">問</span>
                 </div>
-                <div className="text-sm text-gray-600">基本情報最高記録</div>
-                <div className="text-xs text-gray-500 mt-1">{stats.feGames}回プレイ</div>
+                <div className="text-xs text-gray-500 mt-1">
+                  {stats.feGames}回プレイ
+                </div>
               </div>
             </div>
           )}
 
           <div>
-            <h2 className="text-xl font-bold text-gray-900 mb-4">最近のゲーム</h2>
+            <h2 className="text-xl font-bold text-gray-900 mb-2 sm:mb-4">
+              最近のゲーム
+            </h2>
 
             {records.length === 0 ? (
               <div className="text-center py-8">
@@ -186,17 +195,23 @@ export default function HistoryPage() {
             ) : (
               <>
                 <div className="space-y-3">
-                  {records.map((record) => (
+                  {records.map(record => (
                     <div
                       key={record.id}
                       className="bg-gray-50 rounded-lg p-4 flex items-center justify-between"
                     >
                       <div className="flex-1">
                         <div className="flex items-center gap-3 mb-2">
-                          <div className={`w-20 px-2 py-1 rounded-full text-white text-xs font-medium text-center ${getModeColor(record.mode)}`}>
+                          <div
+                            className={`w-20 px-2 py-1 rounded-full text-white text-xs font-medium text-center ${getModeColor(
+                              record.mode
+                            )}`}
+                          >
                             {getModeLabel(record.mode)}
                           </div>
-                          <div className="font-bold text-lg">{record.score}問正解</div>
+                          <div className="font-bold text-lg">
+                            {record.score}問正解
+                          </div>
                           <div className="text-sm text-gray-600">
                             {formatDate(record.playedAt.toString())}
                           </div>
@@ -204,10 +219,15 @@ export default function HistoryPage() {
                         {record.incorrectAnswer && (
                           <div>
                             <div className="text-sm font-medium text-red-600">
-                              間違えた単語: {(record.incorrectAnswer as IncorrectAnswer).word}
+                              間違えた単語:{' '}
+                              {(record.incorrectAnswer as IncorrectAnswer).word}
                             </div>
                             <div className="text-xs text-gray-600 mt-1 leading-relaxed">
-                              {getWordHint((record.incorrectAnswer as IncorrectAnswer).word, record.mode)}
+                              {getWordHint(
+                                (record.incorrectAnswer as IncorrectAnswer)
+                                  .word,
+                                record.mode
+                              )}
                             </div>
                           </div>
                         )}
@@ -222,20 +242,23 @@ export default function HistoryPage() {
                       onClick={() => fetchHistory(currentPage - 1)}
                       disabled={!pagination.hasPrevPage}
                       className="px-3 py-2 text-sm border rounded-md disabled:opacity-50 disabled:cursor-not-allowed hover:bg-gray-50"
-                      >
+                    >
                       前へ
                     </button>
 
                     <div className="flex items-center gap-1">
-                      {Array.from({ length: pagination.totalPages }, (_, i) => i + 1).map((page) => (
+                      {Array.from(
+                        { length: pagination.totalPages },
+                        (_, i) => i + 1
+                      ).map(page => (
                         <button
-                        key={page}
-                        onClick={() => fetchHistory(page)}
-                        className={`px-3 py-2 text-sm border rounded-md ${
-                          page === currentPage
-                          ? 'bg-blue-500 text-white border-blue-500'
-                          : 'hover:bg-gray-50'
-                        }`}
+                          key={page}
+                          onClick={() => fetchHistory(page)}
+                          className={`px-3 py-2 text-sm border rounded-md ${
+                            page === currentPage
+                              ? 'bg-blue-500 text-white border-blue-500'
+                              : 'hover:bg-gray-50'
+                          }`}
                         >
                           {page}
                         </button>
@@ -246,7 +269,7 @@ export default function HistoryPage() {
                       onClick={() => fetchHistory(currentPage + 1)}
                       disabled={!pagination.hasNextPage}
                       className="px-3 py-2 text-sm border rounded-md disabled:opacity-50 disabled:cursor-not-allowed hover:bg-gray-50"
-                      >
+                    >
                       次へ
                     </button>
                   </div>
@@ -254,7 +277,9 @@ export default function HistoryPage() {
 
                 {pagination && (
                   <div className="mt-4 text-center text-sm text-gray-600">
-                    {pagination.totalRecords}件中 {(currentPage - 1) * 20 + 1}〜{Math.min(currentPage * 20, pagination.totalRecords)}件を表示
+                    {pagination.totalRecords}件中 {(currentPage - 1) * 20 + 1}〜
+                    {Math.min(currentPage * 20, pagination.totalRecords)}
+                    件を表示
                   </div>
                 )}
               </>
@@ -263,5 +288,5 @@ export default function HistoryPage() {
         </div>
       </div>
     </div>
-  )
+  );
 }

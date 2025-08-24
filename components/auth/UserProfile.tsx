@@ -4,11 +4,13 @@ import { useSession, signOut } from 'next-auth/react'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { useEffect, useState, useRef } from 'react'
+import LoadingScreen from '@/components/ui/LoadingScreen'
 
 export const UserProfile = () => {
   const { data: session, status } = useSession()
   const router = useRouter()
   const [isDropdownOpen, setIsDropdownOpen] = useState(false)
+  const [historyLoading, setHistoryLoading] = useState(false)
   const dropdownRef = useRef<HTMLDivElement>(null)
 
   // プロフィール未設定の場合は設定画面にリダイレクト
@@ -17,6 +19,13 @@ export const UserProfile = () => {
       router.push('/profile/setup')
     }
   }, [session, router])
+
+  // 履歴ページへの遷移
+  const handleHistoryClick = () => {
+    setHistoryLoading(true)
+    setIsDropdownOpen(false)
+    router.push('/history')
+  }
 
   // ドロップダウン外クリックで閉じる
   useEffect(() => {
@@ -29,6 +38,10 @@ export const UserProfile = () => {
     document.addEventListener('mousedown', handleClickOutside)
     return () => document.removeEventListener('mousedown', handleClickOutside)
   }, [])
+
+  if (historyLoading) {
+    return <LoadingScreen message="Now Loading..." />
+  }
 
   if (status === 'loading') {
     return <div className="animate-pulse bg-gray-200 rounded-full w-8 h-8"></div>
@@ -79,16 +92,15 @@ export const UserProfile = () => {
       {/* ドロップダウンメニュー */}
       {isDropdownOpen && (
         <div className="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg border border-gray-200 py-1 z-50">
-          <Link
-            href="/history"
-            onClick={() => setIsDropdownOpen(false)}
-            className="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 transition-colors duration-200"
+          <button
+            onClick={handleHistoryClick}
+            className="flex items-center w-full px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 transition-colors duration-200"
           >
             <svg className="w-4 h-4 mr-3 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
             </svg>
             履歴
-          </Link>
+          </button>
           <Link
             href="/profile"
             onClick={() => setIsDropdownOpen(false)}

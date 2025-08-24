@@ -43,8 +43,8 @@ export const metadata: Metadata = {
   // メタタグ
   manifest: '/site.webmanifest',
   themeColor: [
-    { media: '(prefers-color-scheme: light)', color: '#3b82f6' },
-    { media: '(prefers-color-scheme: dark)', color: '#1e293b' },
+    { media: '(prefers-color-scheme: light)', color: '#ffffff' },
+    { media: '(prefers-color-scheme: dark)', color: '#121212' },
   ],
 
   // OGP設定
