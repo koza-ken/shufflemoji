@@ -51,6 +51,9 @@ export default function PrivacyPage() {
                 <li>ブラウザの種類とバージョン</li>
                 <li>アクセス日時</li>
                 <li>リファラー情報</li>
+                <li>Cookie情報</li>
+                <li>ページビュー数やサイト内での行動履歴</li>
+                <li>デバイス情報（OS、画面解像度等）</li>
               </ul>
             </section>
 
@@ -67,6 +70,7 @@ export default function PrivacyPage() {
                 <li>ゲームの進行状況・履歴の保存と表示</li>
                 <li>ランキング機能の提供</li>
                 <li>サービス改善のための統計・分析</li>
+                <li>Google Analyticsによるウェブサイト利用状況の分析</li>
                 <li>技術的な問題の対応・サポート</li>
                 <li>利用規約違反の調査・対応</li>
               </ul>
@@ -76,10 +80,23 @@ export default function PrivacyPage() {
               <h2 className="text-xl font-semibold text-gray-900 dark:text-white mb-4">
                 個人情報の第三者提供
               </h2>
-              <p className="text-gray-700 dark:text-gray-300 leading-relaxed">
-                当運営者は、以下の場合を除いて個人情報を第三者に提供することはありません：
+              <p className="text-gray-700 dark:text-gray-300 leading-relaxed mb-3">
+                本サービスでは、以下の第三者への個人情報の提供を行っています：
               </p>
-              <ul className="list-disc list-inside text-gray-700 dark:text-gray-300 space-y-2 ml-4 mt-3">
+              
+              <h3 className="text-lg font-medium text-gray-900 dark:text-white mb-3 mt-4">
+                Google LLC（Google Analytics）
+              </h3>
+              <ul className="list-disc list-inside text-gray-700 dark:text-gray-300 space-y-2 ml-4 mb-4">
+                <li>提供する情報：Cookie情報、IPアドレス、ページビュー履歴、デバイス情報</li>
+                <li>利用目的：ウェブサイトのアクセス解析と利用状況の分析</li>
+                <li>提供の停止：ブラウザ設定またはGoogle Analytics オプトアウトで停止可能</li>
+              </ul>
+
+              <p className="text-gray-700 dark:text-gray-300 leading-relaxed mb-3">
+                上記以外では、以下の場合を除いて個人情報を第三者に提供することはありません：
+              </p>
+              <ul className="list-disc list-inside text-gray-700 dark:text-gray-300 space-y-2 ml-4">
                 <li>ユーザーの同意がある場合</li>
                 <li>法令に基づく場合</li>
                 <li>人の生命、身体または財産の保護のために必要がある場合</li>
@@ -97,6 +114,30 @@ export default function PrivacyPage() {
               </h3>
               <p className="text-gray-700 dark:text-gray-300 leading-relaxed mb-3">
                 本サービスではユーザー認証にGoogle OAuth 2.0を使用しています。
+              </p>
+              
+              <h3 className="text-lg font-medium text-gray-900 dark:text-white mb-3">
+                Google Analytics
+              </h3>
+              <p className="text-gray-700 dark:text-gray-300 leading-relaxed mb-3">
+                本サービスではアクセス解析のためにGoogle Analyticsを使用しています。
+                Google Analyticsは、Cookieを使用してユーザーのウェブサイト利用状況を分析します。
+                収集されたデータは匿名化され、個人を特定する情報は含まれません。
+              </p>
+              <p className="text-gray-700 dark:text-gray-300 leading-relaxed mb-3">
+                Google Analytics によるデータ収集を無効にしたい場合は、
+                <a 
+                  href="https://tools.google.com/dlpage/gaoptout" 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="text-blue-600 dark:text-blue-400 hover:underline"
+                >
+                  Google Analytics オプトアウト アドオン
+                </a>
+                をご利用ください。
+              </p>
+              
+              <p className="text-gray-700 dark:text-gray-300 leading-relaxed mb-3">
                 Googleのプライバシーポリシーについては、
                 <a
                   href="https://policies.google.com/privacy"
@@ -186,7 +227,7 @@ export default function PrivacyPage() {
             <section className="pt-6 border-t border-gray-200 dark:border-gray-700">
               <p className="text-sm text-gray-600 dark:text-gray-400">
                 制定日：2025年8月25日<br />
-                最終更新：2025年8月25日
+                最終更新：2025年8月25日（Google Analytics導入対応）
               </p>
             </section>
           </div>
