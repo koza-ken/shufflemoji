@@ -30,14 +30,14 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 - HTML elements and CSS properties unscrambling
 - Frontend development learning reinforcement
 - Examples: "vdi" → "div", "loroc" → "color"
-- 100 carefully selected terms (31 HTML elements, 69 CSS properties)
+- 75 carefully selected terms for HTML and CSS development
 - Blue color theme (`blue-400`)
 
 #### Ruby Methods Mode
 - Ruby method name unscrambling
 - Rails development learning support
 - Examples: "pma" → "map", "hcae" → "each"
-- 100 essential Ruby methods covering arrays, strings, hashes, enumerable
+- 80 essential Ruby methods covering arrays, strings, hashes, enumerable
 - Rose color theme (`rose-400`)
 
 #### FE Mode (基本情報技術者試験)
@@ -329,8 +329,8 @@ export interface RankingEntry {
 ## Game Data
 
 ### Content Statistics
-- **HTML/CSS Mode**: 100 terms (31 HTML elements + 69 CSS properties)
-- **Ruby Mode**: 100 Ruby methods (arrays, strings, hashes, enumerable)
+- **HTML/CSS Mode**: 75 terms for HTML and CSS development
+- **Ruby Mode**: 80 Ruby methods (arrays, strings, hashes, enumerable)
 - **FE Mode**: 100 terms from FE exam syllabus Ver.9.1
 
 ### Educational Design

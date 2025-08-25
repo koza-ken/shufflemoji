@@ -25,7 +25,7 @@ const scrambleWord = (word: string): string => {
 /**
  * Ruby methods and concepts for the scramble game
  */
-// Ruby メソッドデータベース（合計 100語）
+// Ruby メソッドデータベース（合計 80語）
 export const rubyMethods: Word[] = [
   // Array Methods
   {
