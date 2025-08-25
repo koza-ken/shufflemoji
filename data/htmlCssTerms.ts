@@ -652,7 +652,7 @@ export const htmlCssTerms: Word[] = [
     original: 'hidden',
     mode: 'html-css',
     category: 'CSS',
-    hint: '要素を非表示にするCSS値。visibility: hiddenやoverflow: hiddenで使用され、要素を視覚的に隠すが領域は保持される。',
+    hint: '要素を非表示にするCSS値。要素を視覚的に隠すが領域は保持される。',
   },
   {
     id: 'sub-1',
@@ -666,7 +666,7 @@ export const htmlCssTerms: Word[] = [
     original: 'DOCTYPE',
     mode: 'html-css',
     category: 'HTML',
-    hint: 'HTML文書の種類を宣言するHTML宣言。文書の先頭に<!DOCTYPE html>として配置し、ブラウザに文書タイプを伝える。',
+    hint: 'HTML文書の種類を宣言するHTML宣言。文書の先頭に配置し、ブラウザに文書タイプを伝える。',
   },
   {
     id: 'before-1',
