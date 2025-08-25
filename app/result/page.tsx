@@ -150,9 +150,7 @@ export default function ResultPage() {
     <div className="min-h-screen bg-gray-50 px-4 py-6">
       <div className="w-full max-w-2xl mx-auto bg-white rounded-lg shadow-lg p-8">
         <div className="text-center">
-          <h1 className="text-4xl font-bold text-gray-900 mb-10">
-            ゲーム結果
-          </h1>
+          <h1 className="text-4xl font-bold text-gray-900 mb-10">ゲーム結果</h1>
           <p className="text-2xl text-gray-600 mb-4">
             {session?.user?.username ? (
               <>
@@ -165,9 +163,15 @@ export default function ResultPage() {
             )}
           </p>
           <div className="flex items-center justify-center gap-2 mb-4">
-            <div className={`px-3 py-1 rounded-full text-white text-sm font-medium ${
-              mode === 'html-css' ? 'bg-blue-500' : mode === 'ruby' ? 'bg-red-500' : 'bg-green-500'
-            }`}>
+            <div
+              className={`px-3 py-1 rounded-full text-white text-sm font-medium ${
+                mode === 'html-css'
+                  ? 'bg-blue-500'
+                  : mode === 'ruby'
+                  ? 'bg-red-500'
+                  : 'bg-green-500'
+              }`}
+            >
               {modeLabel}
             </div>
           </div>
@@ -181,10 +185,14 @@ export default function ResultPage() {
               href={tweetUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 bg-black hover:bg-gray-800 text-white font-bold py-2 px-4 rounded transition-colors"
+              className="inline-flex items-center gap-2 bg-black dark:bg-gray-700 hover:bg-gray-800 text-white font-bold py-2 px-4 rounded transition-colors"
             >
-              <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 512 512">
-                <path d="M389.2 48h70.6L305.6 224.2 487 464H345L233.7 318.6 106.5 464H35.8L200.7 275.5 26.8 48H172.4L272.9 180.9 389.2 48zM364.4 421.8h39.1L151.1 88h-42L364.4 421.8z"/>
+              <svg
+                className="w-4 h-4"
+                fill="currentColor"
+                viewBox="0 0 512 512"
+              >
+                <path d="M389.2 48h70.6L305.6 224.2 487 464H345L233.7 318.6 106.5 464H35.8L200.7 275.5 26.8 48H172.4L272.9 180.9 389.2 48zM364.4 421.8h39.1L151.1 88h-42L364.4 421.8z" />
               </svg>
               結果を投稿
             </a>
@@ -195,11 +203,13 @@ export default function ResultPage() {
             <div className="mb-6">
               {!showSaveOption ? (
                 <div className="text-center">
-                  <p className="text-gray-600 text-sm mb-4">記録をランキングに残しますか？</p>
+                  <p className="text-gray-600 text-sm mb-4">
+                    記録をランキングに残しますか？
+                  </p>
                   <button
                     onClick={() => {
-                      setShowSaveOption(true)
-                      setWantsToSave(true)
+                      setShowSaveOption(true);
+                      setWantsToSave(true);
                     }}
                     className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
                   >
@@ -209,14 +219,17 @@ export default function ResultPage() {
               ) : wantsToSave ? (
                 <div>
                   <div className="mb-4">
-                    <label htmlFor="guestName" className="block text-sm font-medium text-gray-700 mb-2">
+                    <label
+                      htmlFor="guestName"
+                      className="block text-sm font-medium text-gray-700 mb-2"
+                    >
                       ランキングに表示する名前
                     </label>
                     <input
                       id="guestName"
                       type="text"
                       value={guestName}
-                      onChange={(e) => setGuestName(e.target.value)}
+                      onChange={e => setGuestName(e.target.value)}
                       className="block w-full max-w-xs mx-auto px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
                       placeholder="例: ゲスト123"
                       maxLength={20}
@@ -240,8 +253,8 @@ export default function ResultPage() {
                     </button>
                     <button
                       onClick={() => {
-                        setShowSaveOption(false)
-                        setWantsToSave(false)
+                        setShowSaveOption(false);
+                        setWantsToSave(false);
                       }}
                       className="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded"
                     >
@@ -264,7 +277,7 @@ export default function ResultPage() {
               </button>
             ) : (
               <Link
-                href='/'
+                href="/"
                 className="w-40 bg-gray-500 hover:bg-gray-700 text-white font-bold py-3 px-6 rounded flex items-center justify-center gap-2"
               >
                 <span>TOPにもどる</span>
@@ -286,5 +299,5 @@ export default function ResultPage() {
       </div>
       <QuestionList questions={questionList} />
     </div>
-  )
+  );
 }
