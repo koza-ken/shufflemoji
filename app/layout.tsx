@@ -33,14 +33,11 @@ export const metadata: Metadata = {
   // publisher: 'Shufflemoji',
 
   // ファビコン設定
-  icons: {
-    icon: [
-      { url: '/shamoji.png', sizes: '32x32', type: 'image/png' },
-      { url: '/shamoji.png', sizes: '16x16', type: 'image/png' },
-    ],
-    apple: [{ url: '/shamoji.png', sizes: '180x180', type: 'image/png' }],
-    shortcut: '/shamoji.png',
-  },
+  icons: [
+    { rel: 'icon', url: '/shamoji.png', sizes: '16x16', type: 'image/png' },
+    { rel: 'icon', url: '/shamoji.png', sizes: '32x32', type: 'image/png' },
+    { rel: 'apple-touch-icon', url: '/shamoji.png', sizes: '180x180' },
+  ],
 
   // メタタグ
   manifest: '/site.webmanifest',
