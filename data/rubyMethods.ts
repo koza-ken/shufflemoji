@@ -80,13 +80,6 @@ export const rubyMethods: Word[] = [
     hint: '文字列内の指定したパターン（正規表現や文字列）にマッチする全ての箇所を新しい文字列に置換するメソッド',
   },
   {
-    id: 'downcase-1',
-    original: 'downcase',
-    mode: 'ruby',
-    category: 'ruby',
-    hint: '文字列内のアルファベットの大文字をすべて小文字に変換した新しい文字列を返すメソッド',
-  },
-  {
     id: 'upcase-1',
     original: 'upcase',
     mode: 'ruby',
@@ -140,25 +133,11 @@ export const rubyMethods: Word[] = [
 
   // Additional Ruby Methods (Part 1: Basic Collection Methods)
   {
-    id: 'length-1',
-    original: 'length',
-    mode: 'ruby',
-    category: 'ruby',
-    hint: '配列や文字列、ハッシュなどのコレクションオブジェクトの要素数や文字数を取得するメソッド',
-  },
-  {
     id: 'empty-1',
     original: 'empty',
     mode: 'ruby',
     category: 'ruby',
     hint: '配列、文字列、ハッシュが空（要素数が0）かどうかを判定してtrueまたはfalseを返すメソッド',
-  },
-  {
-    id: 'include-1',
-    original: 'include',
-    mode: 'ruby',
-    category: 'ruby',
-    hint: '配列や文字列に指定した値や文字列が含まれているかどうかを判定するメソッド',
   },
   {
     id: 'times-1',
@@ -210,25 +189,11 @@ export const rubyMethods: Word[] = [
     hint: '配列の先頭の要素を取り出して削除するメソッド（キュー操作）',
   },
   {
-    id: 'unshift-1',
-    original: 'unshift',
-    mode: 'ruby',
-    category: 'ruby',
-    hint: '配列の先頭に要素を追加するメソッド（shiftの逆操作）',
-  },
-  {
     id: 'join-1',
     original: 'join',
     mode: 'ruby',
     category: 'ruby',
     hint: '配列の要素を指定した区切り文字で連結して一つの文字列を作成するメソッド',
-  },
-  {
-    id: 'reverse-1',
-    original: 'reverse',
-    mode: 'ruby',
-    category: 'ruby',
-    hint: '配列や文字列の要素順序を逆転させた新しいオブジェクトを返すメソッド',
   },
   {
     id: 'sort-1',
@@ -243,20 +208,6 @@ export const rubyMethods: Word[] = [
     mode: 'ruby',
     category: 'ruby',
     hint: '配列から重複した要素を除去してユニークな要素のみの新しい配列を返すメソッド',
-  },
-  {
-    id: 'flatten-1',
-    original: 'flatten',
-    mode: 'ruby',
-    category: 'ruby',
-    hint: '多次元配列を一次元配列に平坦化した新しい配列を返すメソッド',
-  },
-  {
-    id: 'compact-1',
-    original: 'compact',
-    mode: 'ruby',
-    category: 'ruby',
-    hint: '配列からnil要素を除去した新しい配列を返すメソッド',
   },
 
   // Part 2: String Methods Extended
@@ -289,13 +240,6 @@ export const rubyMethods: Word[] = [
     hint: '文字列から正規表現にマッチする全ての部分を配列として抽出するメソッド',
   },
   {
-    id: 'capitalize-1',
-    original: 'capitalize',
-    mode: 'ruby',
-    category: 'ruby',
-    hint: '文字列の最初の文字を大文字に、残りを小文字にした新しい文字列を返すメソッド',
-  },
-  {
     id: 'chars-1',
     original: 'chars',
     mode: 'ruby',
@@ -308,13 +252,6 @@ export const rubyMethods: Word[] = [
     mode: 'ruby',
     category: 'ruby',
     hint: '文字列を行ごとに分割して各行を要素とする配列を返すメソッド',
-  },
-  {
-    id: 'squeeze-1',
-    original: 'squeeze',
-    mode: 'ruby',
-    category: 'ruby',
-    hint: '文字列内の連続する同じ文字を一つにまとめた新しい文字列を返すメソッド',
   },
 
   // Part 3: Numeric Methods
@@ -361,13 +298,6 @@ export const rubyMethods: Word[] = [
     hint: '数値を文字列に変換するメソッド（基数指定も可能）',
   },
   {
-    id: 'between-1',
-    original: 'between',
-    mode: 'ruby',
-    category: 'ruby',
-    hint: '値が指定した範囲内にあるかどうかを判定するメソッド',
-  },
-  {
     id: 'even-1',
     original: 'even',
     mode: 'ruby',
@@ -389,25 +319,11 @@ export const rubyMethods: Word[] = [
     hint: '配列からランダムに要素を選択して返すメソッド（複数個の指定も可能）',
   },
   {
-    id: 'shuffle-1',
-    original: 'shuffle',
-    mode: 'ruby',
-    category: 'ruby',
-    hint: '配列の要素をランダムに並び替えた新しい配列を返すメソッド',
-  },
-  {
     id: 'zip-1',
     original: 'zip',
     mode: 'ruby',
     category: 'ruby',
     hint: '複数の配列を組み合わせて、対応する位置の要素をまとめた配列の配列を作成するメソッド',
-  },
-  {
-    id: 'transpose-1',
-    original: 'transpose',
-    mode: 'ruby',
-    category: 'ruby',
-    hint: '二次元配列の行と列を入れ替えた新しい配列を返すメソッド',
   },
   {
     id: 'cycle-1',
@@ -431,13 +347,6 @@ export const rubyMethods: Word[] = [
     mode: 'ruby',
     category: 'ruby',
     hint: 'ハッシュで指定した値に対応するキーを返すメソッド',
-  },
-  {
-    id: 'default-1',
-    original: 'default',
-    mode: 'ruby',
-    category: 'ruby',
-    hint: 'ハッシュでキーが見つからない場合に返すデフォルト値を設定・取得するメソッド',
   },
   {
     id: 'delete-1',
@@ -526,27 +435,6 @@ export const rubyMethods: Word[] = [
     mode: 'ruby',
     category: 'ruby',
     hint: '親クラスの同名メソッドを呼び出すキーワード',
-  },
-  {
-    id: 'private-1',
-    original: 'private',
-    mode: 'ruby',
-    category: 'ruby',
-    hint: 'メソッドをプライベート（クラス内部からのみアクセス可能）にするキーワード',
-  },
-  {
-    id: 'require-1',
-    original: 'require',
-    mode: 'ruby',
-    category: 'ruby',
-    hint: '外部ライブラリやファイルを読み込むメソッド（一度だけ読み込み）',
-  },
-  {
-    id: 'load-1',
-    original: 'load',
-    mode: 'ruby',
-    category: 'ruby',
-    hint: 'ファイルを毎回読み込むメソッド（requireとは異なり重複読み込み可能）',
   },
   {
     id: 'puts-1',
@@ -687,27 +575,6 @@ export const rubyMethods: Word[] = [
   },
   // 追加
   {
-    id: 'inject-1',
-    original: 'inject',
-    mode: 'ruby',
-    category: 'ruby',
-    hint: 'reduceメソッドの別名で、配列の要素を順次処理して一つの値に集約する累積演算メソッド',
-  },
-  {
-    id: 'detect-1',
-    original: 'detect',
-    mode: 'ruby',
-    category: 'ruby',
-    hint: 'findメソッドの別名で、ブロック内の条件式がtrueになる最初の要素を発見して返すメソッド',
-  },
-  {
-    id: 'collect-1',
-    original: 'collect',
-    mode: 'ruby',
-    category: 'ruby',
-    hint: 'mapメソッドの別名で、配列の各要素に対してブロック内の処理を実行し、その結果を新しい配列として返すメソッド',
-  },
-  {
     id: 'clone-1',
     original: 'clone',
     mode: 'ruby',
@@ -720,13 +587,6 @@ export const rubyMethods: Word[] = [
     mode: 'ruby',
     category: 'ruby',
     hint: 'オブジェクトの複製を作成するメソッド',
-  },
-  {
-    id: 'freeze-1',
-    original: 'freeze',
-    mode: 'ruby',
-    category: 'ruby',
-    hint: 'オブジェクトを変更不可能な状態（immutable）にするメソッド',
   },
   {
     id: 'class-1',
