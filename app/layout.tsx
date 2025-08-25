@@ -1,7 +1,9 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
+import Script from "next/script";
 import "./globals.css";
 import { SessionProvider } from '@/components/providers/SessionProvider';
+import Footer from '@/components/ui/Footer';
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -96,8 +98,25 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
+        {/* Google Analytics */}
+        <Script
+          src="https://www.googletagmanager.com/gtag/js?id=G-D38J9Z5VFS"
+          strategy="afterInteractive"
+        />
+        <Script id="google-analytics" strategy="afterInteractive">
+          {`
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', '${process.env.NEXT_PUBLIC_GA_ID}');
+          `}
+        </Script>
+
         <SessionProvider>
-          {children}
+          <div className="flex flex-col min-h-screen">
+            <main className="flex-1">{children}</main>
+            <Footer />
+          </div>
         </SessionProvider>
       </body>
     </html>
