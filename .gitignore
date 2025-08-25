@@ -51,3 +51,6 @@ next-env.d.ts
 
 # serena MCP memory files
 .serena/
+
+.tmp
+
