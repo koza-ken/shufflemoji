@@ -55,7 +55,7 @@ export const GuideModal = ({ isOpen, onClose }: GuideModalProps) => {
                     <strong>リセットボタン:</strong> 選択した文字をクリア
                   </li>
                   <li>
-                    <strong>答えを確認ボタン:</strong> 回答を送信
+                    <strong>答えあわせボタン:</strong> 回答を送信
                   </li>
                 </ul>
               </div>

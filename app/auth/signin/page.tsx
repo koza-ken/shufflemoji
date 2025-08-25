@@ -15,7 +15,7 @@ export default function SignInPage() {
         callbackUrl: '/',
         redirect: false
       })
-      
+
       if (result?.ok) {
         router.push('/')
       }
@@ -30,19 +30,19 @@ export default function SignInPage() {
     <div className="min-h-screen flex items-center justify-center bg-gray-50">
       <div className="max-w-md w-full space-y-8">
         <div className="text-center">
-          <h2 className="text-3xl font-bold text-gray-900">
-            シャッフルもじ
+          <h2 className="text-3xl font-bold text-gray-900 mb-10">
+            ログインページ
           </h2>
-          <p className="mt-2 text-gray-600">
+          {/* <p className="mt-2 text-gray-600">
             Googleアカウントでログイン
-          </p>
+          </p> */}
         </div>
-        
+
         <div className="mt-8">
           <button
             onClick={handleGoogleSignIn}
             disabled={isLoading}
-            className="w-full flex justify-center items-center px-4 py-3 border border-transparent text-base font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 disabled:opacity-50"
+            className="w-64 flex justify-center items-center px-4 py-3 border border-transparent text-base font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 disabled:opacity-50 mx-auto"
           >
             {isLoading ? (
               <span>ログイン中...</span>
@@ -59,14 +59,15 @@ export default function SignInPage() {
               </>
             )}
           </button>
-          
+
           <div className="mt-4 text-center">
             <button
               onClick={() => router.push('/')}
-              className="text-blue-600 hover:text-blue-500 text-sm"
+              className="text-blue-600 hover:text-blue-500"
             >
               ゲストとしてプレイ
             </button>
+            <span className="text-sm mt-4 block">ログインしなくてもランキングに登録できます</span>
           </div>
         </div>
       </div>
