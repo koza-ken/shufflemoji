@@ -24,7 +24,7 @@ export default function ModeButton({ mode, title, bgColor, hoverColor }: ModeBut
     <button
       onClick={handleClick}
       disabled={loading}
-      className={`w-40 ${bgColor} ${!loading && hoverColor} text-white font-bold py-2 px-4 rounded transition-colors flex items-center justify-center min-h-[40px] ${loading ? 'cursor-not-allowed' : ''}`}
+      className={`w-40 ${bgColor} ${!loading && hoverColor} text-white font-bold py-5 sm:py-3 px-4 rounded transition-colors flex items-center justify-center min-h-[40px] ${loading ? 'cursor-not-allowed' : ''}`}
     >
       {loading ? (
         <ShamojiSpinner size="sm" className="text-white" />
