@@ -562,13 +562,6 @@ export const htmlCssTerms: Word[] = [
     category: 'CSS',
     hint: '要素がアクティブ状態（クリック中など）の時に適用される疑似クラス。ボタンの押下効果などに使用される。',
   },
-  {
-    id: 'visited-1',
-    original: 'visited',
-    mode: 'html-css',
-    category: 'CSS',
-    hint: '訪問済みのリンクに適用される疑似クラス。ユーザーが既にアクセスしたリンクのスタイルを変更できる。',
-  },
 ];
 
 /**

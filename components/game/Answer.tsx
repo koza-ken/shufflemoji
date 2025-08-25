@@ -5,6 +5,8 @@ type AnswerProps = {
   selectedChars: SelectedChars[];
   draggedIndex: number | null;
   dragOverIndex: number | null;
+  dropSuccessIndex: number | null;
+  swappingIndices: number[];
   isAnswered: boolean;
   handleDragOver: (e: React.DragEvent, index?: number) => void;
   handleDrop: (e: React.DragEvent, dropIndex: number) => void;
@@ -18,6 +20,8 @@ export const Answer = ({
     selectedChars,
     draggedIndex,
     dragOverIndex,
+    dropSuccessIndex,
+    swappingIndices,
     isAnswered,
     handleDragStart,
     handleDragEnd,
@@ -41,22 +45,26 @@ export const Answer = ({
             {selectedChars.map((charObj: SelectedChars, index: number) => {
               const isDragging = draggedIndex === index;
               const isDragOver = dragOverIndex === index && !isDragging;
+              const isDropSuccess = dropSuccessIndex === index;
+              const isSwapping = swappingIndices.includes(index);
 
               return (
                 <div key={`char-container-${charObj.id}`} className="flex items-center relative">
                   {/* ドロップインジケーター */}
                   {isDragOver && (
-                    <div className="w-1 h-8 sm:h-12 bg-blue-400 rounded-sm mr-1 sm:mr-2 animate-pulse" />
+                    <div className="w-1 h-8 sm:h-12 bg-blue-500 rounded-sm mr-1 sm:mr-2 shadow-lg" />
                   )}
 
                   {/* ドロップゾーン（文字の左側） */}
                   <div
-                    className="absolute -left-2 sm:-left-3 top-0 w-4 sm:w-6 h-8 sm:h-12 z-10"
+                    className="absolute -left-3 sm:-left-4 top-0 w-6 sm:w-8 h-8 sm:h-12 z-10"
                     onDragOver={(e: React.DragEvent<HTMLDivElement>) => {
+                      e.preventDefault();
                       e.stopPropagation();
                       handleDragOver(e, index);
                     }}
                     onDrop={(e: React.DragEvent<HTMLDivElement>) => {
+                      e.preventDefault();
                       e.stopPropagation();
                       handleDrop(e, index);
                     }}
@@ -68,14 +76,19 @@ export const Answer = ({
                       draggable={!isAnswered}
                       onDragStart={(e: React.DragEvent<HTMLDivElement>) => handleDragStart(e, index)}
                       onDragEnd={handleDragEnd}
-                      className={`w-12 h-12 bg-green-100 border-2 border-green-300 rounded flex items-center justify-center text-sm sm:text-xl font-bold text-green-800 transition-opacity duration-150 ${
-                        !isAnswered ? 'cursor-move hover:scale-105' : 'cursor-default'
+                      className={`w-12 h-12 bg-green-100 border-2 border-green-300 rounded-lg flex items-center justify-center text-sm sm:text-xl font-bold text-green-800 transition-all duration-200 ${
+                        !isAnswered ? 'cursor-move hover:scale-105 hover:shadow-md' : 'cursor-default'
                       } ${
-                        isDragging ? 'opacity-50' : ''
+                        isDragging ? 'opacity-50 scale-95' : 'transform-none'
+                      } ${
+                        isDropSuccess ? 'drop-success' : ''
+                      } ${
+                        isSwapping ? 'swap-animation' : ''
                       }`}
                       style={{
                         userSelect: 'none',
-                        WebkitUserSelect: 'none'
+                        WebkitUserSelect: 'none',
+                        touchAction: 'none'
                       }}
                     >
                       {charObj.char}
@@ -99,15 +112,17 @@ export const Answer = ({
             {/* 最後尾のドロップゾーン */}
             <div className="flex items-center relative ml-2">
               {dragOverIndex === selectedChars.length && (
-                <div className="w-1 h-8 sm:h-12 bg-blue-400 rounded-sm animate-pulse" />
+                <div className="w-1 h-8 sm:h-12 bg-blue-500 rounded-sm shadow-lg" />
               )}
               <div
-                className="w-4 sm:w-6 h-8 sm:h-12"
+                className="w-6 sm:w-8 h-8 sm:h-12"
                 onDragOver={(e: React.DragEvent<HTMLDivElement>) => {
+                  e.preventDefault();
                   e.stopPropagation();
                   handleDragOver(e, selectedChars.length);
                 }}
                 onDrop={(e: React.DragEvent<HTMLDivElement>) => {
+                  e.preventDefault();
                   e.stopPropagation();
                   handleDrop(e, selectedChars.length);
                 }}

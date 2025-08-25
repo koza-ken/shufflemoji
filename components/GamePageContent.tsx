@@ -86,6 +86,10 @@ export const GamePageContent = ({ mode }: GamePageContentProps) => {
   const [draggedIndex, setDraggedIndex] = useState<number | null>(null);
   // ドロップ予定の位置を視覚的に表示
   const [dragOverIndex, setDragOverIndex] = useState<number | null>(null);
+  // ドロップ成功アニメーション用
+  const [dropSuccessIndex, setDropSuccessIndex] = useState<number | null>(null);
+  // 入れ替わりアニメーション用の配列
+  const [swappingIndices, setSwappingIndices] = useState<number[]>([]);
 
   // ゲーム進行のstate
   const [isAnswered, setIsAnswered] = useState(false);  // 回答済みかどうか
@@ -322,6 +326,33 @@ export const GamePageContent = ({ mode }: GamePageContentProps) => {
     // 現在の回答文字列を更新
     setCurrentAnswer(newSelectedChars.map(char => char.char).join(''));
 
+    // 入れ替わりアニメーションをトリガー - 影響を受ける全ての要素
+    const affectedIndices: number[] = [];
+    
+    // ドラッグされた文字の新しい位置
+    affectedIndices.push(insertIndex);
+    
+    // 押し出された文字たちのインデックス
+    if (dragIndex < dropIndex) {
+      // 右に移動した場合、間にある文字が左にシフト
+      for (let i = dragIndex + 1; i <= Math.min(dropIndex - 1, selectedChars.length - 1); i++) {
+        if (i !== insertIndex) affectedIndices.push(i - 1);
+      }
+    } else {
+      // 左に移動した場合、間にある文字が右にシフト  
+      for (let i = dropIndex; i < dragIndex; i++) {
+        affectedIndices.push(i + 1);
+      }
+    }
+
+    setSwappingIndices(affectedIndices);
+    setDropSuccessIndex(insertIndex);
+    
+    setTimeout(() => {
+      setSwappingIndices([]);
+      setDropSuccessIndex(null);
+    }, 600);
+
     setDraggedIndex(null);
     setDragOverIndex(null);
   };
@@ -331,6 +362,8 @@ export const GamePageContent = ({ mode }: GamePageContentProps) => {
   const handleDragEnd = () => {
     setDraggedIndex(null);
     setDragOverIndex(null);
+    setDropSuccessIndex(null);
+    setSwappingIndices([]);
   };
 
   // 文字削除処理（一つずつ戻す機能）
@@ -431,6 +464,8 @@ export const GamePageContent = ({ mode }: GamePageContentProps) => {
             selectedChars={selectedChars}
             draggedIndex={draggedIndex}
             dragOverIndex={dragOverIndex}
+            dropSuccessIndex={dropSuccessIndex}
+            swappingIndices={swappingIndices}
             isAnswered={isAnswered}
             handleDragStart={handleDragStart}
             handleDragEnd={handleDragEnd}
