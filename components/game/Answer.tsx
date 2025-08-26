@@ -1,35 +1,27 @@
 import React from 'react';
-import { SelectedChars } from '@/types/word';
+import { useGameState } from '@/contexts/GameStateContext';
+import { useDragDrop } from '@/contexts/DragDropContext';
+import { useCharacter } from '@/contexts/CharacterContext';
 
-type AnswerProps = {
-  selectedChars: SelectedChars[];
-  draggedIndex: number | null;
-  dragOverIndex: number | null;
-  dropSuccessIndex: number | null;
-  swappingIndices: number[];
-  isAnswered: boolean;
-  handleDragOver: (e: React.DragEvent, index?: number) => void;
-  handleDrop: (e: React.DragEvent, dropIndex: number) => void;
-  handleDragLeave: (e: React.DragEvent) => void;
-  handleDragStart: (e: React.DragEvent, index: number) => void;
-  handleDragEnd: () => void;
-  handleRemoveChar: (charId: string) => void;
-}
-
-export const Answer = ({
-    selectedChars,
+export const Answer = () => {
+  // Context hooks - propsなし！
+  const { isAnswered } = useGameState();
+  const {
     draggedIndex,
     dragOverIndex,
     dropSuccessIndex,
     swappingIndices,
-    isAnswered,
     handleDragStart,
     handleDragEnd,
     handleDragOver,
     handleDragLeave,
-    handleDrop,
-    handleRemoveChar
-  }: AnswerProps) => {
+    handleDrop
+  } = useDragDrop();
+  const {
+    selectedChars,
+    handleRemoveChar,
+    reorderCharacters
+  } = useCharacter();
 
   return (
     <div className="mb-2">
@@ -42,7 +34,7 @@ export const Answer = ({
           <p className="text-gray-400 self-center text-sm sm:text-base py-4">文字をクリックして回答を作成してください</p>
         ) : (
           <>
-            {selectedChars.map((charObj: SelectedChars, index: number) => {
+            {selectedChars.map((charObj, index) => {
               const isDragging = draggedIndex === index;
               const isDragOver = dragOverIndex === index && !isDragging;
               const isDropSuccess = dropSuccessIndex === index;
@@ -66,7 +58,7 @@ export const Answer = ({
                     onDrop={(e: React.DragEvent<HTMLDivElement>) => {
                       e.preventDefault();
                       e.stopPropagation();
-                      handleDrop(e, index);
+                      handleDrop(e, index, selectedChars, reorderCharacters);
                     }}
                     onDragLeave={(e: React.DragEvent<HTMLDivElement>) => handleDragLeave(e)}
                   />
@@ -76,15 +68,11 @@ export const Answer = ({
                       draggable={!isAnswered}
                       onDragStart={(e: React.DragEvent<HTMLDivElement>) => handleDragStart(e, index)}
                       onDragEnd={handleDragEnd}
-                      className={`w-12 h-12 bg-green-100 border-2 border-green-300 rounded-lg flex items-center justify-center text-sm sm:text-xl font-bold text-green-800 transition-all duration-200 ${
-                        !isAnswered ? 'cursor-move hover:scale-105 hover:shadow-md' : 'cursor-default'
-                      } ${
-                        isDragging ? 'opacity-50 scale-95' : 'transform-none'
-                      } ${
-                        isDropSuccess ? 'drop-success' : ''
-                      } ${
-                        isSwapping ? 'swap-animation' : ''
-                      }`}
+                      className={`w-12 h-12 bg-green-100 border-2 border-green-300 rounded-lg flex items-center justify-center text-sm sm:text-xl font-bold text-green-800 transition-all duration-200 ${!isAnswered ? 'cursor-move hover:scale-105 hover:shadow-md' : 'cursor-default'
+                        } ${isDragging ? 'opacity-50 scale-95' : 'transform-none'
+                        } ${isDropSuccess ? 'drop-success' : ''
+                        } ${isSwapping ? 'swap-animation' : ''
+                        }`}
                       style={{
                         userSelect: 'none',
                         WebkitUserSelect: 'none',
@@ -124,7 +112,7 @@ export const Answer = ({
                 onDrop={(e: React.DragEvent<HTMLDivElement>) => {
                   e.preventDefault();
                   e.stopPropagation();
-                  handleDrop(e, selectedChars.length);
+                  handleDrop(e, selectedChars.length, selectedChars, reorderCharacters);
                 }}
                 onDragLeave={(e: React.DragEvent<HTMLDivElement>) => handleDragLeave(e)}
               />
