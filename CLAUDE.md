@@ -8,20 +8,20 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 - **Word unscrambling**: Rearrange scattered characters to form correct words
 - **Continuous challenge**: Play until one mistake (streak-based scoring)
 - **Time pressure**: 15-second limit per question with progressive reduction
-- **Interactive controls**: Click-to-select and drag-and-drop functionality
+- **Interactive controls**: Click-to-select and click-to-swap functionality
 - **Triple learning modes**: HTML/CSS, Ruby methods, and FE exam terms for programming education
 
 ### Game Mechanics
 - **Basic Rules**:
   - Rearrange scrambled characters into correct words
   - Continuous challenge format (game ends on first mistake)
-  - 15-second time limit per question with countdown timer (reduced progressively in later rounds)
+  - 20-second time limit per question with countdown timer (reduced progressively in later rounds)
   - Early solving allowed (no need to wait full time)
 
 - **Controls**:
   - Click characters in sequence to select
   - Reset selection functionality
-  - Full drag & drop for character reordering
+  - Click selection for character reordering
   - Mobile-responsive touch controls
 
 ### Three Game Modes
@@ -74,7 +74,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ### Language Rules
 - **Internal thinking must be in English** for optimal Claude Code performance
-- **All responses to user must be in Japanese** 
+- **All responses to user must be in Japanese**
 - **Documentation (JSDoc, TypeScript interfaces)**: English
 - **Inline code comments**: English for technical descriptions
 - **Implementation reasoning comments**: Japanese for context
@@ -87,7 +87,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ### Development Workflow
 1. **Requirements analysis**: Understand user needs and technical constraints
-2. **Task breakdown**: Break complex features into manageable tasks  
+2. **Task breakdown**: Break complex features into manageable tasks
 3. **Branch strategy**: Use descriptive branch names (`feature/responsive-design`)
 4. **Incremental development**: Small, focused commits
 5. **Code quality**: ESLint + Prettier formatting
@@ -196,9 +196,9 @@ api/
 components/
 ├── game/                       # Game-specific components
 │   ├── HTMLCSSQuestion.tsx     # HTML/CSS mode questions
-│   ├── RubyQuestion.tsx        # Ruby mode questions  
+│   ├── RubyQuestion.tsx        # Ruby mode questions
 │   ├── FEQuestion.tsx          # FE mode questions
-│   ├── Answer.tsx              # Answer input with drag & drop
+│   ├── Answer.tsx              # Answer input with click-to-swap
 │   ├── Header.tsx              # Game header (timer, progress)
 │   ├── Hint.tsx                # Educational hint display
 │   ├── GuideModal.tsx          # Game instructions
@@ -355,7 +355,7 @@ export interface RankingEntry {
 
 ### Color System
 - **HTML/CSS**: `blue-400` with `blue-500` hover
-- **Ruby**: `rose-400` with `rose-500` hover  
+- **Ruby**: `rose-400` with `rose-500` hover
 - **FE**: `emerald-400` with `emerald-500` hover
 - **UI Accents**: `amber-400` for rankings, `indigo-400` for guides
 
