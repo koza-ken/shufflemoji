@@ -170,10 +170,9 @@ const GameLogic = () => {
       />
 
       {/* メインゲーム画面 */}
-      <div className="w-full max-w-2xl mx-auto px-2 py-2">
-
+      <div className="w-full max-w-2xl mx-auto px-2 sm:py-2">
         {/* バラバラの文字表示エリア */}
-        <div className="bg-white rounded-lg shadow-lg p-2 sm:p-6 mb-6">
+        <div className="bg-white rounded-lg shadow-lg p-2 sm:px-6 sm:py-4 mb-6">
           {mode === 'html-css' ? (
             <HTMLCSSQuestion />
           ) : mode === 'ruby' ? (
@@ -186,10 +185,25 @@ const GameLogic = () => {
 
           <Answer />
 
+          {/* リセットボタン */}
+          {!isAnswered && (
+            <div className="text-center mt-3">
+              <button
+                onClick={handleReset}
+                className="bg-orange-400 hover:bg-orange-500 text-white font-bold py-2 px-4 mb-2 sm:m-1 rounded-lg"
+              >
+                リセット
+              </button>
+            </div>
+          )}
+
           {/* 現在の回答文字列表示 */}
-          <div className="mt-2 sm:mt-3 text-center">
-            <p className="text-sm text-gray-600">
-              現在の回答: <span className="font-bold text-lg">{currentAnswer || '（未入力）'}</span>
+          <div className="mt-2 sm:mt-2 text-center">
+            <p className="text-lg text-gray-600">
+              現在の回答:{' '}
+              <span className="font-bold text-2xl">
+                {currentAnswer || '（未入力）'}
+              </span>
             </p>
           </div>
 
@@ -205,21 +219,11 @@ const GameLogic = () => {
                 // <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-1 sm:py-3 rounded">
                 <div className=" border border-red-400 text-red-700 px-4 py-1 sm:py-3 rounded">
                   <span className="text-2xl font-bold">不正解！</span>
-                  <p className="mt-1">残念！正解は「{currentWord.original}」でした。</p>
+                  <p className="mt-1">
+                    残念！正解は「{currentWord.original}」でした。
+                  </p>
                 </div>
               )}
-            </div>
-          )}
-
-          {/* リセットボタン */}
-          {!isAnswered && (
-            <div className="text-center mt-3 sm:mt-6">
-              <button
-                onClick={handleReset}
-                className="bg-orange-500 hover:bg-orange-600 text-white font-bold py-2 px-4 rounded-lg"
-              >
-                リセット
-              </button>
             </div>
           )}
         </div>
@@ -229,14 +233,16 @@ const GameLogic = () => {
           {/* 未完了警告表示（ボタンの直前） */}
           {showIncompleteWarning && (
             <div className="mb-3">
-              <p className="text-red-600 text-sm font-medium">文字をすべて選択してください</p>
+              <p className="text-red-600 text-sm font-medium">
+                文字をすべて選択してください
+              </p>
             </div>
           )}
 
           {!isAnswered ? (
             <button
               onClick={handleCheckAnswer}
-              className="bg-green-500 hover:bg-green-600 text-white font-bold py-3 px-6 rounded-lg"
+              className="bg-green-400 hover:bg-green-500 text-white font-bold py-3 px-6 rounded-lg"
             >
               答えあわせ
             </button>
