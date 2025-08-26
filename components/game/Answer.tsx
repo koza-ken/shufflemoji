@@ -1,26 +1,18 @@
 import React from 'react';
 import { useGameState } from '@/contexts/GameStateContext';
-import { useDragDrop } from '@/contexts/DragDropContext';
+import { useCharacterSwap } from '@/contexts/CharacterSwapContext';
 import { useCharacter } from '@/contexts/CharacterContext';
 
 export const Answer = () => {
   // Context hooks - propsなし！
   const { isAnswered } = useGameState();
   const {
-    draggedIndex,
-    dragOverIndex,
-    dropSuccessIndex,
     swappingIndices,
-    recentlyDroppedIndices,
+    recentlySwappedIndices,
     selectedForSwapIndex,
     mobileSwappingIndices,
-    handleDragStart,
-    handleDragEnd,
-    handleDragOver,
-    handleDragLeave,
-    handleDrop,
-    handleTapToSwap
-  } = useDragDrop();
+    handleCharacterSelect
+  } = useCharacterSwap();
   const {
     selectedChars,
     handleRemoveChar,
@@ -43,69 +35,36 @@ export const Answer = () => {
         ) : (
           <>
             {selectedChars.map((charObj, index) => {
-              const isDragging = draggedIndex === index;
-              const isDragOver = dragOverIndex === index && !isDragging;
-              const isDropSuccess = dropSuccessIndex === index;
               const isSwapping = swappingIndices.includes(index);
-              const isRecentlyDropped = recentlyDroppedIndices.includes(index);
+              const isRecentlySwapped = recentlySwappedIndices.includes(index);
               const isSelectedForSwap = selectedForSwapIndex === index;
-              const isMobileSwapping = mobileSwappingIndices.includes(index);
+              const isSwappingAnimation = mobileSwappingIndices.includes(index);
 
               return (
                 <div
                   key={`char-container-${charObj.id}`}
                   className="flex items-center relative"
                 >
-                  {/* ドロップインジケーター */}
-                  {isDragOver && (
-                    <div className="w-1 h-4 sm:h-12 bg-blue-500 rounded-sm mr-1 sm:mr-2 shadow-lg" />
-                  )}
 
-                  {/* ドロップゾーン（文字の左側） - 文字カード+×ボタンの高さ */}
-                  <div
-                    className="absolute -left-4 sm:-left-6 -top-2 w-6 h-12 sm:h-20 z-10"
-                    onDragOver={(e: React.DragEvent<HTMLDivElement>) => {
-                      e.preventDefault();
-                      e.stopPropagation();
-                      handleDragOver(e, index);
-                    }}
-                    onDrop={(e: React.DragEvent<HTMLDivElement>) => {
-                      e.preventDefault();
-                      e.stopPropagation();
-                      handleDrop(e, index, selectedChars, reorderCharacters);
-                    }}
-                    onDragLeave={(e: React.DragEvent<HTMLDivElement>) =>
-                      handleDragLeave(e)
-                    }
-                  />
 
                   <div className="relative">
-                    {/* 文字カード - PC全体ドラッグ対応 */}
+                    {/* 文字カード - クリック選択対応 */}
                     <div
-                      draggable={!isAnswered}
-                      onDragStart={(e: React.DragEvent<HTMLDivElement>) =>
-                        handleDragStart(e, index)
-                      }
-                      onDragEnd={handleDragEnd}
                       onClick={() =>
                         !isAnswered &&
-                        handleTapToSwap(index, selectedChars, reorderCharacters)
+                        handleCharacterSelect(index, selectedChars, reorderCharacters)
                       }
                       className={`w-12 h-12 ${
                         isSelectedForSwap
                           ? 'bg-blue-300'
-                          : isRecentlyDropped
+                          : isRecentlySwapped
                           ? 'bg-green-300'
                           : 'bg-green-100'
                       } border-2 border-green-300 rounded-lg flex items-center justify-center text-3xl font-bold text-green-800 ${
                         !isAnswered
                           ? 'cursor-pointer hover:scale-105 hover:shadow-md'
                           : 'cursor-default'
-                      } ${
-                        isDragging ? 'opacity-50 scale-95' : 'transform-none'
-                      } ${isDropSuccess ? 'drop-success' : ''} ${
-                        isSwapping ? 'swap-animation' : ''
-                      } ${isMobileSwapping ? 'mobile-swap-animation' : ''}`}
+                      } ${isSwappingAnimation ? 'mobile-swap-animation' : ''}`}
                       style={{
                         userSelect: 'none',
                         WebkitUserSelect: 'none',
@@ -161,33 +120,6 @@ export const Answer = () => {
               );
             })}
 
-            {/* 最後尾のドロップゾーン - 文字カード+×ボタンの高さ */}
-            <div className="flex items-center relative ml-2">
-              {dragOverIndex === selectedChars.length && (
-                <div className="w-1 h-8 sm:h-12 bg-blue-500 rounded-sm shadow-lg" />
-              )}
-              <div
-                className="w-1px sm:w-1 h-8 sm:h-12"
-                onDragOver={(e: React.DragEvent<HTMLDivElement>) => {
-                  e.preventDefault();
-                  e.stopPropagation();
-                  handleDragOver(e, selectedChars.length);
-                }}
-                onDrop={(e: React.DragEvent<HTMLDivElement>) => {
-                  e.preventDefault();
-                  e.stopPropagation();
-                  handleDrop(
-                    e,
-                    selectedChars.length,
-                    selectedChars,
-                    reorderCharacters
-                  );
-                }}
-                onDragLeave={(e: React.DragEvent<HTMLDivElement>) =>
-                  handleDragLeave(e)
-                }
-              />
-            </div>
           </>
         )}
       </div>

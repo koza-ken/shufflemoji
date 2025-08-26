@@ -267,7 +267,7 @@ export interface RankingEntry {
 #### Core Game Functionality
 - [x] 3-mode game system (HTML/CSS, Ruby, FE)
 - [x] Character selection with click interaction
-- [x] Drag & drop character reordering with visual feedback
+- [x] Click-to-swap character reordering with visual feedback
 - [x] 15-second countdown timer with progressive reduction and auto-fail
 - [x] Answer validation and feedback
 - [x] Educational hints (60+ characters each)

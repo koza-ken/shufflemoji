@@ -15,7 +15,7 @@ import LoadingScreen from '@/components/ui/LoadingScreen';
 
 // Contexts
 import { GameStateProvider, useGameState } from '@/contexts/GameStateContext';
-import { DragDropProvider } from '@/contexts/DragDropContext';
+import { CharacterSwapProvider } from '@/contexts/CharacterSwapContext';
 import { CharacterProvider, useCharacter } from '@/contexts/CharacterContext';
 
 type GamePageContentProps = {
@@ -286,9 +286,9 @@ const GameLogicWithProviders = () => {
       showIncompleteWarning={showIncompleteWarning}
       setShowIncompleteWarning={setShowIncompleteWarning}
     >
-      <DragDropProvider isAnswered={isAnswered}>
+      <CharacterSwapProvider isAnswered={isAnswered}>
         <GameLogic />
-      </DragDropProvider>
+      </CharacterSwapProvider>
     </CharacterProvider>
   );
 };
