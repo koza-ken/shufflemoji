@@ -8,19 +8,30 @@ interface DragDropContextType {
   dragOverIndex: number | null
   dropSuccessIndex: number | null
   swappingIndices: number[]
-  
+  recentlyDroppedIndices: number[]
+
+  // Mobile tap-to-swap state
+  selectedForSwapIndex: number | null
+  mobileSwappingIndices: number[]
+
   // Actions
   setDraggedIndex: (index: number | null) => void
   setDragOverIndex: (index: number | null) => void
   setDropSuccessIndex: (index: number | null) => void
   setSwappingIndices: (indices: number[]) => void
-  
+  setRecentlyDroppedIndices: (indices: number[]) => void
+  setSelectedForSwapIndex: (index: number | null) => void
+  setMobileSwappingIndices: (indices: number[]) => void
+
   // Event handlers
   handleDragStart: (e: React.DragEvent, index: number) => void
   handleDragEnd: () => void
   handleDragOver: (e: React.DragEvent, index?: number) => void
   handleDragLeave: (e: React.DragEvent) => void
   handleDrop: (e: React.DragEvent, dropIndex: number, selectedChars: any[], onCharactersReorder: (newChars: any[]) => void) => void
+
+  // Mobile tap-to-swap handlers
+  handleTapToSwap: (index: number, selectedChars: any[], onCharactersReorder: (newChars: any[]) => void) => void
 }
 
 const DragDropContext = createContext<DragDropContextType | null>(null)
@@ -35,6 +46,9 @@ export const DragDropProvider = ({ children, isAnswered }: DragDropProviderProps
   const [dragOverIndex, setDragOverIndex] = useState<number | null>(null)
   const [dropSuccessIndex, setDropSuccessIndex] = useState<number | null>(null)
   const [swappingIndices, setSwappingIndices] = useState<number[]>([])
+  const [recentlyDroppedIndices, setRecentlyDroppedIndices] = useState<number[]>([])
+  const [selectedForSwapIndex, setSelectedForSwapIndex] = useState<number | null>(null)
+  const [mobileSwappingIndices, setMobileSwappingIndices] = useState<number[]>([])
 
   // ドラッグ開始処理
   const handleDragStart = (e: React.DragEvent, index: number) => {
@@ -103,10 +117,10 @@ export const DragDropProvider = ({ children, isAnswered }: DragDropProviderProps
 
     // 入れ替わりアニメーションをトリガー - 影響を受ける全ての要素
     const affectedIndices: number[] = []
-    
+
     // ドラッグされた文字の新しい位置
     affectedIndices.push(insertIndex)
-    
+
     // 押し出された文字たちのインデックス
     if (dragIndex < dropIndex) {
       // 右に移動した場合、間にある文字が左にシフト
@@ -114,7 +128,7 @@ export const DragDropProvider = ({ children, isAnswered }: DragDropProviderProps
         if (i !== insertIndex) affectedIndices.push(i - 1)
       }
     } else {
-      // 左に移動した場合、間にある文字が右にシフト  
+      // 左に移動した場合、間にある文字が右にシフト
       for (let i = dropIndex; i < dragIndex; i++) {
         affectedIndices.push(i + 1)
       }
@@ -122,14 +136,61 @@ export const DragDropProvider = ({ children, isAnswered }: DragDropProviderProps
 
     setSwappingIndices(affectedIndices)
     setDropSuccessIndex(insertIndex)
-    
+    setRecentlyDroppedIndices([insertIndex])
+
     setTimeout(() => {
       setSwappingIndices([])
       setDropSuccessIndex(null)
     }, 600)
 
+    // 1秒間色を濃く保持してゆっくり戻る
+    setTimeout(() => {
+      setRecentlyDroppedIndices([])
+    }, 1000)
+
     setDraggedIndex(null)
     setDragOverIndex(null)
+  }
+  // モバイル用タップ入れ替え処理
+  const handleTapToSwap = (index: number, selectedChars: any[], onCharactersReorder: (newChars: any[]) => void) => {
+    if (isAnswered) return
+
+    if (selectedForSwapIndex === null) {
+      // 最初の文字を選択
+      setSelectedForSwapIndex(index)
+    } else if (selectedForSwapIndex === index) {
+      // 同じ文字をタップした場合は選択解除
+      setSelectedForSwapIndex(null)
+    } else {
+      // 2つ目の文字をタップした場合は入れ替え
+      const newSelectedChars = [...selectedChars]
+      const char1 = newSelectedChars[selectedForSwapIndex]
+      const char2 = newSelectedChars[index]
+
+      // 位置を入れ替え
+      newSelectedChars[selectedForSwapIndex] = char2
+      newSelectedChars[index] = char1
+
+      // 親コンポーネントに新しい配列を渡す
+      onCharactersReorder(newSelectedChars)
+
+      // 入れ替え成功のモバイル用アニメーション（両方の文字）
+      setMobileSwappingIndices([selectedForSwapIndex, index])
+      setRecentlyDroppedIndices([selectedForSwapIndex, index])
+
+      // 0.4秒後にモバイルアニメーションを停止
+      setTimeout(() => {
+        setMobileSwappingIndices([])
+      }, 400)
+
+      // 0.4秒後に色を元に戻す
+      setTimeout(() => {
+        setRecentlyDroppedIndices([])
+      }, 400)
+
+      // 選択状態をリセット
+      setSelectedForSwapIndex(null)
+    }
   }
 
   // ドラッグ終了処理
@@ -146,19 +207,26 @@ export const DragDropProvider = ({ children, isAnswered }: DragDropProviderProps
     dragOverIndex,
     dropSuccessIndex,
     swappingIndices,
-    
+    recentlyDroppedIndices,
+    selectedForSwapIndex,
+    mobileSwappingIndices,
+
     // Actions
     setDraggedIndex,
     setDragOverIndex,
     setDropSuccessIndex,
     setSwappingIndices,
-    
+    setRecentlyDroppedIndices,
+    setSelectedForSwapIndex,
+    setMobileSwappingIndices,
+
     // Event handlers
     handleDragStart,
     handleDragEnd,
     handleDragOver,
     handleDragLeave,
-    handleDrop
+    handleDrop,
+    handleTapToSwap
   }
 
   return (
