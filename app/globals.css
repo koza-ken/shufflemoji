@@ -109,74 +109,25 @@ body {
   animation: slide-continuous 12s linear infinite;
 }
 
-/* ドラッグ＆ドロップのアニメーション */
-@keyframes drop-success {
+/* クリック入れ替えアニメーション */
+@keyframes mobile-swap-animation {
   0% {
     transform: scale(1);
-    box-shadow: 0 0 0 rgba(34, 197, 94, 0);
+    background-color: rgb(134 239 172); /* green-300 */
   }
   50% {
-    transform: scale(1.1);
-    box-shadow: 0 0 20px rgba(34, 197, 94, 0.5);
+    transform: scale(1.05);
+    background-color: rgb(74 222 128); /* green-400 */
   }
   100% {
     transform: scale(1);
-    box-shadow: 0 0 0 rgba(34, 197, 94, 0);
+    background-color: rgb(134 239 172); /* green-300 */
   }
 }
 
-@keyframes swap-animation {
-  0% {
-    transform: translateY(0) rotate(0deg);
-  }
-  25% {
-    transform: translateY(-10px) rotate(5deg) scale(1.1);
-  }
-  50% {
-    transform: translateY(0) rotate(-3deg) scale(1.05);
-  }
-  75% {
-    transform: translateY(-5px) rotate(2deg) scale(1.02);
-  }
-  100% {
-    transform: translateY(0) rotate(0deg) scale(1);
-  }
+.mobile-swap-animation {
+  animation: mobile-swap-animation 0.4s ease-out;
 }
 
-@keyframes slide-in-from-left {
-  0% {
-    transform: translateX(-50px) scale(0.8);
-    opacity: 0.3;
-  }
-  100% {
-    transform: translateX(0) scale(1);
-    opacity: 1;
-  }
-}
 
-@keyframes slide-in-from-right {
-  0% {
-    transform: translateX(50px) scale(0.8);
-    opacity: 0.3;
-  }
-  100% {
-    transform: translateX(0) scale(1);
-    opacity: 1;
-  }
-}
 
-.drop-success {
-  animation: drop-success 0.5s ease-out;
-}
-
-.swap-animation {
-  animation: swap-animation 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55);
-}
-
-.slide-in-left {
-  animation: slide-in-from-left 0.4s ease-out;
-}
-
-.slide-in-right {
-  animation: slide-in-from-right 0.4s ease-out;
-}

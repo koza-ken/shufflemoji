@@ -45,11 +45,11 @@ export const GuideModal = ({ isOpen, onClose }: GuideModalProps) => {
                 </h3>
                 <ul className="text-gray-600 space-y-2 list-disc list-inside">
                   <li>
-                    <strong>クリック選択:</strong> 文字をクリックして順番に選択
+                    <strong>文字選択:</strong> 文字をクリックして順番に選択
                   </li>
                   <li>
-                    <strong>ドラッグ&ドロップ:</strong>{' '}
-                    選択して回答欄にある文字を並び替え
+                    <strong>文字入れ替え:</strong>{' '}
+                    回答欄の文字をクリックして選択すると入れ替え
                   </li>
                   <li>
                     <strong>リセットボタン:</strong> 選択した文字をクリア
