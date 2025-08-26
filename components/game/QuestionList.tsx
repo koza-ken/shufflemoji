@@ -17,7 +17,7 @@ export const QuestionList = ({ questions, incorrectWord }: QuestionListProps) =>
   const totalQuestions = questions.length + (incorrectWord ? 1 : 0);
 
   return (
-    <div className="w-full max-w-2xl mx-auto bg-white rounded-lg shadow-lg p-6 mt-4">
+    <div className="w-full max-w-2xl mx-auto bg-white rounded-lg shadow-lg p-6 px-3 mt-4">
       {/* トグルボタン付きヘッダー */}
       <div className="flex items-center justify-center mb-4">
         <h2 className="text-2xl font-bold text-gray-900 mr-4">
@@ -76,9 +76,9 @@ export const QuestionList = ({ questions, incorrectWord }: QuestionListProps) =>
                   return (
                     <div
                       key={question.id}
-                      className={`flex items-center justify-between p-4 bg-gray-50 rounded-lg border ${borderColor} ${hoverColor} transition-colors`}
+                      className={`flex items-center justify-between p-4 px-2 bg-gray-50 rounded-lg border ${borderColor} ${hoverColor} transition-colors`}
                     >
-                      <div className="flex items-center space-x-4">
+                      <div className="flex items-center space-x-2">
                         {/* 問題番号 */}
                         <span className={`flex items-center justify-center w-8 h-8 ${numberBgColor} text-white rounded-full text-sm font-bold`}>
                           {index + 1}
