@@ -144,7 +144,9 @@ const GameLogic = () => {
       mode,
       incorrectWord: {
         word: currentWord.original,
-        userAnswer: currentAnswer
+        userAnswer: currentAnswer,
+        category: currentWord.category,
+        hint: currentWord.hint
       }
     };
 

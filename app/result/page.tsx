@@ -17,7 +17,7 @@ export default function ResultPage() {
   const [questionCount, setQuestionCount] = useState(0)
   const [questionList, setQuestionList] = useState<GameWord[]>([])
   const [mode, setMode] = useState<string | null>(null)
-  const [incorrectWordData, setIncorrectWordData] = useState<{ word: string; userAnswer: string } | null>(null)
+  const [incorrectWordData, setIncorrectWordData] = useState<{ word: string; userAnswer: string; category?: string; hint?: string } | null>(null)
 
   // セッションストレージからデータを読み込み
   useEffect(() => {
@@ -297,7 +297,7 @@ export default function ResultPage() {
           )}
         </div>
       </div>
-      <QuestionList questions={questionList} />
+      <QuestionList questions={questionList} incorrectWord={incorrectWordData} />
     </div>
   );
 }
