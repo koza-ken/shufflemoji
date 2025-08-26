@@ -1,12 +1,9 @@
-// import React from 'react';
-import { AllChars } from '@/types/word';
+import React from 'react';
+import { useCharacter } from '@/contexts/CharacterContext';
 
-export type HTMLCSSQuestionProps = {
-  allChars: AllChars[];
-  handleCharClick: (charObj: AllChars) => void;
-}
-
-export const HTMLCSSQuestion = ({ allChars, handleCharClick }: HTMLCSSQuestionProps) => {
+export const HTMLCSSQuestion = () => {
+  // Context hooks - propsなし！
+  const { allChars, handleCharClick } = useCharacter();
 
   return (
     <>
@@ -17,7 +14,7 @@ export const HTMLCSSQuestion = ({ allChars, handleCharClick }: HTMLCSSQuestionPr
 
       {/* 利用可能な文字を表示（レスポンシブ対応） */}
       <div className="flex justify-center gap-1 sm:gap-2 mb-4 flex-wrap px-2">
-        {allChars.map((charObj: AllChars) => (
+        {allChars.map((charObj) => (
           <div
             key={charObj.id}
             onClick={() => handleCharClick(charObj)}

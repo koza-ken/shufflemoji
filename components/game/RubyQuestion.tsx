@@ -1,12 +1,9 @@
-// import React from 'react';
-import { AllChars } from '@/types/word';
+import React from 'react';
+import { useCharacter } from '@/contexts/CharacterContext';
 
-export type RubyQuestionProps = {
-  allChars: AllChars[];
-  handleCharClick: (charObj: AllChars) => void;
-}
-
-export const RubyQuestion = ({ allChars, handleCharClick }: RubyQuestionProps) => {
+export const RubyQuestion = () => {
+  // Context hooks - propsなし！
+  const { allChars, handleCharClick } = useCharacter();
 
   return (
     <>
@@ -17,7 +14,7 @@ export const RubyQuestion = ({ allChars, handleCharClick }: RubyQuestionProps) =
 
       {/* 利用可能な文字を表示（固定位置） */}
       <div className="flex justify-center gap-1 sm:gap-2 mb-4 flex-wrap px-2">
-        {allChars.map((charObj: AllChars) => (
+        {allChars.map((charObj) => (
           <div
             key={charObj.id}
             onClick={() => handleCharClick(charObj)}
