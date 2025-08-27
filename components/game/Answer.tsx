@@ -1,10 +1,11 @@
-import React from 'react';
+import React, { useMemo, useCallback } from 'react';
 import { useGameState } from '@/contexts/GameStateContext';
 import { useCharacterSwap } from '@/contexts/CharacterSwapContext';
 import { useCharacter } from '@/contexts/CharacterContext';
+import { SelectedChars } from '@/types/word';
 
 export const Answer = () => {
-  // Context hooks - propsなし！
+  // Context hooks
   const { isAnswered } = useGameState();
   const {
     swappingIndices,
@@ -19,11 +20,17 @@ export const Answer = () => {
     reorderCharacters
   } = useCharacter();
 
+  // ✅ 適切な最適化: ハンドラーをuseCallbackでメモ化（親の責任）
+  const handleCharacterSelectOptimized = useCallback((index: number) => {
+    handleCharacterSelect(index, selectedChars, reorderCharacters);
+  }, [handleCharacterSelect, selectedChars, reorderCharacters]);
+
+  const handleRemoveCharOptimized = useCallback((charId: string) => {
+    handleRemoveChar(charId);
+  }, [handleRemoveChar]);
+
   return (
     <div className="mb-2">
-      {/* <h3 className="text-base sm:text-lg mb-1 font-semibold text-gray-700 text-center">
-        回答
-      </h3> */}
       <p className="text-sm sm:text-sm mt-6 mb-1 text-center text-gray-700">
         移動したい文字を選択して入れ替えが可能
       </p>
@@ -34,95 +41,109 @@ export const Answer = () => {
           </p>
         ) : (
           <>
-            {selectedChars.map((charObj, index) => {
-              const isSwapping = swappingIndices.includes(index);
-              const isRecentlySwapped = recentlySwappedIndices.includes(index);
-              const isSelectedForSwap = selectedForSwapIndex === index;
-              const isSwappingAnimation = mobileSwappingIndices.includes(index);
-
-              return (
-                <div
-                  key={`char-container-${charObj.id}`}
-                  className="flex items-center relative"
-                >
-
-
-                  <div className="relative">
-                    {/* 文字カード - クリック選択対応 */}
-                    <div
-                      onClick={() =>
-                        !isAnswered &&
-                        handleCharacterSelect(index, selectedChars, reorderCharacters)
-                      }
-                      className={`w-12 h-12 ${
-                        isSelectedForSwap
-                          ? 'bg-blue-300'
-                          : isRecentlySwapped
-                          ? 'bg-green-300'
-                          : 'bg-green-100'
-                      } border-2 border-green-300 rounded-lg flex items-center justify-center text-3xl font-bold text-green-800 ${
-                        !isAnswered
-                          ? 'cursor-pointer hover:scale-105 hover:shadow-md'
-                          : 'cursor-default'
-                      } ${isSwappingAnimation ? 'mobile-swap-animation' : ''}`}
-                      style={{
-                        userSelect: 'none',
-                        WebkitUserSelect: 'none',
-                        touchAction: !isAnswered ? 'none' : 'auto',
-                        transition:
-                          'background-color 0.4s ease-out, transform 0.2s, box-shadow 0.2s, cursor 0s',
-                      }}
-                    >
-                      {charObj.char}
-                    </div>
-
-                    {/* モバイル用タップハンドル - 縦長で間隔確保 */}
-                    {/* {!isAnswered && (
-                      <div
-                        onClick={() => handleTapToSwap(index, selectedChars, reorderCharacters)}
-                        className={`sm:hidden absolute -bottom-14 left-1/2 transform -translate-x-1/2 w-10 h-12 ${isSelectedForSwap ? 'bg-blue-500' : isDragging ? 'bg-gray-600' : 'bg-gray-400 hover:bg-gray-500'} rounded-lg cursor-pointer flex items-center justify-center transition-colors active:bg-gray-600 shadow-md`}
-                        style={{
-                          userSelect: 'none',
-                          WebkitUserSelect: 'none',
-                          touchAction: 'manipulation'
-                        }}
-                      >
-                        <div className="flex items-center gap-1">
-                          <div className="flex items-center gap-0.5">
-                            <div className="w-1.5 h-1.5 bg-white rounded"></div>
-                            <div className="w-1.5 h-1.5 bg-white rounded"></div>
-                          </div>
-                          <div className="text-white text-xs font-bold">⇄</div>
-                          <div className="flex items-center gap-0.5">
-                            <div className="w-1.5 h-1.5 bg-white rounded"></div>
-                            <div className="w-1.5 h-1.5 bg-white rounded"></div>
-                          </div>
-                        </div>
-                      </div>
-                    )} */}
-
-                    {/* 削除ボタン（回答前のみ表示） - 文字カードの上に配置 */}
-                    {!isAnswered && (
-                      <button
-                        onClick={e => {
-                          e.preventDefault();
-                          e.stopPropagation();
-                          handleRemoveChar(charObj.id);
-                        }}
-                        className="absolute -top-8 left-1/2 transform -translate-x-1/2 w-6 h-6 sm:w-7 sm:h-7 bg-gray-400 hover:bg-gray-500 text-white rounded-full flex items-center justify-center text-sm sm:text-base font-bold shadow-lg transition-colors z-20"
-                        style={{ userSelect: 'none' }}
-                      >
-                        ×
-                      </button>
-                    )}
-                  </div>
-                </div>
-              );
-            })}
-
+            {selectedChars.map((charObj, index) => (
+              <AnswerCard
+                key={`char-container-${charObj.id}`}
+                charObj={charObj}
+                index={index}
+                isAnswered={isAnswered}
+                swappingIndices={swappingIndices}
+                recentlySwappedIndices={recentlySwappedIndices}
+                selectedForSwapIndex={selectedForSwapIndex}
+                mobileSwappingIndices={mobileSwappingIndices}
+                onCharacterSelect={handleCharacterSelectOptimized}
+                onRemoveChar={handleRemoveCharOptimized}
+              />
+            ))}
           </>
         )}
       </div>
     </div>
   );
-}
+};
+
+// ✅ 適切な最適化: 必要最小限のメモ化
+const AnswerCard = React.memo<{
+  charObj: SelectedChars;
+  index: number;
+  isAnswered: boolean;
+  swappingIndices: number[];
+  recentlySwappedIndices: number[];
+  selectedForSwapIndex: number | null;
+  mobileSwappingIndices: number[];
+  onCharacterSelect: (index: number) => void;
+  onRemoveChar: (charId: string) => void;
+}>(({
+  charObj,
+  index,
+  isAnswered,
+  swappingIndices,
+  recentlySwappedIndices,
+  selectedForSwapIndex,
+  mobileSwappingIndices,
+  onCharacterSelect,
+  onRemoveChar
+}) => {
+  //  過剰なメモ化を削除 - 単純な計算は直接実行
+  const isSwapping = swappingIndices.includes(index);
+  const isRecentlySwapped = recentlySwappedIndices.includes(index);
+  const isSelectedForSwap = selectedForSwapIndex === index;
+  const isSwappingAnimation = mobileSwappingIndices.includes(index);
+
+  //  単純なイベントハンドラー（メモ化不要）
+  const handleCharacterClick = () => {
+    if (!isAnswered) {
+      onCharacterSelect(index);
+    }
+  };
+
+  const handleRemoveClick = (e: React.MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    onRemoveChar(charObj.id);
+  };
+
+  return (
+    <div className="flex items-center relative">
+      <div className="relative">
+        {/* 文字カード - クリック選択対応 */}
+        <div
+          onClick={handleCharacterClick}
+          className={`w-12 h-12 ${
+            isSelectedForSwap
+              ? 'bg-blue-300'
+              : isRecentlySwapped
+              ? 'bg-green-300'
+              : 'bg-green-100'
+          } border-2 border-green-300 rounded-lg flex items-center justify-center text-3xl font-bold text-green-800 ${
+            !isAnswered
+              ? 'cursor-pointer hover:scale-105 hover:shadow-md'
+              : 'cursor-default'
+          } ${isSwappingAnimation ? 'mobile-swap-animation' : ''}`}
+          style={{
+            userSelect: 'none',
+            WebkitUserSelect: 'none',
+            touchAction: !isAnswered ? 'none' : 'auto',
+            transition:
+              'background-color 0.4s ease-out, transform 0.2s, box-shadow 0.2s, cursor 0s',
+          }}
+        >
+          {charObj.char}
+        </div>
+
+        {/* 削除ボタン（回答前のみ表示） - 文字カードの上に配置 */}
+        {!isAnswered && (
+          <button
+            onClick={handleRemoveClick}
+            className="absolute -top-8 left-1/2 transform -translate-x-1/2 w-6 h-6 sm:w-7 sm:h-7 bg-gray-400 hover:bg-gray-500 text-white rounded-full flex items-center justify-center text-sm sm:text-base font-bold shadow-lg transition-colors z-20"
+            style={{ userSelect: 'none' }}
+          >
+            ×
+          </button>
+        )}
+      </div>
+    </div>
+  );
+});
+
+AnswerCard.displayName = 'AnswerCard';
