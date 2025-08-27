@@ -10,7 +10,7 @@ export const GuideModal = ({ isOpen, onClose }: GuideModalProps) => {
       {/* ゲーム説明モーダル */}
       {isOpen && (
         <div className="fixed inset-0 bg-gray-500/60 flex items-center justify-center z-50">
-          <div className="bg-white rounded-lg px-8 py-4 max-w-2xl mx-4 max-h-150 overflow-y-auto">
+          <div className="bg-white rounded-lg px-6 py-4 max-w-2xl mx-4 max-h-150 overflow-y-auto">
             <div className="flex justify-between items-center mb-6">
               <h2 className="text-2xl font-bold text-gray-900">遊び方</h2>
               <button
@@ -24,7 +24,7 @@ export const GuideModal = ({ isOpen, onClose }: GuideModalProps) => {
             <div className="text-left space-y-4">
               <div>
                 <p className="text-gray-600">
-                  文字を並び替えて、正しい単語を作ろう！
+                  文字を並び替えて正しい単語を作ろう！
                 </p>
               </div>
 
@@ -34,7 +34,7 @@ export const GuideModal = ({ isOpen, onClose }: GuideModalProps) => {
                 </h3>
                 <ul className="text-gray-600 space-y-2 list-disc list-inside">
                   <li>正解すると次の問題に進めます</li>
-                  <li>間違えるか時間切れになるとゲーム終了です</li>
+                  <li>間違えるか時間切れでゲーム終了です</li>
                   <li>連続正解数がスコアになります</li>
                 </ul>
               </div>
@@ -45,17 +45,18 @@ export const GuideModal = ({ isOpen, onClose }: GuideModalProps) => {
                 </h3>
                 <ul className="text-gray-600 space-y-2 list-disc list-inside">
                   <li>
-                    <strong>文字選択:</strong> 文字をクリックして順番に選択
+                    <strong>文字選択:</strong> 文字をクリックして選択
                   </li>
                   <li>
-                    <strong>文字入れ替え:</strong>{' '}
-                    回答欄の文字をクリックして選択すると入れ替え
+                    <strong>文字入替:</strong>
+                    <br></br>
+                    <p className="pl-5">回答欄の文字をクリックして入替え</p>
                   </li>
                   <li>
-                    <strong>リセットボタン:</strong> 選択した文字をクリア
+                    <strong>リセット:</strong> 選択した文字を全てクリア
                   </li>
                   <li>
-                    <strong>答えあわせボタン:</strong> 回答を送信
+                    <strong>答えあわせ:</strong> 回答を送信
                   </li>
                 </ul>
               </div>

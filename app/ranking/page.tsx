@@ -83,7 +83,7 @@ export default function RankingPage() {
             </h1>
             <Link
               href="/"
-              className="bg-gray-500 hover:bg-gray-700 text-white font-bold py-1 sm:py-2 px-2 sm:px-4 rounded"
+              className="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-2 sm:px-4 rounded"
             >
               もどる
             </Link>
@@ -93,7 +93,7 @@ export default function RankingPage() {
           <div className="flex gap-2 sm:gap-4 mb-4">
             <button
               onClick={() => setActiveTab('HTML_CSS')}
-              className={`w-1/3 sm:w-1/3 px-2 sm:px-6 py-2 sm:py-3 rounded-lg font-medium transition-colors text-xs sm:text-base ${
+              className={`w-1/3 sm:w-1/3 px-2 sm:px-6 py-2 sm:py-3 rounded-lg font-medium transition-colors text-sm sm:text-base ${
                 activeTab === 'HTML_CSS'
                   ? 'bg-blue-400 text-white'
                   : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
@@ -108,7 +108,7 @@ export default function RankingPage() {
             </button>
             <button
               onClick={() => setActiveTab('RUBY')}
-              className={`w-1/3 sm:w-1/3 px-2 sm:px-6 py-2 sm:py-3 rounded-lg font-medium transition-colors text-xs sm:text-base ${
+              className={`w-1/3 sm:w-1/3 px-2 sm:px-6 py-2 sm:py-3 rounded-lg font-medium transition-colors text-sm sm:text-base ${
                 activeTab === 'RUBY'
                   ? 'bg-rose-400 text-white'
                   : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
@@ -118,7 +118,7 @@ export default function RankingPage() {
             </button>
             <button
               onClick={() => setActiveTab('FE')}
-              className={`w-1/3 sm:w-1/3 px-2 sm:px-6 py-2 sm:py-3 rounded-lg font-medium transition-colors text-xs sm:text-base ${
+              className={`w-1/3 sm:w-1/3 px-2 sm:px-6 py-2 sm:py-3 rounded-lg font-medium transition-colors text-sm sm:text-base ${
                 activeTab === 'FE'
                   ? 'bg-emerald-400 text-white'
                   : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
@@ -187,7 +187,8 @@ export default function RankingPage() {
           {/* 統計情報 */}
           <div className="mt-8 text-center">
             <p className="text-sm text-gray-600">
-              ランキングは各モードの最高スコア順で表示されます。同スコアの場合は達成日時の早い順です。
+              ランキングは最高スコア順で表示されます。
+              同スコアの場合は達成日時の早い順です。
             </p>
           </div>
         </div>

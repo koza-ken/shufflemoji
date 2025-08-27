@@ -96,9 +96,9 @@ export const QuestionList = ({ questions, incorrectWord }: QuestionListProps) =>
                               </div>
                             )}
                             {/* 正解/不正解マーク */}
-                            <div className={`px-2 py-1 ${statusBadge.bg} ${statusBadge.text} rounded-full text-xs font-medium`}>
+                            {/* <div className={`px-2 py-1 ${statusBadge.bg} ${statusBadge.text} rounded-full text-xs font-medium`}>
                               {statusBadge.label}
-                            </div>
+                            </div> */}
                             {/* ユーザー回答（不正解の場合のみ） */}
                             {!isCorrect && question.userAnswer && (
                               <span className="text-sm text-red-600">

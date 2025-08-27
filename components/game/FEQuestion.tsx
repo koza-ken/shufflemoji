@@ -9,14 +9,14 @@ export const FEQuestion = () => {
     <>
       <h2 className="text-md sm:text-xl font-semibold text-gray-900 mb-2 sm:mb-4 text-center">
         <p>文字を順番に選択して</p>
-        <p>基本情報技術者試験で出る略語を作ってください</p>
+        <p>基本情報技術者試験の用語を作ってください</p>
         <p className="text-xs text-gray-600 mt-2 text-right">
           ※シラバス Ver.9.1準拠
         </p>
       </h2>
 
       {/* 利用可能な文字を表示（固定位置） */}
-      <div className="flex justify-center gap-1 sm:gap-2 mb-4 flex-wrap px-2">
+      <div className="flex justify-center gap-1 sm:gap-2 mb-4 sm:px-2">
         {allChars.map(charObj => (
           <div
             key={charObj.id}

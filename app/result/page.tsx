@@ -278,7 +278,7 @@ export default function ResultPage() {
             ) : (
               <Link
                 href="/"
-                className="w-40 bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-6 rounded flex items-center justify-center gap-2"
+                className="w-34 bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-2 sm:px-4 rounded flex items-center justify-center gap-2"
               >
                 <span>TOPにもどる</span>
               </Link>

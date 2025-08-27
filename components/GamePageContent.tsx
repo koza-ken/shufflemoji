@@ -170,9 +170,9 @@ const GameLogic = () => {
       />
 
       {/* メインゲーム画面 */}
-      <div className="w-full max-w-2xl mx-auto px-2 sm:py-2">
+      <div className="w-full max-w-2xl mx-auto px-2 sm:py-2 mt-4 sm:mt-2">
         {/* バラバラの文字表示エリア */}
-        <div className="bg-white rounded-lg shadow-lg p-2 sm:px-6 sm:py-4 mb-5 sm:mb-6">
+        <div className="bg-white rounded-lg shadow-lg px-2 sm:px-6 py-4 mb-5 sm:mb-6">
           {mode === 'html-css' ? (
             <HTMLCSSQuestion />
           ) : mode === 'ruby' ? (
@@ -242,7 +242,7 @@ const GameLogic = () => {
           {!isAnswered ? (
             <button
               onClick={handleCheckAnswer}
-              className="bg-green-400 hover:bg-green-500 text-white font-bold py-3 px-6 rounded-lg"
+              className="bg-green-400 hover:bg-green-500 text-white font-bold py-3 px-6 sm:pt-2 rounded-lg"
             >
               答えあわせ
             </button>

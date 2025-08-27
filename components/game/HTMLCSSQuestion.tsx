@@ -13,8 +13,8 @@ export const HTMLCSSQuestion = () => {
       </h2>
 
       {/* 利用可能な文字を表示（レスポンシブ対応） */}
-      <div className="flex justify-center gap-1 sm:gap-2 mb-4 flex-wrap px-2">
-        {allChars.map((charObj) => (
+      <div className="flex justify-center gap-1 sm:gap-2 mb-4 sm:px-2">
+        {allChars.map(charObj => (
           <div
             key={charObj.id}
             onClick={() => handleCharClick(charObj)}
@@ -29,5 +29,5 @@ export const HTMLCSSQuestion = () => {
         ))}
       </div>
     </>
-  )
+  );
 }
