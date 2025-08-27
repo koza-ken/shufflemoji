@@ -6,7 +6,13 @@ type QuestionAreaProps = {
   mode: GameMode;
 };
 
-const GAME_CONFIG = {
+type GameConfig = {
+  title: string;
+  colors: string;
+  subtitle?: string;
+};
+
+const GAME_CONFIG: Record<GameMode, GameConfig> = {
   'html-css': {
     title: 'HTML/CSSの用語を作ってください',
     colors: 'bg-blue-100 border-blue-300 text-blue-800 cursor-pointer hover:bg-blue-200'
@@ -20,7 +26,7 @@ const GAME_CONFIG = {
     subtitle: '※シラバス Ver.9.1準拠',
     colors: 'bg-green-100 border-green-300 text-green-800 cursor-pointer hover:bg-green-200'
   }
-} as const;
+};
 
 export const QuestionArea = ({ mode }: QuestionAreaProps) => {
   const { allChars, handleCharClick } = useCharacter();
