@@ -24,7 +24,7 @@ export default function TopPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="bg-gray-50 sm:min-h-0 mobile-full-screen">
       <header className="bg-white shadow-sm">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-end py-1 sm:py-2">
@@ -34,19 +34,19 @@ export default function TopPage() {
         </div>
       </header>
 
-      <div className="flex items-center justify-center min-h-[80vh]">
-        <div className="w-full max-w-2xl mx-auto bg-white rounded-lg shadow-lg p-8 px-6 sm:p-8 mt-2">
+      <div className="mobile-content-area flex items-center justify-center sm:min-h-[80vh] overflow-y-auto py-2 sm:py-0">
+        <div className="w-full max-w-2xl mx-auto bg-white rounded-lg shadow-lg p-6 sm:p-8 mt-2 mb-4">
           <div className="text-center">
             <h1 className="text-4xl font-bold text-gray-900 mb-4">
               <img src="/shamoji_top_light.png" alt="シャッフルもじ" className="block dark:hidden" />
               <img src="/shamoji_top_dark.png" alt="シャッフルもじ" className="hidden dark:block" />
             </h1>
-            <p className="text-lg text-gray-600 mb-8">
+            <p className="text-lg text-gray-600 mb-6 sm:mb-8">
               バラバラになった文字の並び替えゲーム
             </p>
 
-            <div className="space-y-8">
-              <div className="mt-10">
+            <div className="space-y-6 sm:space-y-8">
+              <div className="mt-6 sm:mt-10">
                 <p className="text-2xl">モード選択</p>
                 <div className="flex justify-center gap-4 mt-4">
                   <ModeButton
@@ -70,7 +70,7 @@ export default function TopPage() {
                 </div>
               </div>
 
-              <div className="pt-6 border-t border-gray-200">
+              <div className="pt-4 sm:pt-6 border-t border-gray-200">
                 <div className="flex justify-center gap-4">
                   <button
                     onClick={() => setIsGuideModalOpen(true)}

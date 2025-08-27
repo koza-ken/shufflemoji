@@ -158,7 +158,7 @@ const GameLogic = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 pt-2 sm:pt-4">
+    <div className="h-screen bg-gray-50 pt-2 sm:pt-4 overflow-hidden">
       {/* ヘッダー（問題数・タイマー・進捗・ラウンド） */}
       <Header
         count={questionCount}
@@ -168,9 +168,9 @@ const GameLogic = () => {
       />
 
       {/* メインゲーム画面 */}
-      <div className="w-full max-w-2xl mx-auto px-2 sm:py-2 mt-4 sm:mt-2">
+      <div className="w-full max-w-2xl mx-auto px-2 sm:py-2 mt-2 sm:mt-2 overflow-y-auto" style={{ maxHeight: 'calc(100vh - 120px)' }}>
         {/* バラバラの文字表示エリア */}
-        <div className="bg-white rounded-lg shadow-lg px-2 sm:px-6 py-4 mb-5 sm:mb-6">
+        <div className="bg-white rounded-lg shadow-lg px-2 sm:px-6 py-4 mb-3 sm:mb-4">
           <QuestionArea mode={mode} />
           {/* ヒント表示 */}
           <Hint word={currentWord} />
