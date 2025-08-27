@@ -21,10 +21,10 @@ export const Answer = () => {
 
   return (
     <div className="mb-2">
-      <h3 className="text-base sm:text-lg mb-1 font-semibold text-gray-700 text-center">
+      {/* <h3 className="text-base sm:text-lg mb-1 font-semibold text-gray-700 text-center">
         回答
-      </h3>
-      <p className="text-sm sm:text-sm mb-3 text-center text-gray-700">
+      </h3> */}
+      <p className="text-sm sm:text-sm mt-6 mb-1 text-center text-gray-700">
         移動したい文字を選択して入れ替えが可能
       </p>
       <div className="flex justify-center items-end gap-0.5 sm:gap-2 min-h-[7rem] sm:min-h-[7rem] py-5 sm:p-1 sm:py-4 bg-gray-50 border-2 border-dashed border-gray-300 rounded-lg">
