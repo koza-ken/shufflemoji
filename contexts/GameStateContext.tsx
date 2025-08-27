@@ -1,6 +1,6 @@
 'use client'
 
-import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react'
+import React, { createContext, useContext, useState, useEffect, useMemo, ReactNode } from 'react'
 import { GameWord, GameMode } from '@/types/word'
 import { htmlCssTerms } from '@/data/htmlCssTerms'
 import { rubyMethods } from '@/data/rubyMethods'
@@ -147,7 +147,7 @@ export const GameStateProvider = ({ children, mode }: GameStateProviderProps) =>
     setShowIncompleteWarning(false)
   }, [mode])
 
-  const value: GameStateContextType = {
+  const value: GameStateContextType = useMemo(() => ({
     // State
     mode,
     currentWord,
@@ -175,7 +175,21 @@ export const GameStateProvider = ({ children, mode }: GameStateProviderProps) =>
     getRandomWord,
     handleNextQuestion,
     handleGameEnd
-  }
+  }), [
+    mode,
+    currentWord,
+    questionCount,
+    usedWordIds,
+    currentRound,
+    totalWordsCount,
+    questionList,
+    isAnswered,
+    isCorrect,
+    showIncompleteWarning,
+    getRandomWord,
+    handleNextQuestion,
+    handleGameEnd
+  ])
 
   return (
     <GameStateContext.Provider value={value}>

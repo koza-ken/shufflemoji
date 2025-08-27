@@ -51,7 +51,7 @@ export const UserProfile = () => {
     return (
       <Link
         href="/auth/signin"
-        className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+        className="bg-blue-500 hover:bg-blue-700 text-white font-bold px-2 sm:px-4 py-1 sm:py-2 my-2 rounded"
       >
         ログイン
       </Link>

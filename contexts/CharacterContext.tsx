@@ -1,6 +1,6 @@
 'use client'
 
-import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
+import React, { createContext, useContext, useState, useEffect, useCallback, useMemo, ReactNode } from 'react';
 import { AllChars, SelectedChars, GameWord } from '@/types/word';
 
 interface CharacterContextType {
@@ -59,7 +59,7 @@ export const CharacterProvider = ({
   }
 
   // 文字カードクリック処理
-  const handleCharClick = (clickedChar: AllChars) => {
+  const handleCharClick = useCallback((clickedChar: AllChars) => {
     // 既に選択済みの文字または回答済みの場合はクリックできない
     if (clickedChar.isSelected || isAnswered) return
 
@@ -81,10 +81,10 @@ export const CharacterProvider = ({
     setSelectedChars((prev: SelectedChars[]) => [...prev, { char: clickedChar.char, id: clickedChar.id }])
     // 現在の回答を更新
     setCurrentAnswer((prev: string) => prev + clickedChar.char)
-  }
+  }, [isAnswered, showIncompleteWarning, setShowIncompleteWarning])
 
   // 文字削除処理（一つずつ戻す機能）
-  const handleRemoveChar = (charId: string) => {
+  const handleRemoveChar = useCallback((charId: string) => {
     if (isAnswered) return
 
     // 警告を非表示
@@ -107,16 +107,16 @@ export const CharacterProvider = ({
       const chars = selectedChars.filter((char: SelectedChars) => char.id !== charId)
       return chars.map((char: SelectedChars) => char.char).join('')
     })
-  }
+  }, [isAnswered, showIncompleteWarning, setShowIncompleteWarning, selectedChars])
 
   // ドラッグ&ドロップによる文字の並び替え
-  const reorderCharacters = (newChars: SelectedChars[]) => {
+  const reorderCharacters = useCallback((newChars: SelectedChars[]) => {
     setSelectedChars(newChars)
     setCurrentAnswer(newChars.map(char => char.char).join(''))
-  }
+  }, [])
 
   // リセット処理
-  const handleReset = () => {
+  const handleReset = useCallback(() => {
     if (!currentWord) return
 
     // 全文字の選択状態をリセット
@@ -125,7 +125,7 @@ export const CharacterProvider = ({
     )
     setSelectedChars([])
     setCurrentAnswer('')
-  }
+  }, [currentWord])
 
   // currentWordが変更された時の初期化
   useEffect(() => {
@@ -134,7 +134,8 @@ export const CharacterProvider = ({
     }
   }, [currentWord])
 
-  const value: CharacterContextType = {
+  // ✅ 改善: Context値をメモ化してプロバイダーの不要な再レンダリングを防ぐ
+  const value: CharacterContextType = useMemo(() => ({
     // State
     allChars,
     selectedChars,
@@ -151,7 +152,15 @@ export const CharacterProvider = ({
     handleReset,
     initializeChars,
     reorderCharacters
-  }
+  }), [
+    allChars, 
+    selectedChars, 
+    currentAnswer,
+    handleCharClick,
+    handleRemoveChar,
+    handleReset,
+    reorderCharacters
+  ])
 
   return (
     <CharacterContext.Provider value={value}>

@@ -1,6 +1,6 @@
 'use client'
 
-import React, { createContext, useContext, useState, ReactNode } from 'react'
+import React, { createContext, useContext, useState, useMemo, useCallback, ReactNode } from 'react'
 
 interface CharacterSwapContextType {
   // 選択・入れ替え状態
@@ -33,8 +33,8 @@ export const CharacterSwapProvider = ({ children, isAnswered }: CharacterSwapPro
   const [selectedForSwapIndex, setSelectedForSwapIndex] = useState<number | null>(null)
   const [mobileSwappingIndices, setMobileSwappingIndices] = useState<number[]>([])
 
-  // クリック選択・入れ替え処理（元のhandleTapToSwapを改名）
-  const handleCharacterSelect = (index: number, selectedChars: any[], onCharactersReorder: (newChars: any[]) => void) => {
+  // ✅ 改善: useCallbackで関数をメモ化
+  const handleCharacterSelect = useCallback((index: number, selectedChars: any[], onCharactersReorder: (newChars: any[]) => void) => {
     if (isAnswered) return
 
     if (selectedForSwapIndex === null) {
@@ -73,9 +73,9 @@ export const CharacterSwapProvider = ({ children, isAnswered }: CharacterSwapPro
       // 選択状態をリセット
       setSelectedForSwapIndex(null)
     }
-  }
+  }, [isAnswered, selectedForSwapIndex])
 
-  const value: CharacterSwapContextType = {
+  const value: CharacterSwapContextType = useMemo(() => ({
     // State
     swappingIndices,
     recentlySwappedIndices,
@@ -90,7 +90,13 @@ export const CharacterSwapProvider = ({ children, isAnswered }: CharacterSwapPro
     
     // Event handlers
     handleCharacterSelect
-  }
+  }), [
+    swappingIndices,
+    recentlySwappedIndices,
+    selectedForSwapIndex,
+    mobileSwappingIndices,
+    handleCharacterSelect
+  ])
 
   return (
     <CharacterSwapContext.Provider value={value}>
