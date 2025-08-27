@@ -4,6 +4,7 @@ import Script from "next/script";
 import "./globals.css";
 import { SessionProvider } from '@/components/providers/SessionProvider';
 import Footer from '@/components/ui/Footer';
+import { ConditionalFooter } from '@/components/ui/ConditionalFooter';
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -112,7 +113,7 @@ export default function RootLayout({
         <SessionProvider>
           <div className="flex flex-col min-h-screen">
             <main className="flex-1">{children}</main>
-            <Footer />
+            <ConditionalFooter />
           </div>
         </SessionProvider>
       </body>
