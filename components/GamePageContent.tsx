@@ -6,9 +6,7 @@ import { Hint } from '@/components/game/Hint';
 import { GameMode } from '@/types/word';
 import { useTimer } from '@/hooks/use-timer';
 import { useRouter } from 'next/navigation';
-import { HTMLCSSQuestion } from '@/components/game/HTMLCSSQuestion';
-import { RubyQuestion } from '@/components/game/RubyQuestion';
-import { FEQuestion } from '@/components/game/FEQuestion';
+import { QuestionArea } from '@/components/game/QuestionArea';
 import { Answer } from '@/components/game/Answer';
 import ConfirmModal from '@/components/ui/ConfirmModal';
 import LoadingScreen from '@/components/ui/LoadingScreen';
@@ -173,13 +171,7 @@ const GameLogic = () => {
       <div className="w-full max-w-2xl mx-auto px-2 sm:py-2 mt-4 sm:mt-2">
         {/* バラバラの文字表示エリア */}
         <div className="bg-white rounded-lg shadow-lg px-2 sm:px-6 py-4 mb-5 sm:mb-6">
-          {mode === 'html-css' ? (
-            <HTMLCSSQuestion />
-          ) : mode === 'ruby' ? (
-            <RubyQuestion />
-          ) : (
-            <FEQuestion />
-          )}
+          <QuestionArea mode={mode} />
           {/* ヒント表示 */}
           <Hint word={currentWord} />
 
