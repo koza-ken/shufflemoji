@@ -142,16 +142,25 @@ export default function ResultPage() {
     router.push('/history')
   }
 
+  // もう一度同じモードでゲームを開始
+  const handlePlayAgain = () => {
+    if (mode) {
+      // セッションストレージをクリア（新しいゲーム開始のため）
+      sessionStorage.removeItem('gameResult')
+      router.push(`/game/${mode}`)
+    }
+  }
+
   if (historyLoading) {
     return <LoadingScreen message="Now Loading..." />
   }
 
   return (
     <div className="min-h-screen bg-gray-50 px-4 py-6">
-      <div className="w-full max-w-2xl mx-auto bg-white rounded-lg shadow-lg p-8">
+      <div className="w-full max-w-2xl mx-auto bg-white rounded-lg shadow-lg p-4 sm:p-8">
         <div className="text-center">
-          <h1 className="text-4xl font-bold text-gray-900 mb-10">ゲーム結果</h1>
-          <p className="text-2xl text-gray-600 mb-4">
+          <h1 className="text-4xl font-bold text-gray-900 mb-4 sm:mb-6">ゲーム結果</h1>
+          <p className="text-2xl text-gray-600 mb-2 sm:mb-4">
             {session?.user?.username ? (
               <>
                 {session.user.username}
@@ -168,14 +177,14 @@ export default function ResultPage() {
                 mode === 'html-css'
                   ? 'bg-blue-500'
                   : mode === 'ruby'
-                  ? 'bg-red-500'
-                  : 'bg-green-500'
+                  ? 'bg-rose-500'
+                  : 'bg-emerald-500'
               }`}
             >
               {modeLabel}
             </div>
           </div>
-          <p className="text-3xl font-bold text-gray-900 mb-6">
+          <p className="text-3xl font-bold text-gray-900 mb-4 sm:mb-6">
             {questionCount}問正解
           </p>
 
@@ -202,8 +211,8 @@ export default function ResultPage() {
           {!session && !saved && (
             <div className="mb-6">
               {!showSaveOption ? (
-                <div className="text-center">
-                  <p className="text-gray-600 text-sm mb-4">
+                <div className="text-center mb-8">
+                  <p className="text-gray-600 text-sm mb-2 sm:mb-2">
                     記録をランキングに残しますか？
                   </p>
                   <button
@@ -276,12 +285,29 @@ export default function ResultPage() {
                 <span>保存中...</span>
               </button>
             ) : (
-              <Link
-                href="/"
-                className="w-34 bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-2 sm:px-4 rounded flex items-center justify-center gap-2"
-              >
-                <span>TOPにもどる</span>
-              </Link>
+              <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
+                {/* もう一度ボタン - スマホで上、パソコンで右 */}
+                <button
+                  onClick={handlePlayAgain}
+                  className="w-full sm:w-auto bg-amber-500 hover:bg-amber-600 text-white font-bold p-2 sm:p-3 mb-2 rounded flex items-center justify-center gap-2 transition-colors order-1 sm:order-2"
+                >
+                  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+                  </svg>
+                  <span>もう一度</span>
+                </button>
+
+                {/* TOPに戻るボタン - スマホで下、パソコンで左 */}
+                <Link
+                  href="/"
+                  className="w-full sm:w-auto bg-gray-500 hover:bg-gray-600 text-white font-bold p-2 sm:p-3 sm:mb-2 rounded flex items-center justify-center gap-2 transition-colors order-2 sm:order-1"
+                >
+                  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
+                  </svg>
+                  <span>TOPにもどる</span>
+                </Link>
+              </div>
             )}
           </div>
 
