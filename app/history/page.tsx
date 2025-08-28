@@ -78,13 +78,13 @@ export default function HistoryPage() {
     return mode === 'HTML_CSS' ? 'bg-blue-400' : mode === 'RUBY' ? 'bg-rose-400' : 'bg-emerald-400'
   }
 
-  const getWordHint = (word: string, mode: string) => {
+  const getWordData = (word: string, mode: string) => {
     const wordData = mode === 'HTML_CSS'
       ? htmlCssTerms.find(term => term.original === word)
       : mode === 'RUBY'
       ? rubyMethods.find(method => method.original === word)
       : feTerms.find(term => term.original === word)
-    return wordData?.hint || 'ヒントが見つかりません'
+    return wordData
   }
 
   if (loading) {
@@ -216,21 +216,27 @@ export default function HistoryPage() {
                             {formatDate(record.playedAt.toString())}
                           </div>
                         </div>
-                        {record.incorrectAnswer && (
-                          <div>
-                            <div className="text-sm font-medium text-red-600">
-                              間違えた単語:{' '}
-                              {(record.incorrectAnswer as IncorrectAnswer).word}
-                            </div>
-                            <div className="text-xs text-gray-600 mt-1 leading-relaxed">
-                              {getWordHint(
-                                (record.incorrectAnswer as IncorrectAnswer)
-                                  .word,
-                                record.mode
+                        {record.incorrectAnswer && (() => {
+                          const incorrectWord = (record.incorrectAnswer as IncorrectAnswer).word;
+                          const wordData = getWordData(incorrectWord, record.mode);
+                          return (
+                            <div>
+                              <div className="text-sm font-medium text-red-600">
+                                間違えた単語: {incorrectWord}
+                              </div>
+                              {record.mode === 'FE' && wordData?.fullName && (
+                                <div className="text-xs font-semibold text-gray-600 mt-1">
+                                  {wordData.fullName}
+                                  <br />
+                                  {wordData.fullNameJa && `（${wordData.fullNameJa}）`}
+                                </div>
                               )}
+                              <div className="text-xs text-gray-600 mt-1 leading-relaxed">
+                                💡{wordData?.hint || 'ヒントが見つかりません'}
+                              </div>
                             </div>
-                          </div>
-                        )}
+                          )
+                        })()}
                       </div>
                     </div>
                   ))}
