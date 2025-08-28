@@ -144,7 +144,9 @@ const GameLogic = () => {
         word: currentWord.original,
         userAnswer: currentAnswer,
         category: currentWord.category,
-        hint: currentWord.hint
+        hint: currentWord.hint,
+        fullName: currentWord.fullName,
+        fullNameJa: currentWord.fullNameJa
       }
     };
 
@@ -170,7 +172,10 @@ const GameLogic = () => {
       </div>
 
       {/* メインゲーム画面 */}
-      <div className="flex-1 w-full max-w-2xl mx-auto px-2 py-2 overflow-y-auto" style={{ minHeight: '0' }}>
+      <div
+        className="flex-1 w-full max-w-2xl mx-auto px-2 py-2 overflow-y-auto"
+        style={{ minHeight: '0' }}
+      >
         {/* バラバラの文字表示エリア */}
         <div className="bg-white rounded-lg shadow-lg px-2 sm:px-6 py-4 mb-3 sm:mb-4">
           <QuestionArea mode={mode} />
@@ -205,9 +210,13 @@ const GameLogic = () => {
           {isAnswered && (
             <div className="mt-2 sm:mt-4 text-center">
               {isCorrect ? (
-                <div className="border border-green-400 text-green-700 px-4 py-1 sm:py-3 rounded">
-                  <span className="text-2xl font-bold block py-3"> 正解！</span>
-                  {/* <p className="mt-1">正解は「{currentWord.original}」でした。</p> */}
+                <div className="border border-green-400 text-green-700 px-2 py-1 sm:py-3 rounded">
+                  <span className="text-2xl font-bold block"> 正解！</span>
+                  {mode === 'fe' && currentWord.fullName && (
+                    <p className="text-sm">
+                      {currentWord.fullName}{currentWord.fullNameJa && `（${currentWord.fullNameJa}）`}
+                    </p>
+                  )}
                 </div>
               ) : (
                 // <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-1 sm:py-3 rounded">
@@ -216,6 +225,11 @@ const GameLogic = () => {
                   <p className="mt-1">
                     残念！正解は「{currentWord.original}」でした。
                   </p>
+                  {currentWord.fullName && (
+                    <p className="text-sm">
+                      {currentWord.fullName}{currentWord.fullNameJa && `（${currentWord.fullNameJa}）`}
+                    </p>
+                  )}
                 </div>
               )}
             </div>
