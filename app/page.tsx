@@ -24,8 +24,8 @@ export default function TopPage() {
   }
 
   return (
-    <div className="bg-gray-50 sm:min-h-0 mobile-full-screen">
-      <header className="bg-white shadow-sm">
+    <div className="bg-gray-50 flex flex-col h-full">
+      <header className="bg-white shadow-sm flex-shrink-0">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-end py-1 sm:py-2">
             {/* <h1 className="text-xl font-bold">シャッフルもじ</h1> */}
@@ -34,12 +34,21 @@ export default function TopPage() {
         </div>
       </header>
 
-      <div className="mobile-content-area flex items-center justify-center sm:min-h-[80vh] overflow-y-auto py-2 sm:py-0">
+      <div className="flex-1 flex items-center justify-center py-4 px-2 sm:py-0 sm:px-0 overflow-y-auto"
+           style={{ minHeight: '0' }}>
         <div className="w-full max-w-2xl mx-auto bg-white rounded-lg shadow-lg p-6 sm:p-8 mt-2 mb-4">
           <div className="text-center">
             <h1 className="text-4xl font-bold text-gray-900 mb-4">
-              <img src="/shamoji_top_light.png" alt="シャッフルもじ" className="block dark:hidden" />
-              <img src="/shamoji_top_dark.png" alt="シャッフルもじ" className="hidden dark:block" />
+              <img
+                src="/shamoji_top_light.png"
+                alt="シャッフルもじ"
+                className="block dark:hidden"
+              />
+              <img
+                src="/shamoji_top_dark.png"
+                alt="シャッフルもじ"
+                className="hidden dark:block"
+              />
             </h1>
             <p className="text-lg text-gray-600 mb-6 sm:mb-8">
               バラバラになった文字の並び替えゲーム
@@ -81,7 +90,11 @@ export default function TopPage() {
                   <button
                     onClick={handleRankingClick}
                     disabled={rankingLoading}
-                    className={`w-40 bg-amber-400 ${!rankingLoading && 'hover:bg-amber-500'} text-white font-bold py-2 px-6 rounded transition-colors flex items-center justify-center ${rankingLoading ? 'cursor-not-allowed' : ''}`}
+                    className={`w-40 bg-amber-400 ${
+                      !rankingLoading && 'hover:bg-amber-500'
+                    } text-white font-bold py-2 px-6 rounded transition-colors flex items-center justify-center ${
+                      rankingLoading ? 'cursor-not-allowed' : ''
+                    }`}
                   >
                     {rankingLoading ? (
                       <ShamojiSpinner size="sm" className="text-white" />

@@ -111,8 +111,8 @@ export default function RootLayout({
         </Script>
 
         <SessionProvider>
-          <div className="flex flex-col min-h-screen">
-            <main className="flex-1">{children}</main>
+          <div className="flex flex-col mobile-layout h-screen h-dvh overflow-hidden touch-none overscroll-none">
+            <main className="flex-1 overflow-y-auto min-h-0">{children}</main>
             <ConditionalFooter />
           </div>
         </SessionProvider>
