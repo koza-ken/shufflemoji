@@ -144,7 +144,9 @@ const GameLogic = () => {
         word: currentWord.original,
         userAnswer: currentAnswer,
         category: currentWord.category,
-        hint: currentWord.hint
+        hint: currentWord.hint,
+        fullName: currentWord.fullName,
+        fullNameJa: currentWord.fullNameJa
       }
     };
 
@@ -154,21 +156,26 @@ const GameLogic = () => {
 
   // 問題が読み込まれていない場合のローディング表示
   if (!currentWord) {
-    return <LoadingScreen message="問題を準備中..." />;
+    return <LoadingScreen message="Now Loading..." />;
   }
 
   return (
-    <div className="h-screen bg-gray-50 pt-2 sm:pt-4 overflow-hidden">
+    <div className="bg-gray-50 flex flex-col h-full">
       {/* ヘッダー（問題数・タイマー・進捗・ラウンド） */}
-      <Header
-        count={questionCount}
-        time={time}
-        progress={`${usedWordIds.size}/${totalWordsCount}`}
-        round={currentRound}
-      />
+      <div className="flex-shrink-0 pt-2 sm:pt-4">
+        <Header
+          count={questionCount}
+          time={time}
+          progress={`${usedWordIds.size}/${totalWordsCount}`}
+          round={currentRound}
+        />
+      </div>
 
       {/* メインゲーム画面 */}
-      <div className="w-full max-w-2xl mx-auto px-2 sm:py-2 mt-2 sm:mt-2 overflow-y-auto" style={{ maxHeight: 'calc(100vh - 120px)' }}>
+      <div
+        className="flex-1 w-full max-w-2xl mx-auto px-2 py-2 overflow-y-auto"
+        style={{ minHeight: '0' }}
+      >
         {/* バラバラの文字表示エリア */}
         <div className="bg-white rounded-lg shadow-lg px-2 sm:px-6 py-4 mb-3 sm:mb-4">
           <QuestionArea mode={mode} />
@@ -203,9 +210,13 @@ const GameLogic = () => {
           {isAnswered && (
             <div className="mt-2 sm:mt-4 text-center">
               {isCorrect ? (
-                <div className="border border-green-400 text-green-700 px-4 py-1 sm:py-3 rounded">
-                  <span className="text-2xl font-bold block py-3"> 正解！</span>
-                  {/* <p className="mt-1">正解は「{currentWord.original}」でした。</p> */}
+                <div className="border border-green-400 text-green-700 px-2 py-1 sm:py-3 rounded">
+                  <span className="text-2xl font-bold block"> 正解！</span>
+                  {mode === 'fe' && currentWord.fullName && (
+                    <p className="text-sm">
+                      {currentWord.fullName}{currentWord.fullNameJa && `（${currentWord.fullNameJa}）`}
+                    </p>
+                  )}
                 </div>
               ) : (
                 // <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-1 sm:py-3 rounded">
@@ -214,6 +225,11 @@ const GameLogic = () => {
                   <p className="mt-1">
                     残念！正解は「{currentWord.original}」でした。
                   </p>
+                  {currentWord.fullName && (
+                    <p className="text-sm">
+                      {currentWord.fullName}{currentWord.fullNameJa && `（${currentWord.fullNameJa}）`}
+                    </p>
+                  )}
                 </div>
               )}
             </div>
@@ -234,7 +250,7 @@ const GameLogic = () => {
           {!isAnswered ? (
             <button
               onClick={handleCheckAnswer}
-              className="bg-green-400 hover:bg-green-500 text-white font-bold py-3 px-6 sm:pt-2 rounded-lg"
+              className="bg-green-400 hover:bg-green-500 text-white font-bold py-3 px-6 rounded-lg"
             >
               答えあわせ
             </button>

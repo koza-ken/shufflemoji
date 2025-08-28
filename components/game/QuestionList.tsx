@@ -3,7 +3,7 @@ import { GameWord } from '@/types/word';
 
 type QuestionListProps = {
   questions: GameWord[];
-  incorrectWord?: { word: string; userAnswer: string; category?: string; hint?: string } | null;
+  incorrectWord?: { word: string; userAnswer: string; category?: string; hint?: string; fullName?: string; fullNameJa?: string } | null;
 }
 
 export const QuestionList = ({ questions, incorrectWord }: QuestionListProps) => {
@@ -57,6 +57,8 @@ export const QuestionList = ({ questions, incorrectWord }: QuestionListProps) =>
                     original: incorrectWord.word,
                     category: incorrectWord.category,
                     hint: incorrectWord.hint,
+                    fullName: incorrectWord.fullName,
+                    fullNameJa: incorrectWord.fullNameJa,
                     isCorrect: false,
                     userAnswer: incorrectWord.userAnswer,
                     mode: questions[0]?.mode || 'html-css', // フォールバック
@@ -76,11 +78,13 @@ export const QuestionList = ({ questions, incorrectWord }: QuestionListProps) =>
                   return (
                     <div
                       key={question.id}
-                      className={`flex items-center justify-between p-4 px-2 bg-gray-50 rounded-lg border ${borderColor} ${hoverColor} transition-colors`}
+                      className={`flex items-center justify-between p-2 bg-gray-50 rounded-lg border ${borderColor} ${hoverColor} transition-colors`}
                     >
                       <div className="flex items-center space-x-2">
                         {/* 問題番号 */}
-                        <span className={`flex items-center justify-center w-8 h-8 ${numberBgColor} text-white rounded-full text-sm font-bold`}>
+                        <span
+                          className={`flex items-center justify-center w-6 h-4 ${numberBgColor} text-white rounded-full text-xs`}
+                        >
                           {index + 1}
                         </span>
 
@@ -90,11 +94,11 @@ export const QuestionList = ({ questions, incorrectWord }: QuestionListProps) =>
                             <div className="text-lg font-semibold text-gray-900">
                               {question.original}
                             </div>
-                            {question.category && (
+                            {/* {question.category && (
                               <div className="px-2 py-1 bg-green-100 text-green-800 rounded-full text-xs font-medium">
                                 {question.category}
                               </div>
-                            )}
+                            )} */}
                             {/* 正解/不正解マーク */}
                             {/* <div className={`px-2 py-1 ${statusBadge.bg} ${statusBadge.text} rounded-full text-xs font-medium`}>
                               {statusBadge.label}
@@ -106,9 +110,18 @@ export const QuestionList = ({ questions, incorrectWord }: QuestionListProps) =>
                               </span>
                             )}
                           </div>
+                          <div>
+                            {question.mode === 'fe' && question.fullName && (
+                              <div className="text-sm font-semibold text-gray-600 ml-2">
+                                {question.fullName}
+                                <br></br>
+                                {question.fullNameJa && `（${question.fullNameJa}）`}
+                              </div>
+                            )}
+                          </div>
                           {question.hint && (
                             <span className="text-sm text-gray-600 mt-1">
-                              💡 {question.hint}
+                            💡{question.hint}
                             </span>
                           )}
                         </div>

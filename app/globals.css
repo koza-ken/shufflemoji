@@ -1,20 +1,11 @@
 @import "tailwindcss";
 
-/* トップページのスマホ対応 */
-@media (max-width: 640px) {
-  .mobile-full-screen body {
-    overflow: hidden;
-  }
-  
-  .mobile-full-screen body > div:first-child {
-    height: 100vh !important;
-    min-height: unset !important;
-  }
-  
-  .mobile-content-area {
-    height: calc(100vh - 140px);
-    max-height: calc(100vh - 140px);
-  }
+/* スクロール可能ページ用のTailwind上書き */
+.mobile-layout:has(.scrollable-footer) {
+  height: auto !important;
+  overflow: visible !important;
+  touch-action: auto !important;
+  overscroll-behavior: auto !important;
 }
 
 :root {
@@ -145,6 +136,3 @@ body {
 .mobile-swap-animation {
   animation: mobile-swap-animation 0.4s ease-out;
 }
-
-
-
