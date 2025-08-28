@@ -9,6 +9,8 @@ export type Word = {
   mode: 'html-css' | 'ruby' | 'fe';
   category?: string;     // e.g., 'html-elements', 'css-properties', 'ruby-enumerable'
   hint?: string;         // Optional hint text (e.g., "HTMLで区切りを作る要素")
+  fullName?: string;     // Full name for abbreviations (FE mode only)
+  fullNameJa?: string;   // Japanese full name for abbreviations (FE mode only)
 }
 
 export type GameWord = Word & {
