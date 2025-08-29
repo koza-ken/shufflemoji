@@ -323,7 +323,7 @@ export default function ResultPage() {
           )}
         </div>
       </div>
-      <QuestionList questions={questionList} incorrectWord={incorrectWordData} />
+      <QuestionList questions={questionList} incorrectWord={incorrectWordData} mode={mode} />
     </div>
   );
 }

@@ -4,9 +4,10 @@ import { GameWord } from '@/types/word';
 type QuestionListProps = {
   questions: GameWord[];
   incorrectWord?: { word: string; userAnswer: string; category?: string; hint?: string; fullName?: string; fullNameJa?: string } | null;
+  mode?: string; // モード情報を直接渡す
 }
 
-export const QuestionList = ({ questions, incorrectWord }: QuestionListProps) => {
+export const QuestionList = ({ questions, incorrectWord, mode }: QuestionListProps) => {
   const [isVisible, setIsVisible] = useState(false);
 
   const toggleVisibility = () => {
@@ -61,7 +62,7 @@ export const QuestionList = ({ questions, incorrectWord }: QuestionListProps) =>
                     fullNameJa: incorrectWord.fullNameJa,
                     isCorrect: false,
                     userAnswer: incorrectWord.userAnswer,
-                    mode: questions[0]?.mode || 'html-css', // フォールバック
+                    mode: mode || questions[0]?.mode || 'fe', // 渡されたmodeを優先
                     scrambled: '' // 不要だが型のため
                   }] : [])
                 ];
