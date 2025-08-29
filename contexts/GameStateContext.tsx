@@ -2,9 +2,10 @@
 
 import React, { createContext, useContext, useState, useEffect, useMemo, ReactNode } from 'react'
 import { GameWord, GameMode } from '@/types/word'
-import { htmlCssTerms } from '@/data/htmlCssTerms'
-import { rubyMethods } from '@/data/rubyMethods'
-import { feTerms } from '@/data/feTerms'
+import { getRandomHtmlCssTerm, htmlCssTerms } from '@/data/htmlCssTerms'
+import { getRandomRubyMethod, rubyMethods } from '@/data/rubyMethods'
+import { getRandomFeTerm, feTerms } from '@/data/feTerms'
+import { scrambleWord } from '@/utils/scrambleWord'
 
 interface GameStateContextType {
   // Game state
@@ -15,12 +16,12 @@ interface GameStateContextType {
   currentRound: number
   totalWordsCount: number
   questionList: GameWord[]
-  
+
   // Game status
   isAnswered: boolean
   isCorrect: boolean | null
   showIncompleteWarning: boolean
-  
+
   // Actions
   setCurrentWord: React.Dispatch<React.SetStateAction<GameWord | null>>
   setQuestionCount: React.Dispatch<React.SetStateAction<number>>
@@ -31,7 +32,7 @@ interface GameStateContextType {
   setIsAnswered: React.Dispatch<React.SetStateAction<boolean>>
   setIsCorrect: React.Dispatch<React.SetStateAction<boolean | null>>
   setShowIncompleteWarning: React.Dispatch<React.SetStateAction<boolean>>
-  
+
   // Game logic
   getRandomWord: () => GameWord
   handleNextQuestion: () => void
@@ -53,7 +54,7 @@ export const GameStateProvider = ({ children, mode }: GameStateProviderProps) =>
   const [currentRound, setCurrentRound] = useState(1)
   const [totalWordsCount, setTotalWordsCount] = useState(0)
   const [questionList, setQuestionList] = useState<GameWord[]>([])
-  
+
   // Game status
   const [isAnswered, setIsAnswered] = useState(false)
   const [isCorrect, setIsCorrect] = useState<boolean | null>(null)
@@ -75,31 +76,32 @@ export const GameStateProvider = ({ children, mode }: GameStateProviderProps) =>
   }
 
   const getRandomWord = (): GameWord => {
-    const allWords = getAllWords(mode)
-    const availableWords = allWords.filter(word => !usedWordIds.has(word.id))
+    // 全問題と未出題問題を取得
+    const allWords = getAllWords(mode);
+    const availableWords = allWords.filter(word => !usedWordIds.has(word.id));
 
-    // 全問題を出題済みの場合、次のラウンドを開始
+    // 全問題出題済みの場合、2周目に進む
     if (availableWords.length === 0) {
-      const nextRound = currentRound + 1
-      setCurrentRound(nextRound)
-      setUsedWordIds(new Set())
-
-      // 全問題から再びランダム選択
-      const randomIndex = Math.floor(Math.random() * allWords.length)
-      const selectedWord = allWords[randomIndex]
+      const nextRound = currentRound + 1;
+      setCurrentRound(nextRound);
+      setUsedWordIds(new Set());
+      
+      // 全問題から再びランダム選択（2周目開始）
+      const randomIndex = Math.floor(Math.random() * allWords.length);
+      const selectedWord = allWords[randomIndex];
       return {
         ...selectedWord,
-        scrambled: selectedWord.original.split('').sort(() => Math.random() - 0.5).join('')
-      }
+        scrambled: scrambleWord(selectedWord.original)
+      };
     }
 
-    // 未出題の問題からランダム選択
-    const randomIndex = Math.floor(Math.random() * availableWords.length)
-    const selectedWord = availableWords[randomIndex]
+    // 未出題問題からランダム選択
+    const randomIndex = Math.floor(Math.random() * availableWords.length);
+    const selectedWord = availableWords[randomIndex];
     return {
       ...selectedWord,
-      scrambled: selectedWord.original.split('').sort(() => Math.random() - 0.5).join('')
-    }
+      scrambled: scrambleWord(selectedWord.original)
+    };
   }
 
   const handleNextQuestion = () => {
@@ -159,7 +161,7 @@ export const GameStateProvider = ({ children, mode }: GameStateProviderProps) =>
     isAnswered,
     isCorrect,
     showIncompleteWarning,
-    
+
     // Actions
     setCurrentWord,
     setQuestionCount,
@@ -170,7 +172,7 @@ export const GameStateProvider = ({ children, mode }: GameStateProviderProps) =>
     setIsAnswered,
     setIsCorrect,
     setShowIncompleteWarning,
-    
+
     // Game logic
     getRandomWord,
     handleNextQuestion,

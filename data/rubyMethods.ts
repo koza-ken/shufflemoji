@@ -1,26 +1,5 @@
 import { GameWord, Word } from '@/types/word';
-
-/**
- * 単語をランダムにシャッフルする関数
- */
-const scrambleWord = (word: string): string => {
-  const letters = word.split('');
-
-  // Fisher-Yates shuffle algorithm
-  for (let i = letters.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
-    [letters[i], letters[j]] = [letters[j], letters[i]];
-  }
-
-  const scrambled = letters.join('');
-
-  // 元の単語と同じになった場合は再シャッフル
-  if (scrambled === word && word.length > 2) {
-    return scrambleWord(word);
-  }
-
-  return scrambled;
-};
+import { scrambleWord } from '@/utils/scrambleWord';
 
 /**
  * Ruby methods and concepts for the scramble game
