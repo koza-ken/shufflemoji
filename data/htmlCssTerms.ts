@@ -1,4 +1,5 @@
 import { GameWord, Word } from '@/types/word';
+import { scrambleWord } from '@/utils/scrambleWord';
 
 /**
  * HTML/CSS terms database for the scramble game
@@ -9,32 +10,6 @@ import { GameWord, Word } from '@/types/word';
  * - 複数コンポーネントから参照可能
  * - 問題の追加・修正が容易
  */
-
-/**
- * 単語をランダムにシャッフルする関数
- * なぜこの関数が必要？
- * - 毎回異なる並び順で再プレイ性向上
- * - 手動でscrambledを考える手間を削減
- * - 統一的なアルゴリズムで一貫性確保
- */
-const scrambleWord = (word: string): string => {
-  const letters = word.split('');
-
-  // Fisher-Yates shuffle algorithm
-  for (let i = letters.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
-    [letters[i], letters[j]] = [letters[j], letters[i]];
-  }
-
-  const scrambled = letters.join('');
-
-  // 元の単語と同じになった場合は再シャッフル
-  if (scrambled === word && word.length > 2) {
-    return scrambleWord(word);
-  }
-
-  return scrambled;
-};
 
 export const htmlCssTerms: Word[] = [
   // HTML Elements (42語) - 既存29語 + 新規13語

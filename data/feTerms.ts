@@ -1,24 +1,5 @@
 import { Word, GameWord } from '@/types/word'
-// import { scrambleWord } from '@/utils/scrambleLogic'
-
-const scrambleWord = (word: string): string => {
-  const letters = word.split('');
-
-  // Fisher-Yates shuffle algorithm
-  for (let i = letters.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
-    [letters[i], letters[j]] = [letters[j], letters[i]];
-  }
-
-  const scrambled = letters.join('');
-
-  // 元の単語と同じになった場合は再シャッフル
-  if (scrambled === word && word.length > 2) {
-    return scrambleWord(word);
-  }
-
-  return scrambled;
-};
+import { scrambleWord } from '@/utils/scrambleWord'
 
 // 基本情報技術者試験用語データベース（合計 100語）
 // 3文字: 66語, 4文字: 27語, 5文字: 6語, 7文字: 1語
