@@ -47,30 +47,22 @@ export const rubyMethods: Word[] = [
     original: 'select',
     mode: 'ruby',
     category: 'ruby',
-    hint: 'ブロック内の条件式がtrueを返す要素だけを抜き出して新しい配列を作成するフィルタメソッド',
+    hint: 'ブロック内の条件式がtrueを返す要素だけを抜き出して新しい配列を作成するメソッド',
   },
   {
     id: 'reject-1',
     original: 'reject',
     mode: 'ruby',
     category: 'ruby',
-    hint: 'ブロック内の条件式がfalseを返す要素だけを抜き出してselectの逆の動作をするメソッド',
+    hint: 'ブロック内の条件式がfalseを返す要素だけを抜き出して新しい配列を作成するメソッド',
   },
   {
     id: 'find-1',
     original: 'find',
     mode: 'ruby',
     category: 'ruby',
-    hint: 'ブロック内の条件式がtrueになる最初の要素を発見して返すサーチメソッド（detectとも呼ばれる）',
+    hint: 'ブロック内の条件式がtrueになる最初の要素を発見して返すメソッド',
   },
-  {
-    id: 'reduce-1',
-    original: 'reduce',
-    mode: 'ruby',
-    category: 'ruby',
-    hint: '配列の要素を順次処理して一つの値に集約する累積演算メソッド（injectとも呼ばれる）',
-  },
-
   // String Methods
   {
     id: 'gsub-1',
@@ -114,14 +106,14 @@ export const rubyMethods: Word[] = [
     original: 'keys',
     mode: 'ruby',
     category: 'ruby',
-    hint: 'ハッシュ（連想配列）に含まれるすべてのキーを配列の形で取得できるメソッド',
+    hint: 'ハッシュに含まれるすべてのキーを配列の形で取得できるメソッド',
   },
   {
     id: 'values-1',
     original: 'values',
     mode: 'ruby',
     category: 'ruby',
-    hint: 'ハッシュ（連想配列）に含まれるすべての値を配列の形で取得できるメソッド',
+    hint: 'ハッシュに含まれるすべての値を配列の形で取得できるメソッド',
   },
   {
     id: 'merge-1',
@@ -133,11 +125,11 @@ export const rubyMethods: Word[] = [
 
   // Additional Ruby Methods (Part 1: Basic Collection Methods)
   {
-    id: 'empty-1',
-    original: 'empty',
+    id: 'empty?-1',
+    original: 'empty?',
     mode: 'ruby',
     category: 'ruby',
-    hint: '配列、文字列、ハッシュが空（要素数が0）かどうかを判定してtrueまたはfalseを返すメソッド',
+    hint: '配列、ハッシュが空かどうかを判定してtrueまたはfalseを返すメソッド',
   },
   {
     id: 'times-1',
@@ -151,7 +143,14 @@ export const rubyMethods: Word[] = [
     original: 'size',
     mode: 'ruby',
     category: 'ruby',
-    hint: '配列、文字列、ハッシュの要素数や文字数を返すメソッド（lengthの別名）',
+    hint: '配列とハッシュでは要素数、文字列では文字数を返すメソッド',
+  },
+  {
+    id: 'length-1',
+    original: 'length',
+    mode: 'ruby',
+    category: 'ruby',
+    hint: '配列とハッシュでは要素数、文字列では文字数を返すメソッド',
   },
   {
     id: 'first-1',
@@ -172,7 +171,7 @@ export const rubyMethods: Word[] = [
     original: 'push',
     mode: 'ruby',
     category: 'ruby',
-    hint: '配列の末尾に要素を追加するメソッド（<<演算子と同じ動作）',
+    hint: '配列の末尾に要素を追加するメソッド',
   },
   {
     id: 'pop-1',
@@ -216,7 +215,7 @@ export const rubyMethods: Word[] = [
     original: 'sub',
     mode: 'ruby',
     category: 'ruby',
-    hint: '文字列内で最初にマッチしたパターンのみを置換するメソッド（gsubの単発版）',
+    hint: '文字列内で最初にマッチしたパターンのみを置換するメソッド',
   },
   {
     id: 'slice-1',
@@ -230,7 +229,7 @@ export const rubyMethods: Word[] = [
     original: 'match',
     mode: 'ruby',
     category: 'ruby',
-    hint: '文字列が正規表現パターンにマッチするかを調べてMatchDataオブジェクトを返すメソッド',
+    hint: '文字列オブジェクトに使うと正規表現による検索を実行し、見つかった部分の位置や内容を含む結果オブジェクトを返すメソッド',
   },
   {
     id: 'scan-1',
@@ -284,8 +283,8 @@ export const rubyMethods: Word[] = [
     hint: '浮動小数点数を切り下げて最も近い小さい整数を返すメソッド',
   },
   {
-    id: 'zero-1',
-    original: 'zero',
+    id: 'zero?-1',
+    original: 'zero?',
     mode: 'ruby',
     category: 'ruby',
     hint: '数値が0かどうかを判定してtrueまたはfalseを返すメソッド',
@@ -298,15 +297,15 @@ export const rubyMethods: Word[] = [
     hint: '数値を文字列に変換するメソッド（基数指定も可能）',
   },
   {
-    id: 'even-1',
-    original: 'even',
+    id: 'even?-1',
+    original: 'even?',
     mode: 'ruby',
     category: 'ruby',
     hint: '整数が偶数かどうかを判定してtrueまたはfalseを返すメソッド',
   },
   {
-    id: 'odd-1',
-    original: 'odd',
+    id: 'odd?-1',
+    original: 'odd?',
     mode: 'ruby',
     category: 'ruby',
     hint: '整数が奇数かどうかを判定してtrueまたはfalseを返すメソッド',
@@ -515,32 +514,32 @@ export const rubyMethods: Word[] = [
     original: 'count',
     mode: 'ruby',
     category: 'ruby',
-    hint: '配列内の要素数を数えるメソッド（条件指定も可能）',
+    hint: '配列内の要素数を数えるメソッド',
   },
   {
-    id: 'any-1',
-    original: 'any',
+    id: 'any?-1',
+    original: 'any?',
     mode: 'ruby',
     category: 'ruby',
     hint: '配列の要素のいずれかがブロックの条件を満たすかどうかを判定するメソッド',
   },
   {
-    id: 'all-1',
-    original: 'all',
+    id: 'all?-1',
+    original: 'all?',
     mode: 'ruby',
     category: 'ruby',
     hint: '配列のすべての要素がブロックの条件を満たすかどうかを判定するメソッド',
   },
   {
-    id: 'none-1',
-    original: 'none',
+    id: 'none?-1',
+    original: 'none?',
     mode: 'ruby',
     category: 'ruby',
     hint: '配列の要素がいずれもブロックの条件を満たさないかどうかを判定するメソッド',
   },
   {
-    id: 'one-1',
-    original: 'one',
+    id: 'one?-1',
+    original: 'one?',
     mode: 'ruby',
     category: 'ruby',
     hint: '配列の要素のうち、ちょうど一つだけがブロックの条件を満たすかどうかを判定するメソッド',
@@ -600,7 +599,7 @@ export const rubyMethods: Word[] = [
     original: 'index',
     mode: 'ruby',
     category: 'ruby',
-    hint: '配列や文字列内で指定した値が最初に現れる位置（インデックス）を返すメソッド',
+    hint: '配列や文字列内で指定した値が最初に現れる位置を返すメソッド',
   },
   {
     id: 'insert-1',
@@ -608,7 +607,28 @@ export const rubyMethods: Word[] = [
     mode: 'ruby',
     category: 'ruby',
     hint: '配列の指定した位置に要素を挿入するメソッド',
-  }
+  },
+  {
+    id: 'filter-1',
+    original: 'filter',
+    mode: 'ruby',
+    category: 'ruby',
+    hint: '配列オブジェクトに使うとブロック内の条件式がtrueを返す要素だけを抜き出して新しい配列を作成するメソッド',
+  },
+  {
+    id: 'append-1',
+    original: 'append',
+    mode: 'ruby',
+    category: 'ruby',
+    hint: '配列オブジェクトに使うと末尾に要素を追加するメソッド',
+  },
+  {
+    id: 'replace-1',
+    original: 'replace',
+    mode: 'ruby',
+    category: 'ruby',
+    hint: '配列オブジェクトに使うと現在の内容を他の配列で完全に置き換えるメソッド',
+  },
 ];
 
 /**
